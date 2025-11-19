@@ -6,7 +6,10 @@ A minimal blogging platform built with **Next.js, Tailwind CSS, and MongoDB** â€
 
 ## ðŸ”— Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://simple-blog-website-brown.vercel.app)
+<!-- Badge that opens in a new tab -->
+<a href="https://simple-blog-website-brown.vercel.app/" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge" alt="Live Demo">
+</a>
 
 ---
 
