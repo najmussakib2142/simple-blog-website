@@ -1,12 +1,17 @@
 import Hero from "../components/Hero";
 import Features from "../components/Features";
-
+import BlogPreview from "@/components/BlogPreview";
+import Author from "@/components/Author";
+import FeaturedPost from "@/components/FeaturedPost";
 
 export default function Home() {
   return (
-    <div className="">
-      <Hero></Hero>
-      <Features></Features>
-    </div>
-  )
+    <main>
+      <Hero />
+      <FeaturedPost />
+      <BlogPreview />
+      <Features />
+      <Author />
+    </main>
+  );
 }
