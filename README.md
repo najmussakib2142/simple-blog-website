@@ -32,4 +32,3 @@ Next.js | React | Tailwind CSS | MongoDB | Vercel
 
 ![Home Page](./screenshots/home.png)
 
-*(Replace with an actual screenshot from your app)*
