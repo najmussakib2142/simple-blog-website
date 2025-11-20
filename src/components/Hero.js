@@ -53,7 +53,7 @@ export default function Hero() {
         >
           <Link 
             href="/blogs" 
-            className="inline-flex items-center justify-center px-8 py-3 bg-indigo-600 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+            className="inline-flex  items-center justify-center px-8 py-3 bg-indigo-600 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
           >
             Explore Articles
             <ArrowRight className="w-5 h-5 ml-2" />

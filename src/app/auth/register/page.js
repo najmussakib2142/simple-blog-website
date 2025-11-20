@@ -3,7 +3,7 @@
 
 export default function RegisterPage() {
   return (
-    <div className="flex justify-center items-center p-20 ">
+    <div className="flex bg-gray-100 justify-center items-center p-20 ">
       <div className="card  w-full max-w-sm  p-6">
         <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
 

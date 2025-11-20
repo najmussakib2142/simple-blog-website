@@ -19,7 +19,8 @@ function formatPostDate(dateString) {
 async function fetchLatestPost() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   try {
-    const res = await fetch(`${baseUrl}/api/blogs`, { next: { revalidate: 3600 } });
+    // const res = await fetch(`${baseUrl}/api/blogs`, { next: { revalidate: 3600 } });
+    const res = await fetch(`/api/blogs`, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error(`Failed to fetch data: ${res.status}`);
     const blogs = await res.json();
     return blogs?.[0] ?? null;

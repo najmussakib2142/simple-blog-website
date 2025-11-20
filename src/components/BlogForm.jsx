@@ -113,21 +113,25 @@ export default function BlogForm() {
 
       {/* Submit Button */}
       <div className="flex gap-3 pt-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 font-medium transition-colors"
-        >
-          {loading ? "Publishing..." : "Publish Post"}
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push("/blogs")}
-          className="flex-1 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 font-medium transition-colors"
-        >
-          Cancel
-        </button>
-      </div>
+  <button
+    type="submit"
+    disabled={loading}
+    className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
+      loading
+        ? "bg-gray-400 text-white cursor-not-allowed"
+        : "bg-indigo-600 text-white hover:bg-indigo-700"
+    }`}
+  >
+    {loading ? "Publishing..." : "Publish Post"}
+  </button>
+  <button
+    type="button"
+    onClick={() => router.push("/blogs")}
+    className="flex-1 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 font-medium transition-colors"
+  >
+    Cancel
+  </button>
+</div>
     </form>
   );
 }

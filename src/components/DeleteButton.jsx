@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 
 export default function DeleteButton({ id }) {
   const router = useRouter();
@@ -33,10 +34,17 @@ export default function DeleteButton({ id }) {
   return (
     <button
       onClick={handleDelete}
-      className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+      className="md: ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
       disabled={loading}
     >
-      {loading ? "Deleting..." : "Delete"}
+      {loading ? (
+        "Deleting..."
+      ) : (
+        <>
+          <Trash2 className="mr-2 h-4 w-4" /> {/* Lucid Icon */}
+          Delete
+        </>
+      )}
     </button>
   );
 }
