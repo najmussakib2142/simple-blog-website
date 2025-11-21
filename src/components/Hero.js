@@ -16,7 +16,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: -10 }} 
           animate={{ opacity: 1, y: 0 }} 
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center text-sm font-semibold text-indigo-700 bg-indigo-100 rounded-full px-4 py-1 mb-4 uppercase tracking-widest shadow-md"
+          className="inline-flex items-center text-sm font-semibold text-blue-700 bg-blue-100 rounded-full px-4 py-1 mb-4 uppercase tracking-widest shadow-md"
         >
           <Feather className="w-4 h-4 mr-2" />
           SimpleBlog
@@ -29,7 +29,7 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-4"
         >
-          <span className="block text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600">
+          <span className="block text-transparent bg-clip-text bg-linear-to-r from-blue-900 to-blue-500">
             Write. Read. Share.
           </span>
         </motion.h1>
@@ -53,7 +53,7 @@ export default function Hero() {
         >
           <Link 
             href="/blogs" 
-            className="inline-flex  items-center justify-center px-8 py-3 bg-indigo-600 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+            className="inline-flex  items-center justify-center px-8 py-3 bg-blue-900 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
           >
             Explore Articles
             <ArrowRight className="w-5 h-5 ml-2" />

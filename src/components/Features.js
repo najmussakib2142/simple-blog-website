@@ -32,7 +32,7 @@ export default function Features() {
                 
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wider mb-2">Features</p>
+                    <p className="text-sm font-semibold text-blue-900 uppercase tracking-wider mb-2">Features</p>
                     <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">Why Choose SimpleBlog?</h2>
                 </div>
                 
@@ -44,8 +44,8 @@ export default function Features() {
                             className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-indigo-300 group"
                         >
                             {/* Icon Container */}
-                            <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-lg bg-indigo-100 group-hover:bg-indigo-600 transition duration-300">
-                                <feature.icon className="w-6 h-6 text-indigo-600 group-hover:text-white transition duration-300" />
+                            <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-lg bg-indigo-100 group-hover:bg-blue-900 transition duration-300">
+                                <feature.icon className="w-6 h-6 text-blue-900 group-hover:text-white transition duration-300" />
                             </div>
                             
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -62,7 +62,7 @@ export default function Features() {
                 {/* Optional CTA/Footer */}
                 <div className="text-center mt-16 pt-8 border-t border-gray-100">
                     <p className="text-gray-500">Ready to start your blogging journey?</p>
-                    <Link href="/blogs/create" className="text-indigo-600 font-medium hover:text-indigo-700 transition">
+                    <Link href="/blogs/create" className="text-blue-900 font-medium hover:text-indigo-700 transition">
                         Start writing in seconds →
                     </Link>
                 </div>

@@ -28,7 +28,7 @@ body {
 
 .nav-link-active {
     /* Text color */
-    color: #4f46e5; /* Tailwind indigo-600 */
+    color: #4f46e5; /* Tailwind blue-900 */
     /* Add a bottom border for the desktop effect */
     border-bottom: 2px solid #4f46e5;
     padding-bottom: 4px;

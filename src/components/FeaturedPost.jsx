@@ -111,7 +111,7 @@ export default function FeaturedPost() {
             </p>
 
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-              <Link href={postLink} className="hover:text-indigo-600 transition">
+              <Link href={postLink} className="hover:text-blue-900 transition">
                 {blog.title}
               </Link>
             </h2>
@@ -129,7 +129,7 @@ export default function FeaturedPost() {
             {/* CTA */}
             <Link
               href={postLink}
-              className="inline-flex items-center mt-6 px-8 py-3 bg-indigo-600 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center mt-6 px-8 py-3 bg-blue-900 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.02] active:scale-[0.98]"
             >
               Continue Reading
               <ArrowRight className="w-5 h-5 ml-2" />

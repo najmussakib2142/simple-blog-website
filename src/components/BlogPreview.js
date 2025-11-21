@@ -24,7 +24,7 @@ export default async function BlogPreview() {
     <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wider mb-2">Latest</p>
+          <p className="text-sm font-semibold text-blue-900 uppercase tracking-wider mb-2">Latest</p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">Blog Posts</h2>
         </div>
 
@@ -33,7 +33,7 @@ export default async function BlogPreview() {
             <p className="text-gray-500">No blogs yet. Start writing and publish your first post.</p>
             <Link
               href="/blogs/create"
-              className="inline-block mt-6 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+              className="inline-block mt-6 px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-indigo-700 transition"
             >
               Create a Post
             </Link>
