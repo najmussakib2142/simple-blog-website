@@ -6,62 +6,71 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative py-24 md:py-32 bg-gray-50 overflow-hidden">
-      {/* Background gradient with blur for depth */}
-      <div className="absolute inset-0 bg-linear-to-tr from-indigo-50/50 to-white/50 blur-3xl opacity-50 pointer-events-none"></div>
+    <section className="relative py-20  min-h-screen bg-[url('https://i.ibb.co.com/d4w0YTDq/15207024-8.jpg')] 
+    bg-cover bg-center  overflow-hidden flex items-center justify-center">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge / Label */}
-        <motion.p 
-          initial={{ opacity: 0, y: -10 }} 
-          animate={{ opacity: 1, y: 0 }} 
+      {/* Modern soft blur shapes */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+
+        {/* Badge */}
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center text-sm font-semibold text-blue-700 bg-blue-100 rounded-full px-4 py-1 mb-4 uppercase tracking-widest shadow-md"
+          className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-700 bg-white/60 backdrop-blur-md border border-indigo-200/40 rounded-full px-4 py-1.5 mb-6 shadow-sm"
         >
           <Feather className="w-4 h-4 mr-2" />
-          SimpleBlog
+          The Modern Blog
         </motion.p>
 
-        {/* Hero Heading */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
+        {/* Modern Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-4"
+          className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-6"
         >
-          <span className="block text-transparent bg-clip-text bg-linear-to-r from-blue-900 to-blue-500">
-            Write. Read. Share.
+          <span className="block text-transparent bg-clip-text bg-linear-to-r from-indigo-700 via-blue-600 to-indigo-600">
+            Ideas Worth Sharing.
+          </span>
+          <span className="block text-gray-800 mt-2">
+            Write. Read. Inspire.
           </span>
         </motion.h1>
 
         {/* Description */}
-        <motion.p 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-xl text-gray-600 max-w-3xl mx-auto mb-10"
+          className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          A minimal blogging platform focused on writing and reading — <strong>simple, fast, and content-first</strong>. Your words, amplified.
+          Discover thoughtful stories, insightful articles, and a clean reading experience—crafted for creators and thinkers.
         </motion.p>
 
-        {/* Action Buttons */}
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }} 
-          animate={{ opacity: 1, y: 0 }} 
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
           className="flex flex-col sm:flex-row justify-center gap-4"
         >
-          <Link 
-            href="/blogs" 
-            className="inline-flex  items-center justify-center px-8 py-3 bg-blue-900 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+          <Link
+            href="/blogs"
+            className="inline-flex items-center justify-center px-8 py-3 bg-indigo-700 text-white text-base sm:text-lg font-semibold rounded-lg shadow-lg hover:bg-indigo-600 transition duration-300 hover:scale-[1.02]"
           >
             Explore Articles
             <ArrowRight className="w-5 h-5 ml-2" />
           </Link>
 
-          <Link 
-            href="/blogs/create" 
-            className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-gray-700 border border-gray-300 bg-white rounded-xl shadow-md hover:bg-gray-100 transition transform hover:-translate-y-0.5"
+          <Link
+            href="/blogs/create"
+            className="inline-flex items-center justify-center px-8 py-3 text-base sm:text-lg font-semibold text-indigo-700 border border-indigo-200 bg-white rounded-lg shadow-sm hover:bg-indigo-50 transition duration-300"
           >
             Start Writing
           </Link>

@@ -9,7 +9,8 @@ const BlogSchema = new mongoose.Schema(
         imageUrl: { 
             type: String, 
             default: null
-        }
+        },
+        author: { type: String, default: "Unknown Author" }
     },
     { timestamps: true }
 );

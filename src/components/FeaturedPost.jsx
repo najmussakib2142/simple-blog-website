@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 // Helper function for clearer date formatting
 function formatPostDate(dateString) {
   if (!dateString) return 'Date Unavailable';
+  // Use a cleaner format
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -19,10 +20,12 @@ function formatPostDate(dateString) {
 async function fetchLatestPost() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   try {
-    // const res = await fetch(`${baseUrl}/api/blogs`, { next: { revalidate: 3600 } });
+    // Using relative path for client-side fetch, assuming the API route is accessible
     const res = await fetch(`/api/blogs`, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error(`Failed to fetch data: ${res.status}`);
     const blogs = await res.json();
+    // Simulate a network delay for better visualization of the skeleton
+    // await new Promise(resolve => setTimeout(resolve, 1500)); 
     return blogs?.[0] ?? null;
   } catch (e) {
     console.error("Error fetching featured post:", e);
@@ -35,25 +38,53 @@ export default function FeaturedPost() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchLatestPost().then(data => {
-      setBlog(data);
-      setLoading(false);
-    });
+    // Add a minimum delay to prevent flickering on very fast connections
+    const timer = setTimeout(() => {
+      fetchLatestPost().then(data => {
+        setBlog(data);
+        setLoading(false);
+      });
+    }, 300); // 300ms minimum loading time
+
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
-    // Skeleton Loader
+    // 💀 SKELETON LOADER STATE (Modern and Structured)
     return (
       <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="animate-pulse bg-gray-200 h-80 w-full rounded-2xl"></div>
-            <div className="space-y-5">
-              <div className="animate-pulse bg-gray-200 h-6 w-40 rounded-full"></div>
-              <div className="animate-pulse bg-gray-200 h-10 w-full rounded-md"></div>
-              <div className="animate-pulse bg-gray-200 h-6 w-3/4 rounded-md"></div>
-              <div className="animate-pulse bg-gray-200 h-6 w-1/2 rounded-md"></div>
-              <div className="animate-pulse bg-gray-200 h-10 w-48 rounded-xl mt-4"></div>
+
+            {/* Skeleton Image Placeholder */}
+            <div className="order-1 lg:order-2">
+              <div className="animate-pulse bg-gray-200 aspect-[7/5] w-full rounded-2xl shadow-lg"></div>
+            </div>
+
+            {/* Skeleton Content Placeholder */}
+            <div className="order-2 lg:order-1 space-y-5">
+
+              {/* Badge */}
+              <div className="animate-pulse bg-gray-200 h-6 w-32 rounded-full mb-3"></div>
+
+              {/* Title (Multiple lines to simulate the large heading) */}
+              <div className="space-y-3">
+                <div className="animate-pulse bg-gray-200 h-10 w-full rounded-lg"></div>
+                <div className="animate-pulse bg-gray-200 h-10 w-11/12 rounded-lg"></div>
+              </div>
+
+              {/* Description (Multiple lines) */}
+              <div className="pt-2 space-y-2">
+                <div className="animate-pulse bg-gray-200 h-5 w-full rounded-md"></div>
+                <div className="animate-pulse bg-gray-200 h-5 w-11/12 rounded-md"></div>
+                <div className="animate-pulse bg-gray-200 h-5 w-3/4 rounded-md"></div>
+              </div>
+
+              {/* Metadata */}
+              <div className="animate-pulse bg-gray-200 h-5 w-48 rounded-md pt-2"></div>
+
+              {/* CTA Button */}
+              <div className="animate-pulse bg-gray-300 h-12 w-56 rounded-xl mt-6"></div>
             </div>
           </div>
         </div>
@@ -69,6 +100,7 @@ export default function FeaturedPost() {
     );
   }
 
+  // 📝 ACTUAL CONTENT RENDERING
   const imageUrl = blog.imageUrl || '/placeholder-image.jpg';
   const postLink = `/blogs/${blog._id}`;
 
@@ -90,7 +122,7 @@ export default function FeaturedPost() {
                 alt={`Featured Image for: ${blog.title}`}
                 width={700}
                 height={450}
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-cover aspect-[7/5]" // Added aspect ratio for consistency
                 placeholder="blur"
                 blurDataURL="/placeholder-blur.jpg"
                 priority
@@ -126,10 +158,10 @@ export default function FeaturedPost() {
               Published on {formatPostDate(blog.createdAt)}
             </div>
 
-            {/* CTA */}
+            {/* CTA - Using the indigo style from the previous section for consistency */}
             <Link
               href={postLink}
-              className="inline-flex items-center mt-6 px-8 py-3 bg-blue-900 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-700 transition transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center mt-6 px-8 py-3 bg-indigo-700 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-600 transition transform hover:scale-[1.02] active:scale-[0.98]"
             >
               Continue Reading
               <ArrowRight className="w-5 h-5 ml-2" />

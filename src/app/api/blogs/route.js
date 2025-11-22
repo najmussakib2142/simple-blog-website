@@ -17,8 +17,9 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
-    
-    const { title, description, content, imageUrl } = body;
+    console.log("Incoming Body:", body);
+
+    const { title, description, content, imageUrl, author } = body;
 
     // Validate required fields
     if (!title || !content) {
@@ -32,8 +33,18 @@ export async function POST(req) {
       title,
       description,
       content,
-      imageUrl: imageUrl || null
+      imageUrl: imageUrl || null,
+      author: author || "Unknown Author"
     });
+
+    console.log("Saving Blog:", {
+      title,
+      description,
+      content,
+      imageUrl,
+      author
+    });
+
 
     return new Response(JSON.stringify(blog), { status: 201 });
   } catch (error) {

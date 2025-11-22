@@ -136,8 +136,8 @@ export default function Navbar() {
                         </Link>
                         {user && (
                             <Link
-                                href="/blogs/create"
-                                className={getDesktopLinkClasses("/blogs/create")}
+                                href="/create"
+                                className={getDesktopLinkClasses("/create")}
                             >
                                 Create
                             </Link>
@@ -213,8 +213,8 @@ export default function Navbar() {
                         {user && (
                             <Link
                                 onClick={closeMobileMenu}
-                                href="/blogs/create"
-                                className={getMobileLinkClasses("/blogs/create")}
+                                href="/create"
+                                className={getMobileLinkClasses("/create")}
                             >
                                 Create
                             </Link>
@@ -224,7 +224,7 @@ export default function Navbar() {
                             <Link
                                 onClick={closeMobileMenu}
                                 href="/auth/login"
-                                className={getMobileLinkClasses("/auth/login") + " text-white  max-w-1/4 text-center bg-blue-900 hover:bg-gray-50 hover:text-blue-900"}
+                                className={getMobileLinkClasses("/auth/login") + " text-white  max-w-1/4 text-center bg-blue-900 hover:bg-indigo-700 hover:text-white"}
                             >
                                 Login
                             </Link>

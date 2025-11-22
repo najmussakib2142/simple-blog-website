@@ -22,7 +22,7 @@ export default function AboutPage() {
 
             {/* Features Section */}
             <section className="py-16 sm:py-20 px-7 md:px-14 bg-gray-50">
-                <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-start">
+                <div className="max-w-6xl mx-auto grid md:grid-cols-2 place-items-center gap-12 md:gap-20 items-start">
                     {/* Why SimpleBlog */}
                     <div>
                         <p className="text-blue-900 font-semibold uppercase text-sm tracking-wider mb-4">

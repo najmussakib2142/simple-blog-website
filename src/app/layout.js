@@ -18,13 +18,19 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Simple Blog Website",
+   icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
   description: "A simple blog website built with Next.js and Tailwind CSS",
 };
 
 export default function RootLayout({ children }) {
-  
+
   return (
     <html lang="en">
+      
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
         <AuthProvider>
           <Navbar />
