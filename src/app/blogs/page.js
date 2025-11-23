@@ -25,7 +25,7 @@ export default async function BlogsPage() {
             {/* Hero Section */}
             <section className="py-16 px-6 md:px-16 max-w-6xl mx-auto">
                 <div className="space-y-4">
-                    <p className="text-blue-900 font-semibold uppercase text-sm tracking-wide">All Posts</p>
+                    <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wide">All Posts</p>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Explore All Blogs</h1>
                     <p className="text-lg text-gray-600 max-w-2xl">Discover stories, tutorials, and ideas from our community of writers.</p>
                 </div>
@@ -33,7 +33,7 @@ export default async function BlogsPage() {
                 <div className="mt-8 flex gap-3">
                     <Link 
                         href="/blogs/create" 
-                        className="inline-flex items-center px-6 py-3 bg-blue-900 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+                        className="inline-flex items-center px-6 py-3 bg-indigo-700 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
                     >
                         Write a Post
                     </Link>
@@ -47,7 +47,7 @@ export default async function BlogsPage() {
                         <p className="text-gray-600 text-lg mb-6">No blogs yet. Be the first to share your story!</p>
                         <Link 
                             href="/blogs/create"
-                            className="inline-flex items-center px-6 py-3 bg-blue-900 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+                            className="inline-flex items-center px-6 py-3 bg-indigo-700  text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
                         >
                             Create Your First Post
                         </Link>

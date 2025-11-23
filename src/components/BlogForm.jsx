@@ -146,7 +146,7 @@ export default function BlogForm() {
           disabled={loading}
           className={`flex-1 py-3 rounded-lg font-medium transition-colors ${loading
             ? "bg-gray-400 text-white cursor-not-allowed"
-            : "bg-blue-900 text-white hover:bg-indigo-700"
+            : "bg-indigo-700 text-white hover:bg-indigo-700"
             }`}
         >
           {loading ? "Publishing..." : "Publish Post"}

@@ -143,7 +143,7 @@ export default function FeaturedPost() {
             </p>
 
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-              <Link href={postLink} className="hover:text-blue-900 transition">
+              <Link href={postLink} className="hover:text-indigo-700 transition">
                 {blog.title}
               </Link>
             </h2>

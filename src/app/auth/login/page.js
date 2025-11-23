@@ -40,7 +40,7 @@ export default function LoginPage() {
 
                 {/* Header/Title Section */}
                 <div className="text-center">
-                    <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight">
+                    <h1 className="text-4xl font-extrabold text-indigo-700 tracking-tight">
                         Welcome Back
                     </h1>
                     <p className="mt-2 text-sm text-gray-600">
@@ -96,7 +96,7 @@ export default function LoginPage() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 top-2.5 bottom-2.5 h-full flex items-center pr-3 text-gray-500 hover:text-blue-900 transition-colors focus:outline-none"
+                                className="absolute inset-y-0 right-0 top-2.5 bottom-2.5 h-full flex items-center pr-3 text-gray-500 hover:text-indigo-700 transition-colors focus:outline-none"
                                 aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -107,13 +107,13 @@ export default function LoginPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 {/* Optional: Remember Me checkbox */}
-                                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4  text-blue-900 focus:ring-indigo-500 border-gray-300 rounded" />
+                                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4  text-indigo-700 focus:ring-indigo-500 border-gray-300 rounded" />
                                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                                     Remember me
                                 </label>
                             </div>
                             <div className="text-sm">
-                                <a href="#" className="font-medium text-blue-900 hover:text-indigo-500 transition-colors">
+                                <a href="#" className="font-medium text-indigo-700 hover:text-indigo-500 transition-colors">
                                     Forgot your password?
                                 </a>
                             </div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
                                 className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white shadow-md transition duration-200 ease-in-out
                                 ${loading
                                         ? "bg-indigo-400 cursor-not-allowed"
-                                        : "bg-blue-900 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        : "bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     }`}
                             >
                                 {loading ? (
@@ -145,7 +145,7 @@ export default function LoginPage() {
                 <div className="text-center">
                     <p className="text-sm text-gray-600">
                         Don&apos;t have an account?
-                        <Link href="/auth/register" className="font-medium text-blue-900 hover:text-indigo-500 ml-1 transition-colors">
+                        <Link href="/auth/register" className="font-medium text-indigo-700 hover:text-indigo-500 ml-1 transition-colors">
                             Sign up here
                         </Link>
                     </p>

@@ -43,14 +43,14 @@ export default function Navbar() {
     };
 
     const baseStyle = "text-sm font-medium transition-colors";
-    const activeStyle = "text-blue-900 border-b-2 border-blue-900 pb-1";
-    const inactiveStyle = "text-gray-700 hover:text-blue-900";
+    const activeStyle = "text-indigo-700 border-b-2 border-indigo-700 pb-1";
+    const inactiveStyle = "text-gray-700 hover:text-indigo-700";
 
     const mobileBaseStyle =
         "block p-2 text-base font-medium rounded-md transition-colors";
     const mobileActiveStyle = "bg-indigo-50 text-indigo-700";
     const mobileInactiveStyle =
-        "text-gray-700 hover:bg-gray-50 hover:text-blue-900";
+        "text-gray-700 hover:bg-gray-50 hover:text-indigo-700";
 
     const getDesktopLinkClasses = (href) => {
         const isActive =
@@ -114,7 +114,7 @@ export default function Navbar() {
 
                         <Link
                             href="/"
-                            className="text-xl md:text-2xl font-extrabold tracking-tight text-blue-900"
+                            className="text-xl md:text-2xl font-extrabold tracking-tight text-indigo-700"
                         >
                             SimpleBlog
                         </Link>
@@ -156,7 +156,7 @@ export default function Navbar() {
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="md:px-4 px-4 py-1.5 border border-blue-900 bg-blue-900 text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md hover:bg-indigo-700 hover:border-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none  focus:ring-blue-500 focus:ring-opacity-50"
+                                    className="md:px-4 px-4 py-1.5 border border-indigo-700 bg-indigo-700 text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md hover:bg-indigo-700 hover:border-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none  focus:ring-blue-500 focus:ring-opacity-50"
                                 >
                                     Register
                                 </Link>
@@ -164,7 +164,7 @@ export default function Navbar() {
                         ) : (
                             <div className="flex items-center gap-4">
                                 <div className="flex  items-center gap-x-2 text-sm font-medium text-gray-700">
-                                    <User className="h-4 w-4 border md:border-none border-blue-900 rounded-full text-blue-900" aria-hidden="true" />
+                                    <User className="h-4 w-4 border md:border-none border-indigo-700 rounded-full text-indigo-700" aria-hidden="true" />
                                     <span>Hi, {user?.displayName || user?.email}</span>
                                 </div>
 
@@ -224,7 +224,7 @@ export default function Navbar() {
                             <Link
                                 onClick={closeMobileMenu}
                                 href="/auth/login"
-                                className={getMobileLinkClasses("/auth/login") + " text-white  max-w-1/4 text-center bg-blue-900 hover:bg-indigo-700 hover:text-white"}
+                                className={getMobileLinkClasses("/auth/login") + " text-white  max-w-1/4 text-center bg-indigo-700 hover:bg-indigo-700 hover:text-white"}
                             >
                                 Login
                             </Link>

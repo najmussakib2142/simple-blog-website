@@ -27,6 +27,23 @@ export async function GET(req, { params }) {
   }
 }
 
+// api/blogs/[id]/route.js
+export async function PATCH(req, { params }) {
+  await connectDB();
+  const { id } = await params; 
+  const body = await req.json();
+
+  console.log("Updating blog with id:", id);
+  console.log("Body received:", body);
+
+  const updatedBlog = await Blog.findByIdAndUpdate(id, { $set: body }, { new: true });
+  if (!updatedBlog) {
+    return new Response(JSON.stringify({ error: "Blog not found" }), { status: 404 });
+  }
+  return new Response(JSON.stringify(updatedBlog), { status: 200 });
+}
+
+
 export async function DELETE(req, { params }) {
   await connectDB();
 

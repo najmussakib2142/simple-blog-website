@@ -16,42 +16,10 @@ export default function Footer() {
         <footer className="w-full bg-cover bg-center
           bg-[url('https://i.ibb.co.com/sJ3fr1kL/15207024-8.jpg')] text-gray-900 border-t border-gray-200">
             {/* 1. TOP SECTION: Prominent CTA / Newsletter Sign-up */}
-            <div className=" text-white bg-indigo-700 py-12">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-center md:text-left">
-                        <h3 className="text-3xl font-bold mb-2 leading-snug">
-                            Never Miss an Article.
-                        </h3>
-                        <p className="text-indigo-200 text-lg">
-                            Get the best of SimpleBlog delivered straight to your inbox.
-                        </p>
-                    </div>
-
-                    {/* Placeholder for Newsletter Form */}
-                    <div className="w-full max-w-sm">
-                        <form className="flex gap-2">
-                            <input
-                                type="email"
-                                placeholder="Your email address"
-                                className="w-full bg-white/90 p-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                                required
-                            />
-                            <button
-                                type="submit"
-                                className="p-3 bg-indigo-500 rounded-xl hover:bg-indigo-400 transition"
-                                aria-label="Subscribe"
-                            >
-                                <Send className="w-6 h-6" />
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4 md:pb-8">
+            <div className="max-w-6xl mx-auto px-6 md:px-8 pt-12 pb-4 md:pb-8">
 
                 {/* 2. MAIN GRID: Brand Info & Links */}
-                <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-12 md:gap-y-12 ">
+                <div className="grid grid-cols-2 gap-8 md:grid-cols-4 pt-6 lg:grid-cols-12 md:gap-y-12 ">
 
                     {/* Column 1: Brand Info */}
                     <div className="col-span-2 lg:col-span-4 pr-8">

@@ -76,7 +76,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8 sm:p-10 border border-gray-200">
 
         {/* Header */}
-        <h2 className="text-3xl font-extrabold mb-2 text-center text-blue-900">
+        <h2 className="text-3xl font-extrabold mb-2 text-center text-indigo-700">
           Join SimpleBlog
         </h2>
         <p className="text-center text-gray-500 mb-8">
@@ -128,7 +128,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-blue-900 transition-colors"
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-indigo-700 transition-colors"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -139,7 +139,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center py-3 bg-blue-900 text-white rounded-lg hover:bg-indigo-700 transition-colors font-semibold shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center py-3 bg-indigo-700 text-white rounded-lg hover:bg-indigo-700 transition-colors font-semibold shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -155,7 +155,7 @@ export default function RegisterPage() {
         {/* Link to Login */}
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <Link href="/auth/login" className="font-medium text-blue-900 hover:text-indigo-500">
+          <Link href="/auth/login" className="font-medium text-indigo-700 hover:text-indigo-500">
             Log In
           </Link>
         </p>

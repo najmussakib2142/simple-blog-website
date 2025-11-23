@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteButton from "@/components/DeleteButton";
 import { ArrowLeft } from "lucide-react";
+import EditBlogModal from "@/components/EditBlogModal";
 
 // fetch a single blog by id (server-side)
 async function getBlog(id) {
@@ -37,7 +38,7 @@ export default async function BlogDetails({ params }) {
           <p className="text-gray-600 mb-6">Sorry, the blog you&apos;re looking for doesn&apos;t exist or may have been removed.</p>
           <Link
             href="/blogs"
-            className="inline-flex items-center px-5 py-2 bg-blue-900 text-white rounded-lg hover:bg-indigo-700 transition"
+            className="inline-flex items-center px-5 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-700 transition"
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> {/* Lucide arrow icon */}
             Back to All Blogs
@@ -74,10 +75,12 @@ export default async function BlogDetails({ params }) {
 
         <footer className="pt-6 border-t">
           <div className="flex items-center justify-between gap-4">
-            <Link href="/blogs" className="inline-flex items-center px-4 py-2 bg-blue-900 text-white rounded-lg hover:bg-indigo-700 transition">
+            <Link href="/blogs" className="inline-flex items-center px-4 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-700 transition">
               <ArrowLeft className="w-4 h-4 mr-2" /> {/* Lucide arrow icon */}
               Back to All Blogs
             </Link>
+
+            <EditBlogModal blog={blog} id={id} />
 
             <DeleteButton id={id} />
           </div>

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative py-20  min-h-screen bg-[url('https://i.ibb.co.com/d4w0YTDq/15207024-8.jpg')] 
+    <section className="relative min-h-dvh md:py-20  md:min-h-screen bg-[url('https://i.ibb.co.com/d4w0YTDq/15207024-8.jpg')] 
     bg-cover bg-center  overflow-hidden flex items-center justify-center">
 
       {/* Modern soft blur shapes */}

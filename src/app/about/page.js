@@ -6,7 +6,7 @@ export default function AboutPage() {
             {/* Hero Section */}
             <section className="py-20 sm:py-28 md:py-32 px-6 md:px-8 max-w-6xl mx-auto text-center">
                 <div className="space-y-6">
-                    <p className="text-blue-900 font-semibold uppercase text-sm tracking-wider">
+                    <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wider">
                         About SimpleBlog
                     </p>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
@@ -22,10 +22,10 @@ export default function AboutPage() {
 
             {/* Features Section */}
             <section className="py-16 sm:py-20 px-7 md:px-14 bg-gray-50">
-                <div className="max-w-6xl mx-auto grid md:grid-cols-2 place-items-center gap-12 md:gap-20 items-start">
+                <div className="max-w-6xl mx-auto grid md:grid-cols-2 md:place-items-center gap-12 md:gap-20 items-start">
                     {/* Why SimpleBlog */}
                     <div>
-                        <p className="text-blue-900 font-semibold uppercase text-sm tracking-wider mb-4">
+                        <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wider mb-4">
                             Why SimpleBlog?
                         </p>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6">
@@ -50,7 +50,7 @@ export default function AboutPage() {
                                 },
                             ].map((item, i) => (
                                 <li key={i} className="flex gap-3">
-                                    <span className="text-blue-900 font-bold text-lg shrink-0">
+                                    <span className="text-indigo-700 font-bold text-lg shrink-0">
                                         {item.icon}
                                     </span>
                                     <div>
@@ -64,7 +64,7 @@ export default function AboutPage() {
 
                     {/* Tech Stack */}
                     <div>
-                        <p className="text-blue-900 font-semibold uppercase text-sm tracking-wider mb-4">
+                        <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wider mb-4">
                             Tech Stack
                         </p>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6">
@@ -89,7 +89,7 @@ export default function AboutPage() {
                                 },
                             ].map((item, i) => (
                                 <li key={i} className="flex gap-3">
-                                    <span className="text-blue-900 font-bold text-lg shrink-0">
+                                    <span className="text-indigo-700 font-bold text-lg shrink-0">
                                         {item.icon}
                                     </span>
                                     <div>
@@ -117,7 +117,7 @@ export default function AboutPage() {
                     <div className="flex flex-wrap gap-4 justify-center">
                         <Link
                             href="/blogs"
-                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-blue-900 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
+                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-indigo-700 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
                         >
                             Explore Blogs
                         </Link>
