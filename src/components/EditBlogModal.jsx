@@ -2,7 +2,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X } from 'lucide-react';
+import { useAuth } from "@/context/AuthContext";
 export default function EditBlogModal({ blog, id }) {
+    const { user } = useAuth();
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState(blog);
     const [isLoading, setIsLoading] = useState(false); // New: Loading state for UX
@@ -39,9 +41,14 @@ export default function EditBlogModal({ blog, id }) {
         setError(null); // Clear previous errors
 
         try {
+            const token = await user.getIdToken();
+
             const res = await fetch(`/api/blogs/${id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(formData),
             });
 
@@ -110,7 +117,9 @@ export default function EditBlogModal({ blog, id }) {
                             <div className="p-3 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-900 dark:text-red-300" role="alert">
                                 ❌ {error}
                             </div>
+
                         )}
+                        console.log(error.message)
 
                         <form onSubmit={handleUpdate} className="space-y-5">
                             {/* Input Fields (Styling kept from your provided upgraded version) */}

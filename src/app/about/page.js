@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function AboutPage() {
     return (
-        <div className="bg-white">
+        <div className="bg-white min-h-screen flex flex-col items-center justify-center  overflow-hidden">
             {/* Hero Section */}
             <section className="py-20 sm:py-28 md:py-32 px-6 md:px-8 max-w-6xl mx-auto text-center">
                 <div className="space-y-6">

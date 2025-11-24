@@ -17,12 +17,15 @@ export default function BlogForm() {
     imageUrl: "",
     author: "Unknown Author"
   });
+  console.log(user);
 
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
         ...prev,
-        author: user.displayName || user.email || "Unknown Author"
+        author: user.displayName || user.email || "Unknown Author",
+        authorUid: user.uid,  
+        authorEmail: user.email,
       }));
     }
   }, [user]);
@@ -35,12 +38,14 @@ export default function BlogForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const token = await user.getIdToken();
 
     try {
       const response = await fetch("/api/blogs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
+       headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData)
       });

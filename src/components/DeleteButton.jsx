@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DeleteButton({ id }) {
+    const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +28,17 @@ export default function DeleteButton({ id }) {
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
+      const token = await user.getIdToken();
+      console.log(token);
+
+      const res = await fetch(`/api/blogs/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res);
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

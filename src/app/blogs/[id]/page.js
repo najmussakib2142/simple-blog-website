@@ -3,6 +3,11 @@ import Link from "next/link";
 import DeleteButton from "@/components/DeleteButton";
 import { ArrowLeft } from "lucide-react";
 import EditBlogModal from "@/components/EditBlogModal";
+import { useAuth } from "@/context/AuthContext";
+import BlogActions from "@/components/BlogActions";
+
+  
+
 
 // fetch a single blog by id (server-side)
 async function getBlog(id) {
@@ -26,13 +31,17 @@ export async function generateMetadata({ params }) {
   };
 }
 
+
+
 export default async function BlogDetails({ params }) {
+  
   const { id } = await params;
   const blog = await getBlog(id);
+  // const isOwner = user && blog.authorUid === user.uid;
 
   if (!blog) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6">
+      <div className="min-h-screen flex items-center justify-center px-6">
         <div className="max-w-2xl text-center">
           <h1 className="text-3xl font-bold mb-4">Blog Not Found</h1>
           <p className="text-gray-600 mb-6">Sorry, the blog you&apos;re looking for doesn&apos;t exist or may have been removed.</p>
@@ -49,6 +58,7 @@ export default async function BlogDetails({ params }) {
   }
 
   return (
+    
     <article className="bg-white">
       <div className="max-w-3xl mx-auto px-6 py-12">
         <div className="mb-6">
@@ -75,14 +85,11 @@ export default async function BlogDetails({ params }) {
 
         <footer className="pt-6 border-t">
           <div className="flex items-center justify-between gap-4">
-            <Link href="/blogs" className="inline-flex items-center px-4 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-700 transition">
-              <ArrowLeft className="w-4 h-4 mr-2" /> {/* Lucide arrow icon */}
-              Back to All Blogs
-            </Link>
 
-            <EditBlogModal blog={blog} id={id} />
+            {/* <EditBlogModal blog={blog} id={id} />
 
-            <DeleteButton id={id} />
+            <DeleteButton id={id} /> */}
+            <BlogActions blog={blog} id={id} />
           </div>
         </footer>
       </div>

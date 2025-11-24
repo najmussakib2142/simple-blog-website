@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -17,6 +17,9 @@ export default function RegisterPage() {
     email: "",
     password: "",
   });
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/blogs";
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,6 +29,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
 
     try {
       // Basic client-side validation for minimum password length
@@ -48,7 +52,7 @@ export default function RegisterPage() {
       setFormData({ name: "", email: "", password: "" });
 
       // Use router.replace to prevent going back to register page after successful login
-      router.replace("/blogs");
+      router.replace(redirect);
 
     } catch (err) {
       // Improve error message parsing for better UX
@@ -155,7 +159,7 @@ export default function RegisterPage() {
         {/* Link to Login */}
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <Link href="/auth/login" className="font-medium text-indigo-700 hover:text-indigo-500">
+          <Link href={`/auth/login?redirect=${redirect}`} className="font-medium text-indigo-700 hover:text-indigo-500">
             Log In
           </Link>
         </p>

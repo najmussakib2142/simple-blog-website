@@ -6,6 +6,7 @@ export const metadata = {
 };
 
 export default function CreateBlogPage() {
+  
   return (
     <div className="bg-white min-h-screen py-12">
       <div className="max-w-3xl mx-auto px-6">

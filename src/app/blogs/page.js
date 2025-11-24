@@ -1,67 +1,45 @@
 import Link from "next/link";
 import BlogCard from "@/components/BlogCard";
+import BlogsClient from "./BlogsClient";
 
 // fetch blogs from API
-async function getBlogs() {
+async function getBlogs(page = 1) {
     try {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-        const res = await fetch(`${baseUrl}/api/blogs`, {
-            cache: "no-store", // always fetch fresh data
+        const res = await fetch(`${baseUrl}/api/blogs?page=${page}&limit=6`, {
+            cache: "no-store",
         });
 
-        if (!res.ok) return [];
-        return res.json();
+        if (!res.ok) {
+            console.error("Failed to fetch blogs", res.statusText);
+            return { blogs: [], totalPages: 1, currentPage: 1 };
+        }
+
+        const data = await res.json();
+
+        // Make sure the data has the expected structure
+        return {
+            blogs: data.blogs || data || [], // fallback if API returns just an array
+            totalPages: data.totalPages || 1,
+            currentPage: data.currentPage || page,
+        };
     } catch (error) {
         console.error("Error fetching blogs:", error);
-        return [];
+        return { blogs: [], totalPages: 1, currentPage: page };
     }
 }
 
-export default async function BlogsPage() {
-    const blogs = await getBlogs();
+export default async function BlogsPage({ searchParams }) {
+    const page = Number(searchParams?.page) || 1;
+    const { blogs, totalPages, currentPage } = await getBlogs(page);
+
+    // console.log("Server", blogs, totalPages, currentPage); // should show proper array and numbers now
 
     return (
-        <div className="bg-white">
-            {/* Hero Section */}
-            <section className="py-16 px-6 md:px-16 max-w-6xl mx-auto">
-                <div className="space-y-4">
-                    <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wide">All Posts</p>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Explore All Blogs</h1>
-                    <p className="text-lg text-gray-600 max-w-2xl">Discover stories, tutorials, and ideas from our community of writers.</p>
-                </div>
-
-                <div className="mt-8 flex gap-3">
-                    <Link 
-                        href="/blogs/create" 
-                        className="inline-flex items-center px-6 py-3 bg-indigo-700 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
-                    >
-                        Write a Post
-                    </Link>
-                </div>
-            </section>
-
-            {/* Blogs Grid */}
-            <section className="px-6 md:px-16 max-w-6xl mx-auto pb-20">
-                {blogs.length === 0 ? (
-                    <div className="text-center py-16">
-                        <p className="text-gray-600 text-lg mb-6">No blogs yet. Be the first to share your story!</p>
-                        <Link 
-                            href="/blogs/create"
-                            className="inline-flex items-center px-6 py-3 bg-indigo-700  text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
-                        >
-                            Create Your First Post
-                        </Link>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {blogs.map((blog) => (
-                            <div key={blog._id} className="transform hover:-translate-y-1 transition">
-                                <BlogCard blog={blog} />
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </section>
-        </div>
+        <BlogsClient
+            blogs={blogs}
+            totalPages={totalPages}
+            currentPage={currentPage}
+        />
     );
 }
