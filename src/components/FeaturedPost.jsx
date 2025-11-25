@@ -148,6 +148,13 @@ export default function FeaturedPost() {
               </Link>
             </h2>
 
+            {/* <Link href={postLink} className="group inline-block">
+              <h3 className=" text-4xl md:text-5xl font-extrabold text-gray-900  group-hover:text-gray-900 transition relative w-fit">
+                {blog.title}
+                <span className="  absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300"></span>
+              </h3>
+            </Link> */}
+
             <p className="text-lg text-gray-600 max-w-xl line-clamp-3">
               {blog.description}
             </p>

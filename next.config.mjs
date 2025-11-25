@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     remotePatterns: [
+      // i.ibb.co images (old)
       {
         protocol: "https",
         hostname: "i.ibb.co",
@@ -10,13 +11,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.ibb.co.com",
       },
+      // Any subdomain of ibb.co (optional)
       {
         protocol: "https",
         hostname: "*.ibb.co",
       },
+      // Cloudinary images (for future uploads)
       {
         protocol: "https",
-        hostname: "*.ibb.co.com",
+        hostname: "res.cloudinary.com",
       },
     ],
   },

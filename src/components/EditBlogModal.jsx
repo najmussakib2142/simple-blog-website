@@ -76,7 +76,7 @@ export default function EditBlogModal({ blog, id }) {
             {/* 2. Button: Updated for better visual and to open the modal */}
             <button
                 onClick={() => setOpen(true)}
-                className="px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.02]"
+                className="px-4 py-2.5  text-sm font-medium rounded-md bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.02]"
             >
                 ✏️ Edit Blog
             </button>
@@ -84,7 +84,7 @@ export default function EditBlogModal({ blog, id }) {
             {/* 3. Conditional Render: Only render the modal structure if 'open' is true */}
             {open && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 backdrop-blur-sm transition-opacity duration-300 ease-out"
+                    className="fixed inset-0 pt-10 pb-20 overflow-y-auto z-50 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-out"
                     aria-modal="true"
                     role="dialog"
                     onClick={(e) => {
@@ -95,7 +95,7 @@ export default function EditBlogModal({ blog, id }) {
                 >
                     {/* Modal Content Container */}
                     <div
-                        className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl max-w-xl w-full mx-4 transform transition-all duration-300 ease-out scale-100 opacity-100 relative"
+                        className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl max-w-2xl w-full mx-auto my-0 relative"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close button inside modal for better UX */}
@@ -119,7 +119,7 @@ export default function EditBlogModal({ blog, id }) {
                             </div>
 
                         )}
-                        console.log(error.message)
+                        {/* console.log(error.message) */}
 
                         <form onSubmit={handleUpdate} className="space-y-5">
                             {/* Input Fields (Styling kept from your provided upgraded version) */}

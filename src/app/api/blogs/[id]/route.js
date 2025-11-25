@@ -5,29 +5,53 @@ import mongoose from "mongoose";
 import { verifyUser } from "@/lib/verifyUser"
 
 
+// export async function GET(req, { params }) {
+//   await connectDB();
+
+//   const { id } = await params;
+
+//   try {
+//     const blog = await Blog.findById(id);
+
+//     if (!blog) {
+//       return NextResponse.json(
+//         { error: "Blog not found" },
+//         { status: 404 }
+//       );
+//     }
+
+//     return NextResponse.json(blog, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { error: "Invalid blog ID" },
+//       { status: 400 }
+//     );
+//   }
+// }
+
+
 export async function GET(req, { params }) {
   await connectDB();
 
-  const { id } = await params;
+  const { id } = await params; 
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid blog ID" }, { status: 400 });
+    }
+
     const blog = await Blog.findById(id);
 
     if (!blog) {
-      return NextResponse.json(
-        { error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
     return NextResponse.json(blog, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Invalid blog ID" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
 
 // api/blogs/[id]/route.js
 // export async function PATCH(req, { params }) {
@@ -47,11 +71,11 @@ export async function GET(req, { params }) {
 
 export async function PATCH(req, { params }) {
   await connectDB();
-  const { id } = await params;
+  const { id } = await  params;
   const body = await req.json();
 
-  console.log("Updating blog with id:", id);
-  console.log("Body received:", body);
+  // console.log("Updating blog with id:", id);
+  // console.log("Body received:", body);
 
   try {
     const decoded = await verifyUser(req); // Firebase user

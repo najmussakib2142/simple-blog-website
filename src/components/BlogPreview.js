@@ -84,64 +84,87 @@ export default function BlogPreview() {
             {/* Blog List with Images */}
             <div className="space-y-10">
               {blogs.map((blog, index) => (
-                <motion.div
-                  key={blog._id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 group cursor-pointer"
-                >
-                  {/* Image */}
-                  {blog.imageUrl && (
-                    <div className="w-full md:w-40 h-40 relative shrink-0 rounded-lg overflow-hidden">
-                      <Image
-                        src={blog.imageUrl}
-                        alt={blog.title}
-                        fill
-                        className="object-cover"
-                        sizes="160px"
-                      />
+                <Link href={`/blogs/${blog._id}`} key={blog._id} className="block">
+                  <motion.div
+                    key={blog._id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
+                  >
+                    {/* Image */}
+                    {blog.imageUrl && (
+                      <div className="w-full md:w-40 h-40 relative shrink-0 rounded-lg overflow-hidden">
+                        <Image
+                          src={blog.imageUrl}
+                          alt={blog.title}
+                          fill
+                          className="object-cover"
+                          sizes="160px"
+                        />
 
 
-                    </div>
-                  )}
+                      </div>
+                    )}
 
-                  {/* Text Content */}
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Title */}
-                      <Link href={`/blogs/${blog._id}`}>
+                    {/* Text Content */}
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div>
+                        {/* Title */}
+                        {/* <Link href={`/blogs/${blog._id}`}>
                         <h3 className="text-2xl md:text-3xl font-bold text-gray-900 group-hover:text-indigo-700 transition">
                           {blog.title}
                         </h3>
-                      </Link>
+                      </Link> */}
+                        <div className="group inline-block">
+                          <h3 className=" text-2xl md:text-3xl font-bold text-gray-900  group-hover:text-gray-900 transition relative w-fit">
+                            {blog.title}
+                            <span className="  absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300"></span>
+                          </h3>
+                        </div>
 
-                      {/* Meta Info */}
-                      <div className="flex items-center gap-4 text-gray-500 text-sm mt-2">
-                        <span className="font-medium">{blog.author || "Guest Contributor"}</span>
-                        <span>•</span>
-                        <span>{new Date(blog.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric"
-                        })}</span>                      </div>
 
-                      {/* Excerpt */}
-                      <p className="text-gray-600 mt-3 leading-relaxed">
-                        {blog.excerpt || (blog.content?.slice(0, 120) + "...")}
-                      </p>
-                    </div>
+                        {/* Meta Info */}
+                        <div className="flex items-center gap-4 text-gray-500 text-sm mt-2">
+                          <span className="font-medium">{blog.author || "Guest Contributor"}</span>
+                          <span>•</span>
+                          <span>{new Date(blog.createdAt).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric"
+                          })}</span>                      </div>
 
-                    {/* Read More */}
-                    <Link
+                        {/* Excerpt */}
+                        <p className="text-gray-600 mt-3 leading-relaxed">
+                          {blog.excerpt || (blog.content?.slice(0, 120) + "...")}
+                        </p>
+                      </div>
+
+                      {/* Read More */}
+                      {/* <Link
                       href={`/blogs/${blog._id}`}
                       className="inline-flex items-center mt-4 text-indigo-700 font-semibold hover:underline"
                     >
                       Read More
                       <ArrowRight className="w-4 h-4 ml-1" />
-                    </Link>
-                  </div>
-                </motion.div>
+                    </Link> */}
+                      <Link
+                        href={`/blogs/${blog._id}`}
+                        className="group inline-flex items-center mt-4 text-indigo-700 font-semibold relative w-fit"
+                      >
+                        Read More
+
+                        {/* Underline */}
+                        <span
+                          className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-indigo-700  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                        ></span>
+
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </Link>
+
+                    </div>
+                  </motion.div>
+                </Link>
               ))}
             </div>
 

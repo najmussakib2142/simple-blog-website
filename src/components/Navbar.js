@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
 import { User } from 'lucide-react';
+import Image from "next/image";
 
 export default function Navbar() {
     const { user, logout } = useAuth(); // logout comes from AuthContext
@@ -163,10 +164,21 @@ export default function Navbar() {
                             </div>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <div className="flex  items-center gap-x-2 text-sm font-medium text-gray-700">
-                                    <User className="h-4 w-4 border md:border-none border-indigo-700 rounded-full text-indigo-700" aria-hidden="true" />
+                                <div className="flex items-center gap-x-2 text-sm font-medium text-gray-700">
+                                    {user?.photoURL ? (
+                                        <Image
+                                            src={user.photoURL}
+                                            alt="User Avatar"
+                                            width={32}
+                                            height={32}
+                                            className="h-8 w-8 rounded-full object-cover border border-indigo-700"
+                                        />
+                                    ) : (
+                                        <User className="h-8 w-8 border border-indigo-700 rounded-full text-indigo-700" aria-hidden="true" />
+                                    )}
                                     <span>Hi, {user?.displayName || user?.email}</span>
                                 </div>
+
 
                                 <button
                                     onClick={handleLogout}
@@ -187,7 +199,7 @@ export default function Navbar() {
                         className="lg:hidden mt-2 space-y-2 pb-3 border-t border-gray-200"
                         aria-label="Mobile Primary"
                     >
-                        
+
 
                         <Link
                             onClick={closeMobileMenu}

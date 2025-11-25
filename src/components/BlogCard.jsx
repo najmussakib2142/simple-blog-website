@@ -1,11 +1,15 @@
 // components/BlogCard.jsx (No significant changes needed, but keeping it here for context)
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, SquareUserRound } from "lucide-react";
+import { motion } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
+
 
 export default function BlogCard({ blog }) {
     const postLink = `/blogs/${blog._id}`;
-    
+    const { user } = useAuth()
+
     const formattedDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -14,10 +18,17 @@ export default function BlogCard({ blog }) {
 
     return (
         <Link href={postLink} className="group block h-full">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 overflow-hidden h-full flex flex-col">
+            <motion.div
+                // key={blog._id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-white  shadow-lg border border-gray-100  hover:border-indigo-100 transition-all duration-300 overflow-hidden h-full flex flex-col">
 
                 {blog.imageUrl && (
-                    <div className="relative aspect-[16/10] w-full">
+
+                    <div
+                        className="relative aspect-[16/10] w-full">
                         <Image
                             src={blog.imageUrl}
                             alt={blog.title}
@@ -28,31 +39,75 @@ export default function BlogCard({ blog }) {
                     </div>
                 )}
 
-                <div className="px-6 py-6 flex flex-col justify-between flex-grow">
+                <div className="px-6 py-6 flex flex-col justify-between grow">
+                    <div className="flex justify-between items-center mb-2">
+                        <p className="text-sm  inline-flex  font-medium text-gray-500">
+                            <CalendarDays className="w-4 h-4 mr-2" />{formattedDate}
+                        </p>
+                        <p className="text-sm  inline-flex  font-medium text-gray-500">
+                            <Clock className="w-4 h-4 mr-2" /> {blog.readingTime || "02 min read"} 
+                        </p>
+                    </div>
                     <div>
-                        <h3 className="text-xl font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-indigo-700 transition duration-300">
-                            {blog.title}
-                        </h3>
 
-                        <p className="text-gray-600 text-base line-clamp-3 mb-4">
+                        <div className="group">
+                            <h3 className="inline-block text-xl font-bold mb-2 text-gray-900 relative">
+                                {blog.title}
+
+                                {/* <span
+                                    className="  absolute left-0 -bottom-1 h-0.5 bg-gray-900    w-0 group-hover:w-full      transition-all duration-300 "
+                                ></span> */}
+                            </h3>
+                        </div>
+
+
+                        {/* <div className="group relative">
+                            <div className="line-clamp-2">
+                                <h3 className="text-xl font-bold mb-2 text-gray-900 multiline-underline group-hover:text-gray-900 transition">
+                                    {blog.title}
+                                </h3>
+                            </div>
+                        </div> */}
+
+                        <p className="text-gray-600 text-base  mb-4">
                             {blog.description}
                         </p>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                        <p className="text-sm font-medium text-gray-500">
-                            {formattedDate}
-                        </p>
+                        {/* <p className="text-sm  inline-flex  font-medium text-gray-500">
+                            <CalendarDays className="w-4 h-4 mr-2" />{formattedDate}
+                        </p> */}
 
-                        <span
-                            className="inline-flex items-center text-indigo-600 font-semibold text-sm transition group-hover:text-indigo-700"
-                        >
-                            Read More
-                            <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                        </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center">
+                            <div className="w-full md:w-10 h-10 relative shrink-0 rounded-lg overflow-hidden">
+                                <Image
+                                    src={blog.authorImage || 'https://i.ibb.co/Mkf1wBdJ/jack-finnigan-rri-AI0nhcbc-unsplash.jpg'}
+                                    alt={blog.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="160px"
+                                />
+                            </div>
+                            <div className="flex flex-col ml-2">
+                                <span className="text-sm text-gray-500">Written by</span>
+                                <span className="text-sm text-gray-900">{blog.author || "Guest Contributor"}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="group inline-flex items-center mt-4 text-indigo-700 font-semibold relative w-fit">
+                                Read More
+                                <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                                <span
+                                    className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-indigo-700  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                                ></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </Link>
     );
 }

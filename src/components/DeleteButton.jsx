@@ -29,7 +29,7 @@ export default function DeleteButton({ id }) {
     setLoading(true);
     try {
       const token = await user.getIdToken();
-      console.log(token);
+      // console.log(token);
 
       const res = await fetch(`/api/blogs/${id}`, {
         method: "DELETE",
@@ -38,7 +38,7 @@ export default function DeleteButton({ id }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+      // console.log(res);
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
