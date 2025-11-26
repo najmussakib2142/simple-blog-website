@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Twitter, Youtube, Linkedin, Feather } from "lucide-react"; 
+import { Twitter, Youtube, Linkedin, Feather } from "lucide-react";
+import CTA from "./CTA";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -12,69 +13,102 @@ export default function Footer() {
 
     return (
         // 1. Cleaner Background: bg-white with a subtle top border
-        <footer className="w-full bg-white/90 text-gray-900 border-t-2 border-indigo-100">
-            <div className="max-w-6xl mx-auto px-6 md:px-8 pt-12 pb-4 md:pb-8">
+        <footer className="bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/bg-6.jpg')" }} >
+            <CTA />
+            <div className="w-full bg-gray-100/90 text-gray-900 border-t-2 border-[#F2F3E8]">
+                <div className="max-w-6xl mx-auto px-6 md:px-8 pt-4 pb-4 md:pb-4">
 
-                {/* 2. MAIN GRID: Brand Info & Links */}
-                <div className="grid grid-cols-2 gap-8 md:grid-cols-4 pt-6 lg:grid-cols-12 md:gap-y-12">
+                    {/* 2. MAIN GRID: Brand Info & Links */}
+                    <div className=" pt-2 flex flex-col-reverse md:flex-row md:items-center justify-between ">
 
-                    {/* Column 1: Brand Info */}
-                    <div className="col-span-2 lg:col-span-4 pr-8">
-                        <Link href="/" className="inline-flex items-center text-3xl font-extrabold tracking-tight text-indigo-700 mb-4">
-                            <Feather className="w-7 h-7 mr-2" />
-                            SimpleBlog
-                        </Link>
-                        <p className="text-base text-gray-600 leading-relaxed max-w-sm">
-                            A simple platform for sharing ideas and stories. Built with Next.js and Tailwind CSS.
-                        </p>
-                    </div>
+                        {/* Column 1: Brand Info */}
+                        <div className="col-span-2 lg:col-span-4 pr-8">
+                            {/* <Link href="/" className="inline-flex items-center text-3xl font-extrabold tracking-tight text-indigo-700 2">
+                                <Feather className="w-7 h-7 mr-2" />
+                                SimpleBlog
+                            </Link> */}
+                            <p className="text-base text-center md:pb-1 md:text-start pt-1 text-gray-600 leading-relaxed max-w-sm">
+                                A simple platform for sharing ideas and stories.
+                            </p>
+                            <div className="border-t border-gray-200 flex flex-col  sm:flex-row justify-start items-center">
+                                <p className="text-sm pt-1 text-gray-500 order-2 sm:order-1 mt-4 sm:mt-0">
+                                    &copy; {currentYear} SimpleBlog. All rights reserved.
+                                </p>
+                                {/* Removed placeholder bottom links */}
+                            </div>
 
-                    {/* Link Columns (Space-x-2 added for subtle hover separation) */}
-                    {/* Explore Links */}
-                    <div className="col-span-1 md:col-span-1 lg:col-span-2">
+                        </div>
+
+                        {/* Link Columns (Space-x-2 added for subtle hover separation) */}
+                        {/* Explore Links */}
+                        {/* <div className="col-span-1 md:col-span-1 lg:col-span-2">
                         <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Explore</h4>
                         <ul className="space-y-3 text-base">
                             <li><Link href="/blogs" className="text-gray-600 hover:text-indigo-700 transition-colors">All Blogs</Link></li>
                             <li><Link href="create" className="text-gray-600 hover:text-indigo-700 transition-colors">Start Writing</Link></li>
                             <li><Link href="/about" className="text-gray-600 hover:text-indigo-700 transition-colors">About Us</Link></li>
                         </ul>
-                    </div>
+                    </div> */}
 
-                    {/* Legal & Resources */}
-                    <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                        <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Resources</h4>
-                        <ul className="space-y-3 text-base">
-                            <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Contact Support</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Terms of Service</a></li>
-                        </ul>
-                    </div>
-
-                    {/* Social Media (Modern Icon Style) */}
-                    <div className="col-span-2 md:col-span-2 lg:col-span-4">
-                        <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Connect</h4>
-                        <div className="flex items-center gap-3"> {/* Tightened gap */}
-                            {socialLinks.map((link) => (
-                                <a
-                                    key={link.label}
-                                    href={link.href}
-                                    // 3. New Modern Icon Style: text-gray-400 to text-indigo-700 on hover, no background/border
-                                    className="text-gray-400 hover:text-indigo-700 transition"
-                                    aria-label={`Follow on ${link.label}`}
-                                >
-                                    <link.icon className="w-6 h-6" /> {/* Slightly larger icons */}
+                        {/* Legal & Resources */}
+                        {/* <div className="col-span-1 md:col-span-1 lg:col-span-2">
+                            <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Resources</h4>
+                            <ul className="space-y-3 text-base">
+                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Contact Support</a></li>
+                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Privacy Policy</a></li>
+                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Terms of Service</a></li>
+                            </ul>
+                        </div> */}
+                        <div className=" md:pr-63 flex  justify-center pb-1 md:pb-0 gap-8">
+                            <div>
+                                <a href="#"
+                                    className="text-gray-600 pb-0.5 group relative " >
+                                    Privacy Policy
+                                    <span
+                                        className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-600  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                                    ></span>
                                 </a>
-                            ))}
+                            </div>
+                            <div>
+                                <a href="#"
+                                    className="text-gray-600 pb-0.5 group relative " >
+                                    Terms of Service
+                                    <span
+                                        className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-600  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                                    ></span>
+                                </a>
+                            </div>
+
+                            {/* <a href="#" className="text-gray-600 ">Terms of Service</a> */}
+
+                        </div>
+
+                        {/* Social Media (Modern Icon Style) */}
+                        <div className=" pr-2 flex flex-row md:flex-col justify-center md:justify-start pb-2 gap-6 md:gap-2 items-center  md:pb-0  ">
+                            <h4 className="font-semibold text-gray-900   text-md tracking-wider">Connect</h4>
+                            <div className="flex  items-center gap-3"> {/* Tightened gap */}
+                                {socialLinks.map((link) => (
+                                    <a
+                                        key={link.label}
+                                        href={link.href}
+                                        // 3. New Modern Icon Style: text-gray-400 to text-indigo-700 on hover, no background/border
+                                        className="text-gray-400 hover:text-black transition"
+                                        aria-label={`Follow on ${link.label}`}
+                                    >
+                                        <link.icon className="w-4 h-4" /> {/* Slightly larger icons */}
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* COPYRIGHT: Simple and Clean */}
-                <div className="md:pt-8 md:mt-8 pt-6 mt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
-                    <p className="text-sm text-gray-500 order-2 sm:order-1 mt-4 sm:mt-0">
-                        &copy; {currentYear} SimpleBlog. All rights reserved.
-                    </p>
-                    {/* Removed placeholder bottom links */}
+                    {/* COPYRIGHT: Simple and Clean */}
+                    {/* <div className="pt-2 border-t border-gray-200 flex flex-col  sm:flex-row justify-center items-center">
+                        <p className="text-sm  text-gray-500 order-2 sm:order-1  sm:mt-0">
+                            &copy; {currentYear} SimpleBlog. All rights reserved.
+                        </p>
+                    </div> */}
                 </div>
             </div>
         </footer>

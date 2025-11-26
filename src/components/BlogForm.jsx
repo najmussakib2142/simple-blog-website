@@ -18,7 +18,7 @@ export default function BlogForm() {
     author: "Unknown Author",
     authorUid: "",
     authorEmail: "",
-    authorImage: "", 
+    authorImage: "",
     category: "",
     tags: [],
     featured: false,
@@ -158,18 +158,30 @@ export default function BlogForm() {
           placeholder="Write your full blog content here..." />
       </div>
 
-      {/* Category */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
-        <select name="category" value={formData.category} onChange={handleInputChange} required
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
-          <option value="">Select category</option>
-          <option value="Tech">Tech</option>
-          <option value="Lifestyle">Lifestyle</option>
-          <option value="Health">Health</option>
-          <option value="Education">Education</option>
-          <option value="Travel">Travel</option>
-        </select>
+      <div className="flex-col md:flex gap-10 md:justify-between md:flex-row md:items-center">
+        {/* Category */}
+        <div className="flex-1">
+          <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
+          <select name="category" value={formData.category} onChange={handleInputChange} required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
+            <option className="" value="">Select category</option>
+            <option value="Tech">Tech</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Business">Business</option>
+            <option value="Health">Health</option>
+            <option value="Education">Education</option>
+            <option value="Travel">Travel</option>
+          </select>
+        </div>
+
+        {/* Status */}
+        <div className="flex-1">
+          <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+          <select name="status" value={formData.status} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
       </div>
 
       {/* Tags */}
@@ -186,14 +198,7 @@ export default function BlogForm() {
         <label className="text-sm text-gray-900">Mark as Featured</label>
       </div>
 
-      {/* Status */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
-        <select name="status" value={formData.status} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
-        </select>
-      </div>
+
 
       {/* Image Upload */}
       <div className="w-full">

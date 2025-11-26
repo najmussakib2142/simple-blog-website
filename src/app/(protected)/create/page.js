@@ -8,7 +8,7 @@ export const metadata = {
 export default function CreateBlogPage() {
   
   return (
-    <div className="bg-white min-h-screen py-12">
+    <div className="bg-[#F2F3E8] min-h-screen py-12">
       <div className="max-w-3xl mx-auto px-6">
         <div className="mb-10 text-center ">
           <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wide">New Post</p>

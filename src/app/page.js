@@ -3,21 +3,20 @@ import Features from "../components/Features";
 import BlogPreview from "@/components/BlogPreview";
 import Author from "@/components/Author";
 import FeaturedPost from "@/components/FeaturedPost";
-import CTA from "@/components/CTA";
-import Categories from "@/components/Categories";
-// import AsFeaturedIn from "@/components/AsFeaturedIn";
+import Category from "@/components/Category";
 
 export default function Home() {
   return (
-    <main>
+    <main className="">
       <Hero />
       {/* <AsFeaturedIn /> */}
       <FeaturedPost />
+      <Category />
       <BlogPreview />
       <Features />
       {/* <Categories></Categories> */}
       <Author />
-      <CTA></CTA>
+      {/* <CTA></CTA> */}
     </main>
   );
 }

@@ -1,12 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Feather } from "lucide-react";
+import { ArrowRight, Feather, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
+const SparkSVG = () => (
+  <motion.svg
+    // Positioning and size relative to the inline-block wrapper around the h1
+    className="absolute -top-10 -right-16 w-16 h-16 pointer-events-none"
+    viewBox="0 0 50 50"
+
+    // Animate container opacity for a smooth entry
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5, delay: 0.7 }}
+  >
+    {/* First line: Rotate ~45 degrees */}
+    <motion.line
+      x1="25" y1="25" x2="45" y2="5"
+      stroke="#B45309" // Custom Gold/Tan Color
+      strokeWidth="3"
+      strokeLinecap="round"
+
+      // Animate the line drawing effect (simulating pathLength)
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    />
+    {/* Second line: Rotate ~-45 degrees (staggered slightly) */}
+    <motion.line
+      x1="25" y1="25" x2="45" y2="45"
+      stroke="#B45309"
+      strokeWidth="3"
+      strokeLinecap="round"
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+    />
+  </motion.svg>
+);
+
 export default function Hero() {
+
+
+
   return (
-    <section className="relative min-h-dvh md:py-20  md:min-h-screen bg-[url('https://i.ibb.co.com/d4w0YTDq/15207024-8.jpg')] 
+    <section className="relative  md:py-20 pt-10 md:pt-8   h-[50dvh] md:min-h-screen  bg-[#FAFAFA]
     bg-cover bg-center  overflow-hidden flex items-center justify-center">
 
       {/* Modern soft blur shapes */}
@@ -18,30 +57,37 @@ export default function Hero() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
 
         {/* Badge */}
-        <motion.p
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-700 bg-white/60 backdrop-blur-md border border-indigo-200/40 rounded-full px-4 py-1.5 mb-6 shadow-sm"
-        >
-          <Feather className="w-4 h-4 mr-2" />
-          The Modern Blog
-        </motion.p>
+        <div className="relative inline-block">
 
-        {/* Modern Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-6"
-        >
-          <span className="block text-transparent bg-clip-text bg-linear-to-r from-indigo-700 via-blue-600 to-indigo-600">
-            Ideas Worth Sharing.
-          </span>
-          <span className="block text-gray-800 mt-2">
-            Write. Read. Inspire.
-          </span>
-        </motion.h1>
+          {/* ✨ SPARK GRAPHIC ADDED HERE ✨ */}
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center text-xs sm:text-sm font-medium 
+                     text-indigo-700 bg-white/60 backdrop-blur-md 
+                     border border-indigo-200/40 rounded-full px-4 py-1.5  shadow-sm"
+          >
+            <Feather className="w-4 h-4 mr-2" />
+            The Modern Blog
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-6"
+          >
+            <span className="text-3xl  md:text-5xl font-extrabold
+                 text-transparent bg-clip-text bg-gradient-to-r
+                 from-indigo-700 via-blue-600 to-indigo-600">
+              Ideas Worth Sharing.
+            </span>
+            <span className="block text-gray-800 mt-2">
+              Write. Read. Inspire.
+            </span>
+          </motion.h1>
+        </div>
 
         {/* Description */}
         <motion.p
@@ -54,7 +100,7 @@ export default function Hero() {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
@@ -69,12 +115,12 @@ export default function Hero() {
           </Link>
 
           <Link
-            href="/blogs/create"
+            href="/create"
             className="inline-flex items-center justify-center px-8 py-3 text-base sm:text-lg font-semibold text-indigo-700 border border-indigo-200 bg-white rounded-lg shadow-sm hover:bg-indigo-50 transition duration-300"
           >
             Start Writing
           </Link>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 // components/BlogCard.jsx (No significant changes needed, but keeping it here for context)
 import Link from "next/link";
 import Image from "next/image";
@@ -8,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function BlogCard({ blog }) {
     const postLink = `/blogs/${blog._id}`;
-    const { user } = useAuth()
+    // const { user } = useAuth()
 
     const formattedDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -19,7 +21,6 @@ export default function BlogCard({ blog }) {
     return (
         <Link href={postLink} className="group block h-full">
             <motion.div
-                // key={blog._id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}

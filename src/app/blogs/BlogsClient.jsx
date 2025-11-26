@@ -30,7 +30,7 @@ export default function BlogsClient({ blogs, totalPages, currentPage }) {
     }, [page]);
 
     return (
-        <div className="bg-white">
+        <div className="bg-[#F2F3E8]">
             {/* Hero Section */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
                 <div className="space-y-4">
