@@ -98,11 +98,11 @@ export default function BlogCard({ blog }) {
                             </div>
                         </div>
                         <div>
-                            <div className="group inline-flex items-center mt-4 text-indigo-700 font-semibold relative w-fit">
+                            <div className="group inline-flex items-center mt-4 text-black/80 font-semibold relative w-fit">
                                 Read More
                                 <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                                 <span
-                                    className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-indigo-700  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                                    className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-black/80  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                                 ></span>
                             </div>
                         </div>

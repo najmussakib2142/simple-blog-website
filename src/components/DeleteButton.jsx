@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
 
 export default function DeleteButton({ id }) {
-    const { user } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -18,8 +18,10 @@ export default function DeleteButton({ id }) {
       text: "This action cannot be undone.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
+      confirmButtonColor: "#000000",
+      cancelButtonColor: "#6b7280", // gray-500
+
+
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
     });

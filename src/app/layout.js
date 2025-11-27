@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
         <AuthProvider>
           <Navbar />
-          <main className="bg-[#F2F3E8] pt-14">{children}</main>
+          <main className="bg-[#FAFAFA] pt-14">{children}</main>
           <FooterWrapper />
         </AuthProvider>
       </body>

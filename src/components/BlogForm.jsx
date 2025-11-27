@@ -138,7 +138,7 @@ export default function BlogForm() {
       <div>
         <label className="block text-sm font-semibold text-gray-900 mb-2">Title</label>
         <input type="text" name="title" value={formData.title} onChange={handleInputChange} required
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
           placeholder="Enter your blog title" />
       </div>
 
@@ -146,7 +146,7 @@ export default function BlogForm() {
       <div>
         <label className="block text-sm font-semibold text-gray-900 mb-2">Description</label>
         <input type="text" name="description" value={formData.description} onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
           placeholder="Brief description of your post" />
       </div>
 
@@ -154,7 +154,7 @@ export default function BlogForm() {
       <div>
         <label className="block text-sm font-semibold text-gray-900 mb-2">Content</label>
         <textarea name="content" value={formData.content} onChange={handleInputChange} required rows="10"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
           placeholder="Write your full blog content here..." />
       </div>
 
@@ -163,7 +163,7 @@ export default function BlogForm() {
         <div className="flex-1">
           <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
           <select name="category" value={formData.category} onChange={handleInputChange} required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900">
             <option className="" value="">Select category</option>
             <option value="Tech">Tech</option>
             <option value="Lifestyle">Lifestyle</option>
@@ -177,7 +177,7 @@ export default function BlogForm() {
         {/* Status */}
         <div className="flex-1">
           <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
-          <select name="status" value={formData.status} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900">
+          <select name="status" value={formData.status} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900">
             <option value="published">Published</option>
             <option value="draft">Draft</option>
           </select>
@@ -188,13 +188,13 @@ export default function BlogForm() {
       <div>
         <label className="block text-sm font-semibold text-gray-900 mb-2">Tags (comma separated)</label>
         <input type="text" name="tags" value={formData.tags.join(", ")} onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
           placeholder="React, Next.js, Cloudinary" />
       </div>
 
       {/* Featured */}
       <div className="flex items-center gap-2">
-        <input type="checkbox" name="featured" checked={formData.featured} onChange={handleInputChange} className="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+        <input type="checkbox" name="featured" checked={formData.featured} onChange={handleInputChange} className="h-4 w-4 text-black border-gray-300 rounded" />
         <label className="text-sm text-gray-900">Mark as Featured</label>
       </div>
 
@@ -205,7 +205,7 @@ export default function BlogForm() {
         <label className="block text-sm font-semibold text-gray-900 mb-2">Upload Image</label>
 
         {/* Modern File Input */}
-        <label className="flex items-center justify-center w-full h-16 px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors duration-200 text-gray-600">
+        <label className="flex items-center justify-center w-full h-16 px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-black/40focus:ring-black/40 hover:bg-indigo-50 transition-colors duration-200 text-gray-600">
           <span className="mr-2">📁</span>
           <span className="text-sm">Click or drag to upload</span>
           <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
@@ -214,7 +214,7 @@ export default function BlogForm() {
         {/* Loader */}
         {imageUploading && (
           <div className="mt-4 p-4 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
-            <div className="border-4 border-gray-300 border-t-indigo-600 rounded-full w-8 h-8 animate-spin"></div>
+            <div className="border-4 border-gray-300 border-t-black/40 rounded-full w-8 h-8 animate-spin"></div>
             <p className="text-sm text-gray-600">Uploading image…</p>
           </div>
         )}
@@ -238,7 +238,7 @@ export default function BlogForm() {
 
       {/* Submit */}
       <div className="flex gap-3 pt-4">
-        <button type="submit" disabled={loading} className={`flex-1 py-3 rounded-lg font-medium transition-colors ${loading ? "bg-gray-400 text-white cursor-not-allowed" : "bg-indigo-700 text-white hover:bg-indigo-700"}`}>
+        <button type="submit" disabled={loading} className={`flex-1 py-3 rounded-lg font-medium transition-colors ${loading ? "bg-gray-400 text-white cursor-not-allowed" : "bg-black/90 text-white hover:bg-black"}`}>
           {loading ? "Publishing..." : "Publish Post"}
         </button>
         <button type="button" onClick={() => router.push("/blogs")} className="flex-1 bg-gray-200 text-gray-900 py-3 rounded-lg hover:bg-gray-300 font-medium transition-colors">

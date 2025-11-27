@@ -16,7 +16,7 @@ export default function BlogActions({ blog, id }) {
         <div className="flex items-center justify-between gap-4">
             <Link
                 href="/blogs"
-                className="inline-flex items-center px-4 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-700 transition"
+                className="inline-flex items-center px-4 py-2 bg-black/90 text-white rounded-lg hover:bg-black transition"
             >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to All Blogs

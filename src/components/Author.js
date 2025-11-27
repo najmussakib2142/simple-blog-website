@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Twitter, Github, Globe, Linkedin } from "lucide-react";
+import { Twitter, Github, Globe, Linkedin, PenTool, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion"; // Import motion for content reveal
 
@@ -75,10 +75,11 @@ const AuthorContent = ({ data }) => (
 
     {/* Content */}
     <div className="grow md:pl-8">
-      <p className="text-base font-semibold text-indigo-700 uppercase tracking-widest mb-2">
+      <p className="text-base inline-flex font-semibold text-black uppercase tracking-widest mb-2">
         Creator
+
       </p>
-      <h2 className="text-4xl md:text-5xl text-gray-900 font-extrabold mb-4 leading-snug">
+      <h2 className="text-4xl md:text-4xl font-semibold text-gray-900 mb-4 leading-snug">
         {data.name}
       </h2>
       <p className="text-lg text-gray-700 leading-relaxed mb-4">
@@ -97,7 +98,7 @@ const AuthorContent = ({ data }) => (
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Follow on ${link.label}`}
-            className="p-3 rounded-full bg-indigo-100 hover:bg-indigo-700 text-indigo-600 hover:text-white transition shadow-md"
+            className="p-3 rounded-full bg-gray-100 hover:bg-black text-gray-700 hover:text-white transition shadow-md"
           >
             <link.icon className="w-6 h-6" />
           </Link>
@@ -129,15 +130,18 @@ export default function Author() {
 
 
   return (
-    <section className="py-20 md:py-28 bg-[#F2F3E8]">
+    <section className="py-20 md:py-28 bg-[#FAFAFA]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <p className="text-base font-semibold text-indigo-700 uppercase tracking-widest mb-3">
+          <p className="text-base font-semibold text-black uppercase tracking-widest mb-3 flex items-center justify-center gap-3">
+            <User className="w-5 h-5 text-gray-600" />
             About the Author
+            {/* <PenTool className="w-5 h-5 text-gray-600" /> */}
+
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+          <h2 className="text-4xl md:text-4xl font-semibold text-gray-900 leading-snug">
             Meet the Creator
           </h2>
         </div>

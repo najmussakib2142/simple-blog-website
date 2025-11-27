@@ -50,7 +50,7 @@ export default function LoginForm() {
           onChange={handleChange}
           placeholder="you@example.com"
           required
-          className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm transition"
+          className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-black/60 focus:border-black/60 shadow-sm sm:text-sm transition"
         />
       </div>
 
@@ -67,12 +67,12 @@ export default function LoginForm() {
           onChange={handleChange}
           placeholder="••••••••"
           required
-          className="appearance-none block w-full px-3 py-3 pr-10 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm transition"
+          className="appearance-none block w-full px-3 py-3 pr-10 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-black/60 focus:border-black/60 shadow-sm sm:text-sm transition"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute inset-y-0 right-0 top-2.5 bottom-2.5 h-full flex items-center pr-3 text-gray-500 hover:text-indigo-700 transition-colors focus:outline-none"
+          className="absolute inset-y-0 right-0 top-2.5 bottom-2.5 h-full flex items-center pr-3 text-gray-500 hover:text-gray-900 transition-colors focus:outline-none"
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -93,14 +93,14 @@ export default function LoginForm() {
             id="remember-me"
             name="remember-me"
             type="checkbox"
-            className="h-4 w-4 text-indigo-700 focus:ring-indigo-500 border-gray-300 rounded"
+            className="h-4 w-4 text-indigo-700 focus:ring-black/60 border-gray-300 rounded"
           />
           <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
             Remember me
           </label>
         </div>
         <div className="text-sm">
-          <a href="#" className="font-medium text-indigo-700 hover:text-indigo-500 transition-colors">
+          <a href="#" className="font-medium text-gray-800 hover:text-black/60 transition-colors">
             Forgot your password?
           </a>
         </div>
@@ -113,8 +113,8 @@ export default function LoginForm() {
           disabled={loading}
           className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white shadow-md transition duration-200 ease-in-out
             ${loading
-              ? "bg-indigo-400 cursor-not-allowed"
-              : "bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              ? "bg-black/70 cursor-not-allowed"
+              : "bg-black/90 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/60"
             }`}
         >
           {loading ? (

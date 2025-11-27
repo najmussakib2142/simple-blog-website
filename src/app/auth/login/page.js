@@ -10,11 +10,11 @@ export default function LoginPage() {
             <div className="w-full max-w-md space-y-8">
                 {/* Header */}
                 <div className="text-center">
-                    <h1 className="text-4xl font-extrabold text-indigo-700 tracking-tight">
+                    <h1 className="text-4xl font-extrabold text-black tracking-tight">
                         Welcome Back
                     </h1>
                     <p className="mt-2 text-sm text-gray-600">
-                        Sign in to access your dashboard and create new posts.
+                        Sign in to create new posts.
                     </p>
                 </div>
 
@@ -34,7 +34,7 @@ export default function LoginPage() {
                 <div className="text-center">
                     <p className="text-sm text-gray-600">
                         Don&apos;t have an account?
-                        <Link href="/auth/register" className="font-medium text-indigo-700 hover:text-indigo-500 ml-1 transition-colors">
+                        <Link href="/auth/register" className="font-medium text-gray-800 hover:text-black/90 hover:underline ml-1 transition-colors">
                             Sign up here
                         </Link>
                     </p>

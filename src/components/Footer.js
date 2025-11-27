@@ -13,10 +13,10 @@ export default function Footer() {
 
     return (
         // 1. Cleaner Background: bg-white with a subtle top border
-        <footer className="bg-cover bg-center bg-no-repeat"
+        <footer className="bg-cover border-t-2 border-[#F2F3E8] bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/bg-6.jpg')" }} >
             <CTA />
-            <div className="w-full bg-gray-100/90 text-gray-900 border-t-2 border-[#F2F3E8]">
+            <div className="w-full bg-gray-100/90 pb-4 text-gray-900 border-t-2 border-[#F2F3E8]">
                 <div className="max-w-6xl mx-auto px-6 md:px-8 pt-4 pb-4 md:pb-4">
 
                     {/* 2. MAIN GRID: Brand Info & Links */}

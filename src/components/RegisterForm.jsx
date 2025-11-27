@@ -116,7 +116,7 @@ export default function RegisterForm() {
   return (
     <div className="space-y-5 bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8 sm:p-10 border border-gray-200">
-        <h2 className="text-3xl font-extrabold mb-2 text-center text-indigo-700">
+        <h2 className="text-3xl font-extrabold mb-2 text-center text-black">
           Join SimpleBlog
         </h2>
         <p className="text-center text-gray-500 mb-8">
@@ -175,7 +175,7 @@ export default function RegisterForm() {
             <label className="block text-sm font-semibold text-gray-900 mb-2">
               Upload Image (optional)
             </label>
-            <label className="flex items-center justify-center w-full h-16 px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors duration-200 text-gray-600">
+            <label className="flex items-center justify-center w-full h-16 px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-500 hover:bg-gray-50 transition-colors duration-200 text-gray-600">
               <span className="mr-2">📁</span>
               <span className="text-sm">Click or drag to upload</span>
               <input
@@ -211,7 +211,7 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center py-3 bg-indigo-700 text-white rounded-lg hover:bg-indigo-800 font-semibold shadow-md disabled:opacity-70"
+            className="w-full flex items-center justify-center py-3 bg-black/90 text-white rounded-lg hover:bg-black font-semibold shadow-md disabled:opacity-70"
           >
             {loading ? (
               <>
@@ -228,7 +228,7 @@ export default function RegisterForm() {
           Already have an account?{" "}
           <Link
             href={`/auth/login?redirect=${redirect}`}
-            className="font-medium text-indigo-700 hover:text-indigo-500"
+            className="font-medium text-gray-800 hover:text-black/90 hover:underline"
           >
             Log In
           </Link>

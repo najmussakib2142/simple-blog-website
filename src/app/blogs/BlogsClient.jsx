@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import BlogCard from "@/components/BlogCard";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Archive, ArrowLeft, ArrowRight, FileText } from "lucide-react";
 
 export default function BlogsClient({ blogs, totalPages, currentPage }) {
     const { user } = useAuth();
@@ -34,20 +34,36 @@ export default function BlogsClient({ blogs, totalPages, currentPage }) {
             {/* Hero Section */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
                 <div className="space-y-4">
-                    <p className="text-indigo-700 font-semibold uppercase text-sm tracking-wide">All Posts</p>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Explore All Blogs</h1>
-                    <p className="text-lg text-gray-600 max-w-2xl">
+                    <div className="">
+                        <p className="text-black pb-2 font-semibold uppercase text-md tracking-wide flex items-center gap-3">
+                            All Posts
+                            <Archive className="w-5 h-5 text-gray-600" />
+                            {/* <FileText className="w-5 h-5 text-gray-600" /> */}
+                        </p>
+                        <h1 className="text-4xl md:text-5xl font-bold text-black">
+                            Explore All Blogs
+                        </h1>
+                    </div>                    <p className="text-lg text-gray-600 max-w-2xl">
                         Discover stories, tutorials, and ideas from our community of writers.
                     </p>
                 </div>
 
                 {/* Write a Post Button */}
-                <div className="mt-8 flex gap-3">
+                {/* <div className="mt-8 flex gap-3">
                     <Link
                         href={writePostHref}
-                        className="inline-flex items-center px-6 py-3 bg-indigo-700 text-white font-medium rounded-lg hover:bg-indigo-800 transition-colors"
+                        className="inline-flex items-center px-6 py-3 bg-black/90 text-white font-medium rounded-lg hover:bg-black/90 transition-colors"
                     >
                         Write a Post
+                    </Link>
+                </div> */}
+                <div className="mt-8">
+                    <Link
+                        href={writePostHref}
+                        className="inline-flex items-center px-6 py-3 text-lg font-medium text-black border-2 border-gray-300 bg-gray-50 rounded-xl shadow-md hover:bg-white transition duration-300"
+                    >
+                        Write a Post
+                        <ArrowRight className="w-5 h-5 ml-2" />
                     </Link>
                 </div>
             </section>
@@ -59,7 +75,7 @@ export default function BlogsClient({ blogs, totalPages, currentPage }) {
                         <p className="text-gray-600 text-lg mb-6">No blogs yet. Be the first to share your story!</p>
                         <Link
                             href={writePostHref}
-                            className="inline-flex items-center px-6 py-3 bg-indigo-700  text-white font-medium rounded-lg hover:bg-indigo-800 transition-colors"
+                            className="inline-flex items-center px-6 py-3 bg-black  text-white font-medium rounded-lg hover:bg-black/90 transition-colors"
                         >
                             Create Your First Post
                         </Link>
@@ -95,10 +111,10 @@ export default function BlogsClient({ blogs, totalPages, currentPage }) {
                                 onClick={() => setPage(i + 1)}
                                 className={`w-10 h-10 flex items-center justify-center text-sm font-medium rounded-lg transition duration-150 
                     ${page === i + 1
-                                        // Active state: Solid Indigo 700 background
-                                        ? "bg-indigo-700 text-white shadow-md"
+                                        // Active state: Solid Black background
+                                        ? "bg-black/90 text-white shadow-md"
                                         // Inactive state: White background, gray text, hover effect
-                                        : "bg-white text-gray-700 border border-gray-300 hover:bg-indigo-50 hover:text-indigo-700"
+                                        : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:text-grayS-700"
                                     }`}
                                 aria-current={page === i + 1 ? "page" : undefined}
                             >

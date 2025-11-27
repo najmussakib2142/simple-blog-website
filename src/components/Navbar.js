@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
-import { User } from 'lucide-react';
+import { PenTool, User } from 'lucide-react';
 import Image from "next/image";
 
 export default function Navbar() {
@@ -21,8 +21,10 @@ export default function Navbar() {
             text: "You will be logged out of your account.",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            confirmButtonColor: "#000000",
+            cancelButtonColor: "#6b7280", // gray-500
+
+
             confirmButtonText: "Yes, logout",
         });
 
@@ -43,15 +45,19 @@ export default function Navbar() {
         }
     };
 
-    const baseStyle = "text-sm font-medium transition-colors";
-    const activeStyle = "text-indigo-700 border-b-2 border-indigo-700 pb-1";
-    const inactiveStyle = "text-gray-700 hover:text-indigo-700";
+    const baseStyle = "text-sm font-medium transition-colors duration-200";
+    const activeStyle =
+        "text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-800 to-black border-b-2 border-black pb-1";
+    const inactiveStyle =
+        "text-black hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-black hover:via-gray-800 hover:to-black";
 
+    // Mobile nav links
     const mobileBaseStyle =
-        "block p-2 text-base font-medium rounded-md transition-colors";
-    const mobileActiveStyle = "bg-indigo-50 text-indigo-700";
+        "block p-2 text-base font-medium rounded-md transition-colors duration-200";
+    const mobileActiveStyle =
+        "bg-black/10 text-black font-semibold"; // subtle black glow background for active
     const mobileInactiveStyle =
-        "text-gray-700 hover:bg-gray-50 hover:text-indigo-700";
+        "text-black hover:bg-black/5 hover:text-black/80";
 
     const getDesktopLinkClasses = (href) => {
         const isActive =
@@ -69,10 +75,11 @@ export default function Navbar() {
 
     return (
         <header className="w-full fixed top-0 left-0 right-0 z-50 
-              bg-[#FDFDFC] backdrop-blur-lg 
-                border-b border-white/20 text-gray-900  shadow-sm">
+                   bg-white/70 backdrop-blur-lg border-b border-gray-200 
+                   text-black shadow-sm">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14">
+
                     {/* Left: brand + mobile menu button */}
                     <div className="flex items-center gap-2">
                         <button
@@ -81,51 +88,30 @@ export default function Navbar() {
                             aria-label={isOpen ? "Close menu" : "Open menu"}
                         >
                             {isOpen ? (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             ) : (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             )}
                         </button>
 
                         <Link
                             href="/"
-                            className="text-xl md:text-2xl font-extrabold tracking-tight text-indigo-700"
+                            className="relative text-xl md:text-2xl font-extrabold tracking-tight text-black group"
                         >
                             SimpleBlog
+                            <span
+                                className="absolute left-0 -bottom-1 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"
+                            ></span>
                         </Link>
+
                     </div>
 
                     {/* Center: nav links */}
-                    <nav
-                        className="hidden lg:flex items-center lg:space-x-8 h-full"
-                        aria-label="Primary"
-                    >
+                    <nav className="hidden lg:flex items-center lg:space-x-8 h-full" aria-label="Primary">
                         <Link href="/" className={getDesktopLinkClasses("/")}>
                             Home
                         </Link>
@@ -136,10 +122,7 @@ export default function Navbar() {
                             Blogs
                         </Link>
                         {user && (
-                            <Link
-                                href="/create"
-                                className={getDesktopLinkClasses("/create")}
-                            >
+                            <Link href="/create" className={getDesktopLinkClasses("/create")}>
                                 Create
                             </Link>
                         )}
@@ -151,38 +134,37 @@ export default function Navbar() {
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/auth/login"
-                                    className="px-4 py-1.5 text-sm font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none  focus:ring-gray-300 focus:ring-opacity-50   bg-white text-gray-700 border border-gray-300 hover:bg-gray-50  hidden sm:block"
+                                    className="px-4 py-1.5 text-sm font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="md:px-4 px-4 py-1.5 border border-indigo-700 bg-indigo-700 text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md hover:bg-indigo-700 hover:border-indigo-700 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none  focus:ring-blue-500 focus:ring-opacity-50"
+                                    className="md:px-4 px-4 py-1.5 border border-black bg-black text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md hover:bg-gray-900 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
                                 >
                                     Register
                                 </Link>
                             </div>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-x-2 text-sm font-medium text-gray-700">
+                                <div className="flex items-center gap-x-2 text-sm font-medium text-black">
                                     {user?.photoURL ? (
                                         <Image
                                             src={user.photoURL}
                                             alt="User Avatar"
                                             width={32}
                                             height={32}
-                                            className="h-8 w-8 rounded-full object-cover border border-indigo-700"
+                                            className="h-8 w-8 rounded-full object-cover border border-black"
                                         />
                                     ) : (
-                                        <User className="h-8 w-8 border border-indigo-700 rounded-full text-indigo-700" aria-hidden="true" />
+                                        <User className="h-8 w-8 border border-black rounded-full text-black" aria-hidden="true" />
                                     )}
                                     <span>Hi, {user?.displayName || user?.email}</span>
                                 </div>
 
-
                                 <button
                                     onClick={handleLogout}
-                                    className="px-4 py-1.5 text-md font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none  focus:ring-gray-300 focus:ring-opacity-50   bg-white text-gray-700 border border-gray-300 hover:bg-gray-50  hidden sm:block"
+                                    className="px-4 py-1.5 text-md font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
                                 >
                                     Logout
                                 </button>
@@ -191,43 +173,20 @@ export default function Navbar() {
                     </div>
                 </div>
 
-
                 {/* Mobile Menu */}
                 {isOpen && (
-
-                    <nav
-                        className="lg:hidden mt-2 space-y-2 pb-3 border-t border-gray-200"
-                        aria-label="Mobile Primary"
-                    >
-
-
-                        <Link
-                            onClick={closeMobileMenu}
-                            href="/"
-                            className={getMobileLinkClasses("/")}
-                        >
+                    <nav className="lg:hidden mt-2 space-y-2 pb-3 border-t border-gray-200" aria-label="Mobile Primary">
+                        <Link onClick={closeMobileMenu} href="/" className={getMobileLinkClasses("/")}>
                             Home
                         </Link>
-                        <Link
-                            onClick={closeMobileMenu}
-                            href="/about"
-                            className={getMobileLinkClasses("/about")}
-                        >
+                        <Link onClick={closeMobileMenu} href="/about" className={getMobileLinkClasses("/about")}>
                             About
                         </Link>
-                        <Link
-                            onClick={closeMobileMenu}
-                            href="/blogs"
-                            className={getMobileLinkClasses("/blogs")}
-                        >
+                        <Link onClick={closeMobileMenu} href="/blogs" className={getMobileLinkClasses("/blogs")}>
                             Blogs
                         </Link>
                         {user && (
-                            <Link
-                                onClick={closeMobileMenu}
-                                href="/create"
-                                className={getMobileLinkClasses("/create")}
-                            >
+                            <Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>
                                 Create
                             </Link>
                         )}
@@ -236,29 +195,27 @@ export default function Navbar() {
                             <Link
                                 onClick={closeMobileMenu}
                                 href="/auth/login"
-                                className={getMobileLinkClasses("/auth/login") + " text-white  max-w-1/4 text-center bg-indigo-700 hover:bg-indigo-700 hover:text-white"}
+                                className={getMobileLinkClasses("/auth/login") + " text-white bg-black hover:bg-gray-900 w-full text-center"}
                             >
                                 Login
                             </Link>
                         )}
 
-                        {/* 🌟 NEW: Mobile Logout Button 🌟 */}
                         {user && (
                             <button
                                 onClick={() => {
-                                    handleLogout(); // Execute the logout logic
-                                    closeMobileMenu(); // Close the menu immediately after initiating logout
+                                    handleLogout();
+                                    closeMobileMenu();
                                 }}
-                                // Uses the base style, but modifies color to red for visual distinction
                                 className={`${mobileBaseStyle} text-red-600 hover:bg-red-50 hover:text-red-700 w-full text-left`}
                             >
                                 Logout
                             </button>
                         )}
-
                     </nav>
                 )}
             </div>
         </header>
+
     );
 }

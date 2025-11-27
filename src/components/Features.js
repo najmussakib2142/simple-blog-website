@@ -1,6 +1,6 @@
 "use client"; // Added this line to enable Framer Motion animation
 
-import { PencilLine, BookOpen, Lock, Smartphone, ArrowRight } from "lucide-react";
+import { PencilLine, BookOpen, Lock, Smartphone, ArrowRight, Heart } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion"; // Import motion
 
@@ -50,19 +50,21 @@ const itemVariants = {
 
 export default function Features() {
     return (
-        <section className="py-20 md:py-28 bg-white"> 
+        <section className="py-20 md:py-28 bg-white">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                
+
                 {/* Section Header - Consistent Modern Styling */}
                 <div className="text-center mb-16">
-                    <p className="text-base font-semibold text-indigo-700 uppercase tracking-widest mb-3">
+                    <p className="text-base font-semibold text-black uppercase tracking-widest mb-3 flex items-center justify-center gap-3">
+                        {/* <Heart className="w-5 h-5 text-gray-600" /> */}
                         Core Value
+                        <BookOpen className="w-5 h-5 text-gray-600" />
                     </p>
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+                    <h2 className="text-4xl md:text-4xl font-semibold text-gray-900 leading-snug">
                         Built for Writers & Readers
                     </h2>
                 </div>
-                
+
                 {/* Features Grid - Framer Motion Container */}
                 <motion.div
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" // Increased gap for more breathing room
@@ -76,22 +78,22 @@ export default function Features() {
                             key={index}
                             variants={itemVariants} // Apply the item animation
                             // Make the card clickable and link to the feature's purpose
-                            className="bg-gray-50 p-8 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl hover:bg-white border-b-4 border-transparent hover:border-indigo-600 cursor-pointer"
+                            className="bg-gray-50 p-8 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl hover:bg-white border-b-4 border-transparent hover:border-gray-800 cursor-pointer"
                         >
                             {/* Icon Container - Clean, modern circle/square design */}
                             <div className="flex items-center justify-center w-14 h-14 mb-5 rounded-full bg-indigo-100/70">
                                 {/* Icon color is the accent color */}
-                                <feature.icon className="w-7 h-7 text-indigo-600" />
+                                <feature.icon className="w-7 h-7 text-gray-800" />
                             </div>
-                            
+
                             <h3 className="text-xl font-bold text-gray-900 mb-3">
                                 {feature.title}
                             </h3>
-                            
+
                             <p className="text-gray-600 text-base">
                                 {feature.description}
                             </p>
-                            
+
                             {/* Hidden link for better accessibility (optional) */}
                             <Link href={feature.link} className="sr-only">
                                 Learn more about {feature.title}
@@ -99,17 +101,17 @@ export default function Features() {
                         </motion.div>
                     ))}
                 </motion.div>
-                
+
                 {/* Optional CTA/Footer - Consistent Link Styling */}
                 <div className="text-center mt-20 pt-10 border-t border-gray-200">
                     <p className="text-xl text-gray-700 mb-4">
                         Ready to join our community?
                     </p>
-                    <Link 
-                        href="#" 
-                        className="inline-flex items-center text-lg font-semibold text-indigo-700 hover:text-indigo-900 transition underline-offset-5 hover:underline"
+                    <Link
+                        href="/auth/register"
+                        className="inline-flex items-center text-lg font-semibold text-black hover:text-gray-900 transition underline-offset-5 hover:underline"
                     >
-                        Create your free account today 
+                        Create your free account today
                         <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
                 </div>

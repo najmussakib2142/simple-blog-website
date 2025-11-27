@@ -35,22 +35,23 @@ async function fetchLatestPost() {
 // ⚡️ STAGGERED HOVER TITLE COMPONENT (Defined before FeaturedPost)
 // ----------------------------------------------------------------------
 
-const INITIAL_COLOR = '#111827'; // Tailwind 'gray-900'
-const HOVER_COLOR = '#4f46e5'; // Tailwind 'indigo-600' (Using one color for a clear stagger effect)
+const INITIAL_COLOR = '#111827'; // black
+const HOVER_COLOR = 'linear-gradient(90deg, #111827, #374151, #111827)';
+
 
 const StaggeredHoverTitle = ({ title, postLink }) => {
   const characters = (title || '').split('');
-  
+
   const [scope, animate] = useAnimate();
   // Using a simple state to track if an animation is currently running
-  const [isAnimating, setIsAnimating] = useState(false); 
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const runAnimation = async (direction) => {
     if (isAnimating) return; // Prevent animation stacking
     setIsAnimating(true);
-    
+
     const targetColor = direction === 'hover' ? HOVER_COLOR : INITIAL_COLOR;
-    
+
     // Determine the sequence: forward for hover, reverse for unhover
     const indices = Array.from({ length: characters.length }, (_, i) => i);
     const order = direction === 'hover' ? indices : indices.slice().reverse();
@@ -58,11 +59,11 @@ const StaggeredHoverTitle = ({ title, postLink }) => {
     const sequence = order.map((index, sequenceIndex) => {
       const charId = `#char-${index}`;
       // Staggered delay (0.02s per character)
-      const delay = sequenceIndex * 0.02; 
-      
+      const delay = sequenceIndex * 0.02;
+
       return [
-        charId, 
-        { color: targetColor }, 
+        charId,
+        { color: targetColor },
         { duration: 0.3, delay: delay, ease: "easeInOut" }
       ];
     });
@@ -70,7 +71,7 @@ const StaggeredHoverTitle = ({ title, postLink }) => {
     await animate(sequence);
     setIsAnimating(false);
   };
-  
+
   const handleMouseEnter = () => runAnimation('hover');
   const handleMouseLeave = () => runAnimation('unhover');
 
@@ -81,13 +82,13 @@ const StaggeredHoverTitle = ({ title, postLink }) => {
         className="block"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        ref={scope} 
+        ref={scope}
       >
         {characters.map((char, index) => (
           <motion.span
             key={index}
             id={`char-${index}`}
-            style={{ color: INITIAL_COLOR }} 
+            style={{ color: INITIAL_COLOR }}
             className="inline-block transition-colors duration-300" // Fallback transition
           >
             {char === ' ' ? '\u00A0' : char}
@@ -142,7 +143,7 @@ export default function FeaturedPost() {
   const postLink = `/blogs/${blog._id}`;
 
   return (
-    <section className="py-16 md:py-24 bg-white overflow-hidden">
+    <section className="py-16 md:py-24 bg-[#FAFAFA] overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -174,38 +175,44 @@ export default function FeaturedPost() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="order-2 lg:order-1 space-y-5"
           >
-            <p className="inline-flex items-center text-sm font-semibold text-indigo-700 bg-indigo-100 rounded-full px-3 py-1 uppercase tracking-widest shadow-sm">
-              <CornerUpRight className="w-4 h-4 mr-2" />
+            {/* Badge */}
+            <p className="inline-flex items-center text-sm font-semibold text-black bg-black/5 rounded-full px-3 py-1 uppercase tracking-widest shadow-sm">
+              <CornerUpRight className="w-4 h-4 mr-2 text-black" />
               Featured Article
             </p>
 
-            {/* 🔥 INTEGRATE THE NEW STAGGERED TITLE HERE 🔥 */}
-            <StaggeredHoverTitle 
-                title={blog.title} 
-                postLink={postLink} 
+            {/* Staggered Gradient Title */}
+            <StaggeredHoverTitle
+              title={blog.title}
+              postLink={postLink}
             />
-            
-            <p className="text-lg text-gray-600 max-w-xl line-clamp-3">
+
+            {/* Description */}
+            <p className="text-lg text-gray-700 max-w-xl line-clamp-3">
               {blog.description}
             </p>
 
             {/* Metadata */}
             <div className="flex items-center text-sm text-gray-500 pt-2">
-              <Clock className="w-4 h-4 mr-2 text-indigo-500" />
+              <Clock className="w-4 h-4 mr-2 text-gray-500" />
               Published on {formatPostDate(blog.createdAt)}
             </div>
 
             {/* CTA */}
             <Link
               href={postLink}
-              className="inline-flex items-center mt-6 px-8 py-3 bg-indigo-700 text-white text-lg font-medium rounded-xl shadow-lg hover:bg-indigo-600 transition transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex group items-center mt-6  text-gray-800 hover:text-black text-lg font-medium   transition transform hover:scale-[1.02] active:scale-[0.98]"
             >
-              Continue Reading
-              <ArrowRight className="w-5 h-5 ml-2" />
+            Continue Reading
+              <ArrowRight className="w-4 h-4 text-black/60 transition-all duration-300 group-hover:text-black group-hover:translate-x-1 ml-2" />
+              <span
+                className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-800  group-hover:text-black group-hover:translate-x-1  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+              ></span>
             </Link>
           </motion.div>
         </div>
       </div>
     </section>
+
   );
 }

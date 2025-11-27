@@ -6,7 +6,7 @@ import RegisterForm from "@/components/RegisterForm";
 
 export default function RegisterPage() {
   return (
-    <div className="flex bg-gray-50 min-h-screen justify-center items-center  px-4 sm:px-6">
+    <div className="flex bg-gray-50 py-12 md:py-16 min-h-screen justify-center items-center  px-4 sm:px-6">
       {/* <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8 sm:p-10 border border-gray-200"> */}
         {/* <h2 className="text-3xl font-extrabold mb-2 text-center text-indigo-700">
           Join SimpleBlog

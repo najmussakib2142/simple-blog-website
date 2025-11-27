@@ -1,6 +1,6 @@
 // /components/Category.jsx
 "use client";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Grid, Layers, Tag } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -26,10 +26,12 @@ export default function Category() {
     const categories = ['Tech', 'Lifestyle', 'Health', 'Business', 'Education', 'Travel'];
 
     return (
-        <section className="py-16 bg-[#FAFAFA]">
+        <section className="py-16 bg-white">
             <div className="max-w-5xl mx-auto px-4">
-                <h1 className="font-semibold text-3xl text-black  text-center mb-2">
+                <h1 className="flex items-center justify-center gap-4 text-4xl font-semibold text-gray-900 mb-2">
+                    {/* <Grid className="w-6 h-6 text-gray-600" /> */}
                     Browse by Category
+                    <Layers className="w-6 h-6 text-gray-600" />
                 </h1>
                 <p className="text-center text-gray-600 mb-8">
                     Select a category to see more related content

@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText, RefreshCcw } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
@@ -47,15 +47,17 @@ export default function BlogPreview() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28 bg-[#F2F3E8]">
+    <section className="py-20 md:py-28 bg-[#FAFAFA]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <p className="text-base font-semibold text-indigo-700 uppercase tracking-widest mb-3">
+          <p className="text-base font-semibold text-gray-900 uppercase tracking-widest mb-3 flex items-center justify-center gap-3">
+            <RefreshCcw className="w-5 h-5 text-gray-500" />
             Fresh Content
+            {/* <FileText className="w-5 h-5 text-gray-500" /> */}
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+          <h2 className="text-4xl md:text-4xl font-semibold text-black leading-snug">
             Our Latest Articles
           </h2>
         </div>
@@ -67,7 +69,7 @@ export default function BlogPreview() {
             ))}
           </div>
         ) : blogs.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl shadow-xl">
+          <div className="text-center py-16 bg-[#FAFAFA] rounded-2xl shadow-xl">
             <p className="text-xl text-gray-500 mb-6">
               No articles found. Be the first to publish a post!
             </p>
@@ -90,7 +92,7 @@ export default function BlogPreview() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
+                    className="bg-[#F2F3E8]/60 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
                   >
                     {/* Image */}
                     {blog.imageUrl && (
@@ -117,7 +119,7 @@ export default function BlogPreview() {
                         </h3>
                       </Link> */}
                         <div className="group inline-block">
-                          <h3 className=" text-2xl md:text-3xl font-bold text-gray-900  group-hover:text-gray-900 transition relative w-fit">
+                          <h3 className=" text-2xl md:text-3xl font-semibold text-gray-900  group-hover:text-gray-900 transition relative w-fit">
                             {blog.title}
                             <span className="  absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300"></span>
                           </h3>
@@ -125,7 +127,7 @@ export default function BlogPreview() {
 
 
                         {/* Meta Info */}
-                        <div className="flex items-center gap-4 text-gray-500 text-sm mt-2">
+                        <div className="flex items-center gap-4 text-gray-600 text-sm mt-2">
                           <span className="font-medium">{blog.author || "Guest Contributor"}</span>
                           <span>•</span>
                           <span>{new Date(blog.createdAt).toLocaleDateString("en-US", {
@@ -135,7 +137,7 @@ export default function BlogPreview() {
                           })}</span>                      </div>
 
                         {/* Excerpt */}
-                        <p className="text-gray-600 mt-3 leading-relaxed">
+                        <p className="text-gray-700 mt-3 leading-relaxed">
                           {blog.excerpt || (blog.content?.slice(0, 120) + "...")}
                         </p>
                       </div>
@@ -150,13 +152,13 @@ export default function BlogPreview() {
                     </Link> */}
                       <Link
                         href={`/blogs/${blog._id}`}
-                        className="group inline-flex items-center mt-4 text-indigo-700 font-semibold relative w-fit"
+                        className="group inline-flex items-center mt-4 text-gray-800 font-semibold relative w-fit"
                       >
                         Read More
 
                         {/* Underline */}
                         <span
-                          className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-indigo-700  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                          className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-800  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                         ></span>
 
                         <ArrowRight className="w-4 h-4 ml-1" />
@@ -172,7 +174,7 @@ export default function BlogPreview() {
             <div className="text-center mt-16">
               <Link
                 href="/blogs"
-                className="inline-flex items-center px-8 py-3 text-lg font-semibold text-indigo-700 border-2 border-indigo-200 bg-white rounded-xl shadow-md hover:bg-indigo-50 transition duration-300"
+                className="inline-flex items-center px-8 py-3 text-lg font-semibold text-black border-2 border-gray-300 bg-white rounded-xl shadow-md hover:bg-gray-50 transition duration-300"
               >
                 View All Posts
                 <ArrowRight className="w-5 h-5 ml-2" />
