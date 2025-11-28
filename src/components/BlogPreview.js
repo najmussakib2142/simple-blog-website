@@ -75,7 +75,7 @@ export default function BlogPreview() {
             </p>
             <Link
               href="/blogs/create"
-              className="inline-flex items-center mt-2 px-8 py-3 bg-indigo-700 text-white rounded-xl font-semibold hover:bg-indigo-600 transition"
+              className="inline-flex items-center mt-2 px-8 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900  rounded-xl font-semibold transition"
             >
               Start Writing Today
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -92,7 +92,7 @@ export default function BlogPreview() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-[#F2F3E8]/60 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
+                    className="bg-[#F2F3E8]/50 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
                   >
                     {/* Image */}
                     {blog.imageUrl && (

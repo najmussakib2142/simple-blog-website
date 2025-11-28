@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   photoURL: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
+  role: { type: String, default: "user", enum: ["user", "admin"] }
 });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

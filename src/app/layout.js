@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 // import NavbarWrapper from "@/components/NavbarWrapper";
 import FooterWrapper from "@/components/FooterWrapper";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,8 @@ export default function RootLayout({ children }) {
       
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
         <AuthProvider>
-          <Navbar />
+          {/* <Navbar /> */}
+          <NavbarWrapper />
           <main className="bg-[#FAFAFA] pt-14">{children}</main>
           <FooterWrapper />
         </AuthProvider>

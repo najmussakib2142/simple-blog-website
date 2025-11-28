@@ -4,7 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Clock, ArrowRight, CornerUpRight } from "lucide-react";
 import { motion, useCycle, useAnimate } from "framer-motion"; // ✨ Added useCycle and useAnimate here
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
 
 // Helper function for clearer date formatting
 function formatPostDate(dateString) {

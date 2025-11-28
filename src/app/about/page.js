@@ -117,13 +117,13 @@ export default function AboutPage() {
                     <div className="flex flex-wrap gap-4 justify-center">
                         <Link
                             href="/blogs"
-                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-black/90 text-white font-medium rounded-lg hover:bg-black transition-colors shadow-md"
+                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900   text-white font-medium rounded-lg  transition-colors shadow-md"
                         >
                             Explore Blogs
                         </Link>
                         <Link
                             href="/blogs/create"
-                            className="inline-flex items-center px-6 sm:px-8 py-3 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                            className="inline-flex items-center px-6 sm:px-8 py-3 border-gray-400 text-black hover:bg-gray-100 border  font-medium rounded-lg transition-colors"
                         >
                             Write Your First Post
                         </Link>

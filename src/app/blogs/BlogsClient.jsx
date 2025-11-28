@@ -60,7 +60,7 @@ export default function BlogsClient({ blogs, totalPages, currentPage }) {
                 <div className="mt-8">
                     <Link
                         href={writePostHref}
-                        className="inline-flex items-center px-6 py-3 text-lg font-medium text-black border-2 border-gray-300 bg-gray-50 rounded-xl shadow-md hover:bg-white transition duration-300"
+                        className="inline-flex items-center px-6 py-3 text-lg font-medium border-gray-400 text-black hover:bg-gray-100  border-2  bg-gray-50 rounded-xl shadow-md  transition duration-300"
                     >
                         Write a Post
                         <ArrowRight className="w-5 h-5 ml-2" />

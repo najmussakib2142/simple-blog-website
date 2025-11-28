@@ -8,7 +8,7 @@ import { PenTool, User } from 'lucide-react';
 import Image from "next/image";
 
 export default function Navbar() {
-    const { user, logout } = useAuth(); // logout comes from AuthContext
+    const { user, loading, logout } = useAuth();
     const [isOpen, setOpen] = useState(false);
     const closeMobileMenu = () => setOpen(false);
     const currentPath = usePathname();
@@ -126,6 +126,11 @@ export default function Navbar() {
                                 Create
                             </Link>
                         )}
+                        {!loading && user?.role === "admin" && (
+                            <Link href="/admin" className={getDesktopLinkClasses("/admin")}>
+                                Admin Dashboard
+                            </Link>
+                        )}
                     </nav>
 
                     {/* Right: auth */}
@@ -134,13 +139,13 @@ export default function Navbar() {
                             <div className="flex items-center gap-3">
                                 <Link
                                     href="/auth/login"
-                                    className="px-4 py-1.5 text-sm font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
+                                    className="px-4 py-1.5 text-sm font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] border-gray-400 text-black hover:bg-gray-100 bg-white  border  hidden sm:block"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="md:px-4 px-4 py-1.5 border border-black bg-black text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md hover:bg-gray-900 transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
+                                    className="md:px-4 px-4 py-1.5 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900    text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md  transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
                                 >
                                     Register
                                 </Link>
@@ -159,7 +164,7 @@ export default function Navbar() {
                                     ) : (
                                         <User className="h-8 w-8 border border-black rounded-full text-black" aria-hidden="true" />
                                     )}
-                                    <span>Hi, {user?.displayName || user?.email}</span>
+                                    <span>Hi, {user?.displayName || user?.email}</span> 
                                 </div>
 
                                 <button
@@ -188,6 +193,11 @@ export default function Navbar() {
                         {user && (
                             <Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>
                                 Create
+                            </Link>
+                        )}
+                        {!loading && user?.role === "admin" && (
+                            <Link href="/admin" className={getDesktopLinkClasses("/admin")}>
+                                Admin Dashboard
                             </Link>
                         )}
 
