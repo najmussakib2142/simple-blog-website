@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
           email: firebaseUser.email,
           photoURL: firebaseUser.photoURL,
           role: dbUser.role || "user",
-          token,
+          token, // from firebaseUser.getIdToken()
         });
       } catch (err) {
         console.error(err);

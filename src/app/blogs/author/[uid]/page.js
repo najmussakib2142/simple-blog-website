@@ -23,8 +23,9 @@ export default async function AuthorBlogsPage({ params }) {
 
     return (
         <section className="py-10 min-h-screen max-w-6xl mx-auto px-4">
-            <h1 className="text-2xl text-black font-bold mb-8 ">
-                Blogs by {blogs[0].author || "Unknown Author"}
+            <h1 className="text-4xl text-gray-600 font-semibold mb-12  ">
+                Blogs Created by <span className="text-black">{blogs[0].author || "Unknown Author"}</span>
+
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

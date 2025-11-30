@@ -105,7 +105,7 @@ export default function BlogForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user.token;
       const response = await fetch("/api/blogs", {
         method: "POST",
         headers: {

@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import mongoose from "mongoose";
 import { verifyUser } from "@/lib/verifyUser"
-
+import User from "@/models/User";
 
 // export async function GET(req, { params }) {
 //   await connectDB();
@@ -33,7 +33,7 @@ import { verifyUser } from "@/lib/verifyUser"
 export async function GET(req, { params }) {
   await connectDB();
 
-  const { id } = await params; 
+  const { id } = await params;
 
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -71,7 +71,7 @@ export async function GET(req, { params }) {
 
 export async function PATCH(req, { params }) {
   await connectDB();
-  const { id } = await  params;
+  const { id } = await params;
   const body = await req.json();
 
   // console.log("Updating blog with id:", id);
@@ -85,16 +85,28 @@ export async function PATCH(req, { params }) {
       return new Response(JSON.stringify({ error: "Blog not found" }), { status: 404 });
     }
 
-    if (blog.authorUid !== decoded.uid) {
+    const userFromDB = await User.findOne({ uid: decoded.uid });
+
+    const isOwner = blog.authorUid === decoded.uid;
+    const isAdmin = userFromDB && userFromDB.role === 'admin';
+
+    if (!isOwner && !isAdmin) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403 });
     }
+    // if (blog.authorUid !== decoded.uid) {
+    //   return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403 });
+    // }
 
     const updatedBlog = await Blog.findByIdAndUpdate(id, { $set: body }, { new: true });
     return new Response(JSON.stringify(updatedBlog), { status: 200 });
   } catch (error) {
+    console.error("Mongoose/API PATCH Error:", error.message, error.name, error);
     return new Response(JSON.stringify({ error: error.message }), { status: 400 });
   }
+
 }
+
+
 
 
 
@@ -131,9 +143,19 @@ export async function DELETE(req, { params }) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    if (blog.authorUid !== decoded.uid) {
+    const userFromDB = await User.findOne({ uid: decoded.uid });
+
+
+    const isOwner = blog.authorUid === decoded.uid;
+    const isAdmin = userFromDB && userFromDB.role === 'admin';
+
+    if (!isOwner && !isAdmin) { // Block if NOT the owner AND NOT an admin
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
+
+    // if (blog.authorUid !== decoded.uid) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    // }
 
     await blog.deleteOne();
     return NextResponse.json({ message: "Blog deleted" }, { status: 200 });

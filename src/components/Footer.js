@@ -14,7 +14,7 @@ export default function Footer() {
     return (
         // 1. Cleaner Background: bg-white with a subtle top border
         <footer className="bg-cover border-t-2 border-[#F2F3E8] bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/bg-6.jpg')" }} >
+            style={{ backgroundImage: "url('/bg-6.jpg')" }} >
             <CTA />
             <div className="w-full bg-gray-100/90 pb-4 text-gray-900 border-t-2 border-[#F2F3E8]">
                 <div className="max-w-6xl mx-auto px-6 md:px-8 pt-4 pb-4 md:pb-4">
@@ -28,9 +28,11 @@ export default function Footer() {
                                 <Feather className="w-7 h-7 mr-2" />
                                 SimpleBlog
                             </Link> */}
-                            <p className="text-base text-center md:pb-1 md:text-start pt-1 text-gray-600 leading-relaxed max-w-sm">
-                                A simple platform for sharing ideas and stories.
-                            </p>
+                            <div className="flex items-center justify-center md:justify-start">
+                                <p className="text-base text-center md:pb-1 md:text-start pt-1 text-gray-600 leading-relaxed max-w-sm">
+                                    A simple platform for sharing ideas and stories.
+                                </p>
+                            </div>
                             <div className="border-t border-gray-200 flex flex-col  sm:flex-row justify-start items-center">
                                 <p className="text-sm pt-1 text-gray-500 order-2 sm:order-1 mt-4 sm:mt-0">
                                     &copy; {currentYear} SimpleBlog. All rights reserved.
@@ -62,22 +64,22 @@ export default function Footer() {
                         </div> */}
                         <div className=" md:pr-63 flex  justify-center pb-1 md:pb-0 gap-8">
                             <div>
-                                <a href="#"
+                                <Link href="/privacy-policy"
                                     className="text-gray-600 pb-0.5 group relative " >
                                     Privacy Policy
                                     <span
                                         className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-600  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                                     ></span>
-                                </a>
+                                </Link>
                             </div>
                             <div>
-                                <a href="#"
+                                <Link href="/terms-of-service"
                                     className="text-gray-600 pb-0.5 group relative " >
                                     Terms of Service
                                     <span
                                         className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-600  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                                     ></span>
-                                </a>
+                                </Link>
                             </div>
 
                             {/* <a href="#" className="text-gray-600 ">Terms of Service</a> */}

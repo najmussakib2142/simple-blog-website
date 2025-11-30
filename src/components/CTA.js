@@ -13,7 +13,7 @@ export default function CTA() {
 
                 {/* Text Content */}
                 <div className="text-center md:text-left">
-                    <h3 className="text-4xl md:text-4xl  text-[#0A101A] font-semibold mb-2 leading-tight flex items-center  md:justify-start gap-2">
+                    <h3 className="text-4xl md:text-4xl  text-[#0A101A] font-semibold mb-2 leading-tight flex items-center justify-center  md:justify-start gap-2">
                         {/* <Mail className="w-8 h-8 text-black-400" /> */}
                         Get Our Best Content <br/> Delivered
                     </h3>

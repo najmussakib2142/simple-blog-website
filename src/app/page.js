@@ -12,9 +12,9 @@ export default function Home() {
       <Hero />
       {/* <AsFeaturedIn /> */}
       <FeaturedPost />
-      <AuthorsSection />
       <Category />
       <BlogPreview />
+      <AuthorsSection />
       <Features />
       {/* <Categories></Categories> */}
       <Author />

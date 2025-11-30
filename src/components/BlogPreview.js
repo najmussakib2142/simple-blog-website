@@ -47,7 +47,7 @@ export default function BlogPreview() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28 bg-[#FAFAFA]">
+    <section className="py-16 md:pt-24 md:pb-16 bg-[#FAFAFA]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}

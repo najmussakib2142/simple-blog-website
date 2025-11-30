@@ -9,7 +9,7 @@ export default async function CategoryPage(props) {
     const blogs = await getBlogsByCategory(category);
 
     return (
-        <section className="py-16   bg-[#F2F3E8]">
+        <section className="py-16 min-h-screen  bg-[#F2F3E8]">
 
             {/* Category Heading */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
