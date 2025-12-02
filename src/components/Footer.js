@@ -42,26 +42,7 @@ export default function Footer() {
 
                         </div>
 
-                        {/* Link Columns (Space-x-2 added for subtle hover separation) */}
-                        {/* Explore Links */}
-                        {/* <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                        <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Explore</h4>
-                        <ul className="space-y-3 text-base">
-                            <li><Link href="/blogs" className="text-gray-600 hover:text-indigo-700 transition-colors">All Blogs</Link></li>
-                            <li><Link href="create" className="text-gray-600 hover:text-indigo-700 transition-colors">Start Writing</Link></li>
-                            <li><Link href="/about" className="text-gray-600 hover:text-indigo-700 transition-colors">About Us</Link></li>
-                        </ul>
-                    </div> */}
 
-                        {/* Legal & Resources */}
-                        {/* <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                            <h4 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Resources</h4>
-                            <ul className="space-y-3 text-base">
-                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Contact Support</a></li>
-                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Privacy Policy</a></li>
-                                <li><a href="#" className="text-gray-600 hover:text-indigo-700 transition-colors">Terms of Service</a></li>
-                            </ul>
-                        </div> */}
                         <div className=" md:pr-63 flex  justify-center pb-1 md:pb-0 gap-8">
                             <div>
                                 <Link href="/privacy-policy"

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
-import { PenTool, User } from 'lucide-react';
+import { PenTool, Search, User } from 'lucide-react';
 import Image from "next/image";
 
 export default function Navbar() {
@@ -12,7 +12,16 @@ export default function Navbar() {
     const [isOpen, setOpen] = useState(false);
     const closeMobileMenu = () => setOpen(false);
     const currentPath = usePathname();
+    const [showSearch, setShowSearch] = useState(false);
+    const [query, setQuery] = useState("");
     const router = useRouter();
+
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        router.push(`/blogs?search=${query}`);
+        setShowSearch(false);
+    };
 
     const handleLogout = async () => {
         // Show confirmation dialog
@@ -74,9 +83,7 @@ export default function Navbar() {
 
 
     return (
-        <header className="w-full fixed top-0 left-0 right-0 z-50 
-                   bg-white/70 backdrop-blur-lg border-b border-gray-200 
-                   text-black shadow-sm">
+        <header className="w-full fixed top-0 left-0 right-0 z-50           bg-white/70 backdrop-blur-lg border-b border-gray-200   text-black shadow-sm">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14">
 
@@ -135,6 +142,54 @@ export default function Navbar() {
 
                     {/* Right: auth */}
                     <div className="flex items-center gap-4">
+                        {/* <div>
+                            <button
+                                onClick={() => setShowSearch(!showSearch)}
+                                className="p-2 hover:bg-gray-100 rounded-md"
+                            >
+                                <Search className="w-5 h-5" />
+                            </button>
+
+                            {showSearch && (
+                                <form
+                                    onSubmit={handleSearch}
+                                    className="absolute top-14 right-4 bg-white border shadow-lg p-2 rounded-lg flex"
+                                >
+                                    <input
+                                        type="text"
+                                        placeholder="Search blogs..."
+                                        className="border p-2 rounded-md w-48"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                    />
+                                </form>
+                            )}
+                        </div> */}
+
+                        <div className="flex items-center space-x-2">
+                            {/* Toggle button */}
+                            <button
+                                onClick={() => setShowSearch(!showSearch)}
+                                className="p-2 hover:bg-gray-100 rounded-md"
+                            >
+                                <Search className="w-5 h-5" />
+                            </button>
+
+                            {/* Search field inline in navbar */}
+                            {showSearch && (
+                                <form onSubmit={handleSearch} className="flex items-center">
+                                    <input
+                                        type="text"
+                                        placeholder="Search blogs..."
+                                        className="border p-1 rounded-md w-48"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                    />
+                                </form>
+                            )}
+                        </div>
+
+
                         {!user ? (
                             <div className="flex items-center gap-3">
                                 <Link
@@ -145,7 +200,7 @@ export default function Navbar() {
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="md:px-4 px-4 py-1.5 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900    text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md  transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
+                                    className="md:px-4 px-4 py-1.5 bg-linear-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900    text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md  transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
                                 >
                                     Register
                                 </Link>
@@ -164,7 +219,7 @@ export default function Navbar() {
                                     ) : (
                                         <User className="h-8 w-8 border border-black rounded-full text-black" aria-hidden="true" />
                                     )}
-                                    <span>Hi, {user?.displayName || user?.email}</span> 
+                                    {/* <span>Hi, {user?.displayName || user?.email}</span> */}
                                 </div>
 
                                 <button
@@ -196,7 +251,7 @@ export default function Navbar() {
                             </Link>
                         )}
                         {!loading && user?.role === "admin" && (
-                            <Link href="/admin" className={getDesktopLinkClasses("/admin")}>
+                            <Link href="/admin" className={getMobileLinkClasses("/admin")}>
                                 Admin Dashboard
                             </Link>
                         )}

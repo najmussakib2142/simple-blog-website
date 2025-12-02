@@ -13,6 +13,8 @@ export async function GET(req) {
   await connectDB();
 
   try {
+    const search = req.nextUrl.searchParams.get("search") || "";
+    const category = req.nextUrl.searchParams.get("category") || "";
     const pageParam = req.nextUrl.searchParams.get("page");
     const limitParam = req.nextUrl.searchParams.get("limit");
 
@@ -26,10 +28,23 @@ export async function GET(req) {
     const page = Number(pageParam) || 1;
     const limit = Number(limitParam) || 6;
 
-    const totalBlogs = await Blog.countDocuments();
+    let filter = {};
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { content: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    if (category) {
+      filter.category = category;
+    }
+
+    const totalBlogs = await Blog.countDocuments(filter);
     const totalPages = Math.ceil(totalBlogs / limit);
 
-    const blogs = await Blog.find()
+    const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
@@ -39,7 +54,9 @@ export async function GET(req) {
       { status: 200 }
     );
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500
+    });
   }
 }
 

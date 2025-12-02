@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import { loginUser } from "@/lib/auth"; // Your login logic
+import Link from "next/link";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -100,9 +101,9 @@ export default function LoginForm() {
           </label>
         </div>
         <div className="text-sm">
-          <a href="#" className="font-medium text-gray-800 hover:text-black/60 transition-colors">
+          <Link href="#" className="font-medium text-gray-800 hover:text-black/60 transition-colors">
             Forgot your password?
-          </a>
+          </Link>
         </div>
       </div>
 

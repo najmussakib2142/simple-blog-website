@@ -84,7 +84,7 @@ export default function BlogPreview() {
         ) : (
           <>
             {/* Blog List with Images */}
-            <div className="space-y-10">
+            <div className="space-y-8">
               {blogs.map((blog, index) => (
                 <Link href={`/blogs/${blog._id}`} key={blog._id} className="block">
                   <motion.div
@@ -92,11 +92,11 @@ export default function BlogPreview() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-[#F2F3E8]/50 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
+                    className="bg-[#F2F3E8]/60 p-6  border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 "
                   >
                     {/* Image */}
                     {blog.imageUrl && (
-                      <div className="w-full md:w-40 h-40 relative shrink-0 rounded-lg overflow-hidden">
+                      <div className="w-full md:w-40 h-40 relative shrink-0 rounded-md overflow-hidden">
                         <Image
                           src={blog.imageUrl}
                           alt={blog.title}
@@ -104,8 +104,6 @@ export default function BlogPreview() {
                           className="object-cover"
                           sizes="160px"
                         />
-
-
                       </div>
                     )}
 

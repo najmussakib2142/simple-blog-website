@@ -1,144 +1,222 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import BlogCard from "@/components/BlogCard";
-import { useEffect, useState } from "react";
-import { Archive, ArrowLeft, ArrowRight, FileText } from "lucide-react";
+import { Archive, ArrowLeft, ArrowRight } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
-export default function BlogsClient({ blogs, totalPages, currentPage }) {
+export default function BlogsClient() {
     const { user } = useAuth();
+    const router = useRouter();
 
-    const [blogList, setBlogList] = useState(blogs);
-    const [page, setPage] = useState(currentPage || 1);
-    const [pages, setPages] = useState(totalPages || 1);
+    const [blogs, setBlogs] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [searchText, setSearchText] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    // If logged in → go create page, else go to login with redirect
     const writePostHref = user ? "/create" : "/auth/login?redirect=/create";
 
+    // Sync inputs with URL query
     useEffect(() => {
-        async function fetchPage(p) {
-            const res = await fetch(`/api/blogs?page=${p}&limit=6`);
-            const data = await res.json();
+        const query = Object.fromEntries(new URLSearchParams(window.location.search));
+        setPage(Number(query.page) || 1);
+        setSearchText(query.search || "");
+        setSelectedCategory(query.category || "");
+    }, [router.asPath]);
 
-            setBlogList(data.blogs);
-            setPages(data.totalPages);
-            setPage(data.currentPage); // if your API returns currentPage
+    // Fetch blogs when page, search, or category changes
+    useEffect(() => {
+        async function fetchBlogs() {
+            setLoading(true);
+            try {
+                const params = new URLSearchParams({
+                    page,
+                    limit: 6,
+                    search: searchText,
+                    category: selectedCategory,
+                });
+                const url = `/api/blogs?${params.toString()}`;
+                const res = await fetch(url, { cache: "no-store" });
+
+                if (!res.ok) {
+                    setBlogs([]);
+                    setTotalPages(1);
+                    return;
+                }
+
+                const data = await res.json();
+                setBlogs(data.blogs || []);
+                setTotalPages(data.totalPages || 1);
+            } catch (err) {
+                console.error(err);
+                setBlogs([]);
+                setTotalPages(1);
+            } finally {
+                setLoading(false);
+            }
         }
 
-        fetchPage(page); // use state variable
-    }, [page]);
+        fetchBlogs();
+    }, [page, searchText, selectedCategory]);
+
+    // Handle filter button click
+    const handleFilter = () => {
+        setPage(1);
+        const params = new URLSearchParams();
+        if (searchText) params.set("search", searchText);
+        if (selectedCategory) params.set("category", selectedCategory);
+        params.set("page", "1");
+
+        router.push(`/blogs?${params.toString()}`);
+    };
+
+    // Pagination
+    const goToPage = (newPage) => {
+        const params = new URLSearchParams();
+        if (searchText) params.set("search", searchText);
+        if (selectedCategory) params.set("category", selectedCategory);
+        params.set("page", newPage);
+
+        router.push(`/blogs?${params.toString()}`);
+    };
 
     return (
         <div className="bg-[#F2F3E8]">
-            {/* Hero Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            {/* Hero */}
+            <section className="pt-16 pb-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
                 <div className="space-y-4">
-                    <div className="">
-                        <p className="text-black pb-2 font-semibold uppercase text-md tracking-wide flex items-center gap-3">
-                            All Posts
-                            <Archive className="w-5 h-5 text-gray-600" />
-                            {/* <FileText className="w-5 h-5 text-gray-600" /> */}
-                        </p>
-                        <h1 className="text-4xl md:text-5xl font-bold text-black">
-                            Explore All Blogs
-                        </h1>
-                    </div>                    <p className="text-lg text-gray-600 max-w-2xl">
+                    <p className="text-black pb-2 font-semibold uppercase text-md tracking-wide flex items-center gap-3">
+                        All Posts <Archive className="w-5 h-5 text-gray-600" />
+                    </p>
+                    <h1 className="text-4xl md:text-5xl font-bold text-black">Explore All Blogs</h1>
+                    <p className="text-lg text-gray-600 max-w-2xl">
                         Discover stories, tutorials, and ideas from our community of writers.
                     </p>
                 </div>
 
-                {/* Write a Post Button */}
-                {/* <div className="mt-8 flex gap-3">
-                    <Link
-                        href={writePostHref}
-                        className="inline-flex items-center px-6 py-3 bg-black/90 text-white font-medium rounded-lg hover:bg-black/90 transition-colors"
-                    >
-                        Write a Post
-                    </Link>
-                </div> */}
                 <div className="mt-8">
                     <Link
                         href={writePostHref}
-                        className="inline-flex items-center px-6 py-3 text-lg font-medium border-gray-400 text-black hover:bg-gray-100  border-2  bg-gray-50 rounded-xl shadow-md  transition duration-300"
+                        className="inline-flex items-center px-6 py-3 text-lg font-medium border-gray-400 text-black hover:bg-gray-100 border-2 bg-gray-50 rounded-xl shadow-md transition duration-300"
                     >
-                        Write a Post
-                        <ArrowRight className="w-5 h-5 ml-2" />
+                        Write a Post <ArrowRight className="w-5 h-5 ml-2" />
                     </Link>
                 </div>
+
+                {/* Filters */}
+                {/* <div className="flex justify-between items-center"> */}
+                <div className="grid grid-cols-12 items-stretch gap-4 mt-6">
+                    <input
+                        type="text"
+                        placeholder="Search blogs..."
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        // className="input input-bordered w-full"
+                        className="w-full py-3 col-span-8 px-4  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+
+                    />
+                    <select
+                        // className="select select-bordered"
+                        className=" px-4 py-3 col-span-3  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900"
+
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    >
+                        <option value="">All Categories</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Health">Health</option>
+                        <option value="Business">Business</option>
+                        <option value="Education">Education</option>
+                        <option value="Travel">Travel</option>
+                    </select>
+
+                    <button 
+                    className="text-white rounded-lg text-md font-medium   bg-gray-950   col-span-1 " 
+                    onClick={handleFilter}>
+                        Filter
+                    </button>
+
+                </div>
+
+                {/* </div> */}
             </section>
 
-            {/* Blogs Grid */}
+            {/* Blogs */}
             <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
-                {blogList.length === 0 ? (
+                {(searchText || selectedCategory) && blogs.length > 0 && (
+                    <p className="text-gray-700 mb-4">
+                        Showing results for{" "}
+                        {searchText && <span className="font-semibold">&quot;{searchText}&quot;</span>}
+                        {searchText && selectedCategory && " in "}
+                        {selectedCategory && <span className="font-semibold">{selectedCategory}</span>}
+                    </p>
+                )}
+
+                {loading ? (
+                    <p className="text-center text-gray-600 py-16">Loading blogs...</p>
+                ) : blogs.length === 0 ? (
                     <div className="text-center py-16">
-                        <p className="text-gray-600 text-lg mb-6">No blogs yet. Be the first to share your story!</p>
+                        <p className="text-gray-600 text-lg mb-4">
+                            No blogs found for{" "}
+                            {searchText && <span className="font-semibold">&quot;{searchText}&quot;</span>}
+                            {selectedCategory && <span> in {selectedCategory}</span>}.
+                        </p>
+                        <p className="text-gray-500 mb-6">
+                            Try changing your search or selecting a different category.
+                        </p>
                         <Link
                             href={writePostHref}
-                            className="inline-flex items-center px-6 py-3 bg-black  text-white font-medium rounded-lg hover:bg-black/90 transition-colors"
+                            className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-black/90 transition-colors"
                         >
-                            Create Your First Post
+                            Write Your Blog
                         </Link>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {blogList.map((blog) => (
-                            <div key={blog._id} className="transform  transition">
-                                <BlogCard blog={blog} />
-                            </div>
+                        {blogs.map((blog) => (
+                            <BlogCard key={blog._id} blog={blog} />
                         ))}
                     </div>
                 )}
 
                 {/* Pagination */}
-                <div className="flex justify-center mt-12 space-x-2"> {/* Increased margin and used space-x for spacing */}
-                    {/* Previous Button */}
-                    <button
-                        onClick={() => setPage(page - 1)}
-                        disabled={page === 1}
-                        className="flex items-center justify-center p-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-                        aria-label="Previous Page"
-                    >
-                        <ArrowLeft className="w-4 h-4 mr-1" />
-                        Previous
-                    </button>
+                {totalPages > 1 && (
+                    <div className="flex justify-center mt-12 space-x-2">
+                        <button
+                            onClick={() => goToPage(page - 1)}
+                            disabled={page === 1}
+                            className="flex items-center justify-center p-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-1" />
+                            Previous
+                        </button>
 
-                    {/* Page Number Buttons */}
-                    <div className="flex items-center space-x-2">
-                        {[...Array(pages)].map((_, i) => (
+                        {[...Array(totalPages)].map((_, i) => (
                             <button
                                 key={i + 1}
-                                onClick={() => setPage(i + 1)}
-                                className={`w-10 h-10 flex items-center justify-center text-sm font-medium rounded-lg transition duration-150 
-                    ${page === i + 1
-                                        // Active state: Solid Black background
-                                        ? "bg-black/90 text-white shadow-md"
-                                        // Inactive state: White background, gray text, hover effect
-                                        : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:text-grayS-700"
+                                onClick={() => goToPage(i + 1)}
+                                className={`w-10 h-10 flex items-center justify-center text-sm font-medium rounded-lg transition duration-150 ${page === i + 1 ? "bg-black/90 text-white shadow-md" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
                                     }`}
-                                aria-current={page === i + 1 ? "page" : undefined}
                             >
                                 {i + 1}
                             </button>
                         ))}
+
+                        <button
+                            onClick={() => goToPage(page + 1)}
+                            disabled={page === totalPages}
+                            className="flex items-center justify-center p-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Next <ArrowRight className="w-4 h-4 ml-1" />
+                        </button>
                     </div>
-
-                    {/* Next Button */}
-                    <button
-                        onClick={() => setPage(page + 1)}
-                        disabled={page === pages}
-                        className="flex items-center justify-center p-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-                        aria-label="Next Page"
-                    >
-                        Next
-                        <ArrowRight className="w-4 h-4 ml-1" />
-                    </button>
-                </div>
+                )}
             </section>
-
-
-
         </div>
     );
 }
-
