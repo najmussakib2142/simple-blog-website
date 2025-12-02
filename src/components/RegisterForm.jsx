@@ -98,7 +98,7 @@ export default function RegisterForm() {
           name: formData.name,
           email: formData.email,
           photoURL: photoURL || "",
-          role: user,
+          role: "user",
         }),
       });
 

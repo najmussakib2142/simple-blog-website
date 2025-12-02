@@ -66,7 +66,7 @@ export default function Category() {
 
                         {/* Underline */}
                         <span
-                            className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-[#E7E8DD]  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
+                            className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-black  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                         ></span>
 
                         {/* Icons Wrapper */}

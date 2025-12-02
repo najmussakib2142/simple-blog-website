@@ -80,6 +80,12 @@ export default function Navbar() {
         return `${mobileBaseStyle} ${isActive ? mobileActiveStyle : mobileInactiveStyle}`;
     };
 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleLinkClick = () => {
+        setIsDropdownOpen(false);
+    };
+
 
 
     return (
@@ -207,7 +213,7 @@ export default function Navbar() {
                             </div>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-x-2 text-sm font-medium text-black">
+                                {/* <div className="relative group flex items-center gap-x-2 text-sm font-medium text-black">
                                     {user?.photoURL ? (
                                         <Image
                                             src={user.photoURL}
@@ -219,8 +225,93 @@ export default function Navbar() {
                                     ) : (
                                         <User className="h-8 w-8 border border-black rounded-full text-black" aria-hidden="true" />
                                     )}
-                                    {/* <span>Hi, {user?.displayName || user?.email}</span> */}
-                                </div>
+                                    
+                                </div> */}
+
+                                {/* {user ? (
+                                    <div className="relative group">
+                                        <Image
+                                            src={user.photoURL}
+                                            alt="User Avatar"
+                                            width={32}
+                                            height={32}
+                                            className="h-8 w-8 rounded-full object-cover border border-black"
+                                        />
+
+                                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg hidden group-hover:block">
+                                            <Link href="/profile" className="block px-4 py-2 hover:bg-gray-100">My Profile</Link>
+                                            <Link href="/my-posts" className="block px-4 py-2 hover:bg-gray-100">My Posts</Link>
+                                            <Link href="/bookmarks" className="block px-4 py-2 hover:bg-gray-100">Bookmarks</Link>
+                                            <button onClick={logout} className="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <Link href="/login" className="btn">Login</Link>
+                                )} */}
+
+                                {user ? (
+                                    // 1. Change group to relative and remove group-hover utility
+                                    <div className="relative">
+                                        {/* 2. Add onClick handler to the avatar to toggle the state */}
+                                        <button
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                            className="h-8 w-8 rounded-full overflow-hidden focus:outline-none cursor-pointer" // Add focus styles for accessibility
+                                            aria-expanded={isDropdownOpen} // Accessibility attribute
+                                            aria-controls="user-menu-dropdown" // Accessibility attribute
+                                        >
+                                            <Image
+                                                src={user.photoURL}
+                                                alt="User Avatar"
+                                                width={32}
+                                                height={32}
+                                                className="h-8 w-8 rounded-full object-cover border border-black"
+                                            />
+                                        </button>
+
+                                        {/* 3. Conditionally render the dropdown based on 'isDropdownOpen' state */}
+                                        {isDropdownOpen && (
+                                            <div
+                                                id="user-menu-dropdown"
+                                                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-lg z-10" // Added border and z-index for clarity
+                                            >
+                                                {/* Use onClick={handleLinkClick} on links/buttons to close the menu */}
+                                                <Link
+                                                    href={`/profile`}
+                                                    className="block px-4 py-2 hover:bg-gray-100"
+                                                    onClick={handleLinkClick}
+                                                >
+                                                    My Profile
+                                                </Link>
+                                                <Link
+                                                    href="/my-posts"
+                                                    className="block px-4 py-2 hover:bg-gray-100"
+                                                    onClick={handleLinkClick}
+                                                >
+                                                    My Posts
+                                                </Link>
+                                                <Link
+                                                    href="/bookmarks"
+                                                    className="block px-4 py-2 hover:bg-gray-100"
+                                                    onClick={handleLinkClick}
+                                                >
+                                                    Bookmarks
+                                                </Link>
+                                                <button
+                                                    onClick={() => {
+                                                        logout();
+                                                        handleLinkClick(); // Close dropdown after logout
+                                                    }}
+                                                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <Link href="/login" className="btn">Login</Link>
+                                )}
+
 
                                 <button
                                     onClick={handleLogout}

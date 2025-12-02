@@ -73,21 +73,7 @@ export default function AuthorsSection() {
         <section className="py-16 max-w-6xl mx-auto px-4 md:px-8">
             <div className="flex  justify-between items-center mb-10">
                 <h2 className="text-4xl font-semibold text-gray-900">Top Authors</h2>
-                {/* <Link href="/" className="text-sm inline-flex items-center text-gray-500 hover:underline">
-                    All Authors <ArrowRight className="ml-2 w-4 h-4" />
-                </Link> */}
-                {/* <Link
-                    href="/"
-                    className="group inline-flex items-center mt-4 text-gray-800 font-semibold relative w-fit"
-                >
-                    Read More
-
-                    <span
-                        className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-800  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
-                    ></span>
-
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                </Link> */}
+                
                 <div className="flex justify-center mt-4">
                     <Link
                         href="/blogs"

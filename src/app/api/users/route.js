@@ -32,8 +32,8 @@ export async function POST(req) {
 
     return new Response(JSON.stringify(user), { status: 201 });
   } catch (err) {
-    console.error(err);
-    return new Response(JSON.stringify({ error: "Something went wrong" }), {
+    console.error("User creation error:", err.message);
+    return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
     });
   }

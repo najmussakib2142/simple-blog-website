@@ -10,7 +10,10 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function BlogCard({ blog }) {
     const postLink = `/blogs/${blog._id}`;
-    // const { user } = useAuth()
+    const words = blog.title.split(" ");
+    const mid = Math.ceil(words.length / 2);
+    const line1 = words.slice(0, mid).join(" ");
+    const line2 = words.slice(mid).join(" ");
 
     const formattedDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -46,29 +49,34 @@ export default function BlogCard({ blog }) {
                             <CalendarDays className="w-4 h-4 mr-2" />{formattedDate}
                         </p>
                         <p className="text-sm  inline-flex  font-medium text-gray-500">
-                            <Clock className="w-4 h-4 mr-2" /> {blog.readingTime || "02 min read"} 
+                            <Clock className="w-4 h-4 mr-2" /> {blog.readingTime || "02 min read"}
                         </p>
                     </div>
                     <div>
 
-                        <div className="group">
-                            <h3 className="inline-block text-xl font-bold mb-2 text-gray-900 relative">
+                        {/* <h3 className="text-xl font-bold mb-2 text-gray-900">
+                            <span className="relative inline-block">
+                                {line1}
+                                <span className="absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900  scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 delay-0"></span>
+                            </span>
+                            <br />
+                            <span className="relative inline-block">
+                                {line2}
+                                <span className="absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900   scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 delay-200"></span>
+                            </span>
+
+                        </h3> */}
+
+                        <h3 className="text-xl font-bold mb-2 text-gray-900 leading-snug line-clamp-2 relative">
+                            <span className="relative">
                                 {blog.title}
+                                <span
+                                    className="absolute left-0 -bottom-1 h-0.5 w-full bg-gray-900
+                 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"
+                                />
+                            </span>
+                        </h3>
 
-                                {/* <span
-                                    className="  absolute left-0 -bottom-1 h-0.5 bg-gray-900    w-0 group-hover:w-full      transition-all duration-300 "
-                                ></span> */}
-                            </h3>
-                        </div>
-
-
-                        {/* <div className="group relative">
-                            <div className="line-clamp-2">
-                                <h3 className="text-xl font-bold mb-2 text-gray-900 multiline-underline group-hover:text-gray-900 transition">
-                                    {blog.title}
-                                </h3>
-                            </div>
-                        </div> */}
 
                         <p className="text-gray-600 text-base  mb-4">
                             {blog.description}

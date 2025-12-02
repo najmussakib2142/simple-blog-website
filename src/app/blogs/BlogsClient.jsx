@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import BlogCard from "@/components/BlogCard";
 import { Archive, ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -19,14 +19,18 @@ export default function BlogsClient() {
     const [loading, setLoading] = useState(false);
 
     const writePostHref = user ? "/create" : "/auth/login?redirect=/create";
+    const searchParams = useSearchParams();
+   
 
-    // Sync inputs with URL query
     useEffect(() => {
-        const query = Object.fromEntries(new URLSearchParams(window.location.search));
-        setPage(Number(query.page) || 1);
-        setSearchText(query.search || "");
-        setSelectedCategory(query.category || "");
-    }, [router.asPath]);
+        const pageFromUrl = Number(searchParams.get("page")) || 1;
+        const searchFromUrl = searchParams.get("search") || "";
+        const categoryFromUrl = searchParams.get("category") || "";
+
+        setPage(pageFromUrl);
+        setSearchText(searchFromUrl);
+        setSelectedCategory(categoryFromUrl);
+    }, [searchParams]);
 
     // Fetch blogs when page, search, or category changes
     useEffect(() => {
@@ -135,9 +139,9 @@ export default function BlogsClient() {
                         <option value="Travel">Travel</option>
                     </select>
 
-                    <button 
-                    className="text-white rounded-lg text-md font-medium   bg-gray-950   col-span-1 " 
-                    onClick={handleFilter}>
+                    <button
+                        className="text-white rounded-lg text-md font-medium   bg-gray-950   col-span-1 "
+                        onClick={handleFilter}>
                         Filter
                     </button>
 

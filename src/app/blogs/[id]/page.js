@@ -81,7 +81,7 @@ export default async function BlogDetails({ params }) {
   const { intro, main, end } = splitContent(blog.content);
 
   return (
-    <article className="bg-white">
+    <article className="bg-[#F2F3E8]">
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-12">
 
         {/* Back link */}
