@@ -60,14 +60,14 @@ export default async function BlogDetails({ params }) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
         <div className="max-w-2xl text-center">
-          <h1 className="text-3xl font-bold mb-4">Blog Not Found</h1>
+          <h1 className="text-3xl text-black font-bold mb-4">Blog Not Found</h1>
           <p className="text-gray-600 mb-6">
             The blog you&apos;re looking for doesn’t exist or may have been removed.
           </p>
 
           <Link
             href="/blogs"
-            className="inline-flex items-center px-5 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+            className="inline-flex items-center px-5 py-2 bg-black text-white rounded-sm hover:bg-gray-800 transition"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to All Blogs

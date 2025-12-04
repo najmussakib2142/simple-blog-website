@@ -4,8 +4,10 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
-import { PenTool, Search, User } from 'lucide-react';
+import { ArrowLeft, Search, X } from 'lucide-react'; // Removed unused PenTool and User
 import Image from "next/image";
+import DrawOutlineButton from "./DrawOutlineButton"; // Assuming this component exists
+import SearchModal from "./SearchModal";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
@@ -15,12 +17,16 @@ export default function Navbar() {
     const [showSearch, setShowSearch] = useState(false);
     const [query, setQuery] = useState("");
     const router = useRouter();
-
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
         router.push(`/blogs?search=${query}`);
         setShowSearch(false);
+    };
+
+    const handleLinkClick = () => {
+        setIsDropdownOpen(false);
     };
 
     const handleLogout = async () => {
@@ -32,8 +38,6 @@ export default function Navbar() {
             showCancelButton: true,
             confirmButtonColor: "#000000",
             cancelButtonColor: "#6b7280", // gray-500
-
-
             confirmButtonText: "Yes, logout",
         });
 
@@ -44,7 +48,7 @@ export default function Navbar() {
                     title: "Logged out!",
                     text: "You have been successfully logged out.",
                     icon: "success",
-                    timer: 2000, // auto close after 2 seconds
+                    timer: 2000,
                     showConfirmButton: false,
                 });
                 router.push("/");
@@ -62,9 +66,9 @@ export default function Navbar() {
 
     // Mobile nav links
     const mobileBaseStyle =
-        "block p-2 text-base font-medium rounded-md transition-colors duration-200";
+        "block p-2 text-base font-medium rounded-sm transition-colors duration-200";
     const mobileActiveStyle =
-        "bg-black/10 text-black font-semibold"; // subtle black glow background for active
+        "bg-black/10 text-black font-semibold";
     const mobileInactiveStyle =
         "text-black hover:bg-black/5 hover:text-black/80";
 
@@ -80,184 +84,128 @@ export default function Navbar() {
         return `${mobileBaseStyle} ${isActive ? mobileActiveStyle : mobileInactiveStyle}`;
     };
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const handleLinkClick = () => {
-        setIsDropdownOpen(false);
-    };
-
-
-
     return (
-        <header className="w-full fixed top-0 left-0 right-0 z-50           bg-white/70 backdrop-blur-lg border-b border-gray-200   text-black shadow-sm">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-14">
+        <> {/* Use React Fragment to allow the Modal to be a sibling of <header> */}
+            <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-lg border-b border-gray-200 text-black shadow-sm">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-14">
 
-                    {/* Left: brand + mobile menu button */}
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => setOpen(!isOpen)}
-                            className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
-                            aria-label={isOpen ? "Close menu" : "Open menu"}
-                        >
-                            {isOpen ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            )}
-                        </button>
-
-                        <Link
-                            href="/"
-                            className="relative text-xl md:text-2xl font-extrabold tracking-tight text-black group"
-                        >
-                            SimpleBlog
-                            <span
-                                className="absolute left-0 -bottom-1 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"
-                            ></span>
-                        </Link>
-
-                    </div>
-
-                    {/* Center: nav links */}
-                    <nav className="hidden lg:flex items-center lg:space-x-8 h-full" aria-label="Primary">
-                        <Link href="/" className={getDesktopLinkClasses("/")}>
-                            Home
-                        </Link>
-                        <Link href="/about" className={getDesktopLinkClasses("/about")}>
-                            About
-                        </Link>
-                        <Link href="/blogs" className={getDesktopLinkClasses("/blogs")}>
-                            Blogs
-                        </Link>
-                        {user && (
-                            <Link href="/create" className={getDesktopLinkClasses("/create")}>
-                                Create
-                            </Link>
-                        )}
-                        {!loading && user?.role === "admin" && (
-                            <Link href="/admin" className={getDesktopLinkClasses("/admin")}>
-                                Admin Dashboard
-                            </Link>
-                        )}
-                    </nav>
-
-                    {/* Right: auth */}
-                    <div className="flex items-center gap-4">
-                        {/* <div>
+                        {/* Left: brand + mobile menu button */}
+                        <div className="flex items-center gap-2">
                             <button
-                                onClick={() => setShowSearch(!showSearch)}
-                                className="p-2 hover:bg-gray-100 rounded-md"
+                                onClick={() => setOpen(!isOpen)}
+                                className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+                                aria-label={isOpen ? "Close menu" : "Open menu"}
                             >
-                                <Search className="w-5 h-5" />
+                                {isOpen ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                )}
                             </button>
 
-                            {showSearch && (
-                                <form
-                                    onSubmit={handleSearch}
-                                    className="absolute top-14 right-4 bg-white border shadow-lg p-2 rounded-lg flex"
-                                >
-                                    <input
-                                        type="text"
-                                        placeholder="Search blogs..."
-                                        className="border p-2 rounded-md w-48"
-                                        value={query}
-                                        onChange={(e) => setQuery(e.target.value)}
-                                    />
-                                </form>
-                            )}
-                        </div> */}
-
-                        <div className="flex items-center space-x-2">
-                            {/* Toggle button */}
-                            <button
-                                onClick={() => setShowSearch(!showSearch)}
-                                className="p-2 hover:bg-gray-100 rounded-md"
+                            <Link
+                                href="/"
+                                className="relative text-xl md:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-gray-800 to-black group"
                             >
-                                <Search className="w-5 h-5" />
-                            </button>
+                                SimpleBlog
+                                <span
+                                    className="absolute left-0 -bottom-1 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </Link>
 
-                            {/* Search field inline in navbar */}
-                            {showSearch && (
-                                <form onSubmit={handleSearch} className="flex items-center">
-                                    <input
-                                        type="text"
-                                        placeholder="Search blogs..."
-                                        className="border p-1 rounded-md w-48"
-                                        value={query}
-                                        onChange={(e) => setQuery(e.target.value)}
-                                    />
-                                </form>
-                            )}
                         </div>
 
+                        {/* Center: nav links */}
+                        <nav className="hidden lg:flex items-center lg:space-x-8 h-full" aria-label="Primary">
+                            <Link href="/" className={getDesktopLinkClasses("/")}>Home</Link>
+                            <Link href="/about" className={getDesktopLinkClasses("/about")}>About</Link>
+                            <Link href="/blogs" className={getDesktopLinkClasses("/blogs")}>Blogs</Link>
+                            {user && (<Link href="/create" className={getDesktopLinkClasses("/create")}>Create</Link>)}
+                            {!loading && user?.role === "admin" && (<Link href="/admin" className={getDesktopLinkClasses("/admin")}>Admin Dashboard</Link>)}
+                        </nav>
 
-                        {!user ? (
-                            <div className="flex items-center gap-3">
-                                <Link
-                                    href="/auth/login"
-                                    className="px-4 py-1.5 text-sm font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] border-gray-400 text-black hover:bg-gray-100 bg-white  border  hidden sm:block"
+                        {/* Right: auth */}
+                        <div className="flex items-center shrink-0 gap-4">
+
+                            {/* mobile search */}
+                            {/* <div className="block md:hidden">
+                                <button
+                                    onClick={() => setShowSearch(!showSearch)}
+                                    className="p-2 hover:bg-gray-100 rounded-sm"
                                 >
-                                    Login
-                                </Link>
-                                <Link
-                                    href="/auth/register"
-                                    className="md:px-4 px-4 py-1.5 bg-linear-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900    text-white text-sm md:text-md font-medium rounded-md md:rounded-lg shadow-md  transition transform hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-black focus:ring-opacity-50"
-                                >
-                                    Register
-                                </Link>
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-4">
-                                {/* <div className="relative group flex items-center gap-x-2 text-sm font-medium text-black">
-                                    {user?.photoURL ? (
-                                        <Image
-                                            src={user.photoURL}
-                                            alt="User Avatar"
-                                            width={32}
-                                            height={32}
-                                            className="h-8 w-8 rounded-full object-cover border border-black"
-                                        />
-                                    ) : (
-                                        <User className="h-8 w-8 border border-black rounded-full text-black" aria-hidden="true" />
-                                    )}
-                                    
-                                </div> */}
+                                    <Search className="w-5 h-5" />
+                                </button>
 
-                                {/* {user ? (
-                                    <div className="relative group">
-                                        <Image
-                                            src={user.photoURL}
-                                            alt="User Avatar"
-                                            width={32}
-                                            height={32}
-                                            className="h-8 w-8 rounded-full object-cover border border-black"
-                                        />
+                                {showSearch && (
+                                    <div className="fixed inset-0 bg-white z-50 px-2 py-2">
+                                        <form onSubmit={handleSearch} className="flex items-center gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowSearch(false)}
+                                                className="p-1"
+                                            >
+                                                <ArrowLeft className="w-6 h-6" />
+                                            </button>
 
-                                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg hidden group-hover:block">
-                                            <Link href="/profile" className="block px-4 py-2 hover:bg-gray-100">My Profile</Link>
-                                            <Link href="/my-posts" className="block px-4 py-2 hover:bg-gray-100">My Posts</Link>
-                                            <Link href="/bookmarks" className="block px-4 py-2 hover:bg-gray-100">Bookmarks</Link>
-                                            <button onClick={logout} className="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
-                                        </div>
+                                            <input
+                                                type="search"
+                                                placeholder="Search blogs..."
+                                                className=" p-2 w-full text-lg focus:outline-none"
+                                                value={query}
+                                                onChange={(e) => setQuery(e.target.value)}
+                                                autoFocus
+                                                enterKeyHint="search"
+                                            />
+                                        </form>
                                     </div>
-                                ) : (
-                                    <Link href="/login" className="btn">Login</Link>
-                                )} */}
+                                )}
+                            </div> */}
 
-                                {user ? (
-                                    // 1. Change group to relative and remove group-hover utility
+                            {/* large screen search toggle button */}
+                            <div className="flex items-center space-x-2">
+                                <button
+                                    onClick={() => setShowSearch(!showSearch)}
+                                    className="p-2 hover:bg-gray-100 rounded-sm"
+                                >
+                                    <Search className="w-5 h-5" />
+                                </button>
+                                {/* The full-screen modal content for large screens is moved outside the header */}
+                            </div>
+
+                            {/* Auth/User Dropdown */}
+                            {!user ? (
+                                <div className="flex items-center gap-3">
+                                    <Link
+                                        href="/auth/login"
+                                        className=" text-sm font-medium transition transform hover:border-white border border-gray-300 text-black hidden sm:block"
+                                    >
+                                        <DrawOutlineButton>
+                                            <span className="flex items-center space-x-1">
+                                                <span>Login</span>
+                                            </span>
+                                        </DrawOutlineButton>
+                                    </Link>
+
+                                    <Link
+                                        href="/auth/register"
+                                        className="px-4 py-2 sm:py-2 md:py-2 lg:py-2 bg-linear-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white text-sm md:text-md font-medium shadow-md transition transform hover:scale-[1.03] active:scale-[0.97]"
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-4">
                                     <div className="relative">
-                                        {/* 2. Add onClick handler to the avatar to toggle the state */}
                                         <button
                                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                            className="h-8 w-8 rounded-full overflow-hidden focus:outline-none cursor-pointer" // Add focus styles for accessibility
-                                            aria-expanded={isDropdownOpen} // Accessibility attribute
-                                            aria-controls="user-menu-dropdown" // Accessibility attribute
+                                            className="h-8 w-8 rounded-full overflow-hidden focus:outline-none cursor-pointer"
+                                            aria-expanded={isDropdownOpen}
+                                            aria-controls="user-menu-dropdown"
                                         >
                                             <Image
                                                 src={user.photoURL}
@@ -268,13 +216,11 @@ export default function Navbar() {
                                             />
                                         </button>
 
-                                        {/* 3. Conditionally render the dropdown based on 'isDropdownOpen' state */}
                                         {isDropdownOpen && (
                                             <div
                                                 id="user-menu-dropdown"
-                                                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-lg z-10" // Added border and z-index for clarity
+                                                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-lg z-10"
                                             >
-                                                {/* Use onClick={handleLinkClick} on links/buttons to close the menu */}
                                                 <Link
                                                     href={`/profile`}
                                                     className="block px-4 py-2 hover:bg-gray-100"
@@ -298,8 +244,8 @@ export default function Navbar() {
                                                 </Link>
                                                 <button
                                                     onClick={() => {
-                                                        logout();
-                                                        handleLinkClick(); // Close dropdown after logout
+                                                        handleLogout();
+                                                        handleLinkClick();
                                                     }}
                                                     className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
                                                 >
@@ -308,70 +254,63 @@ export default function Navbar() {
                                             </div>
                                         )}
                                     </div>
-                                ) : (
-                                    <Link href="/login" className="btn">Login</Link>
-                                )}
 
+                                    <button
+                                        onClick={handleLogout}
+                                        className="text-md font-medium shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
+                                    >
+                                        <DrawOutlineButton>
+                                            <span className="flex items-center space-x-1">
+                                                <span>Logout</span>
+                                            </span>
+                                        </DrawOutlineButton>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
+                    {/* Mobile Menu */}
+                    {isOpen && (
+                        <nav className="lg:hidden mt-4 space-y-2 pb-3 border-t border-gray-200" aria-label="Mobile Primary">
+                            <Link onClick={closeMobileMenu} href="/" className={getMobileLinkClasses("/")}>Home</Link>
+                            <Link onClick={closeMobileMenu} href="/about" className={getMobileLinkClasses("/about")}>About</Link>
+                            <Link onClick={closeMobileMenu} href="/blogs" className={getMobileLinkClasses("/blogs")}>Blogs</Link>
+                            {user && (<Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>Create</Link>)}
+                            {!loading && user?.role === "admin" && (<Link href="/admin" className={getMobileLinkClasses("/admin")}>Admin Dashboard</Link>)}
+
+                            {!user && (
+                                <Link
+                                    onClick={closeMobileMenu}
+                                    href="/auth/login"
+                                    className={getMobileLinkClasses("/auth/login") + " text-white bg-black hover:bg-gray-900 w-full text-center"}
+                                >
+                                    Login
+                                </Link>
+                            )}
+
+                            {user && (
                                 <button
-                                    onClick={handleLogout}
-                                    className="px-4 py-1.5 text-md font-medium rounded-lg shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
+                                    onClick={() => {
+                                        handleLogout();
+                                        closeMobileMenu();
+                                    }}
+                                    className={`${mobileBaseStyle} text-red-600 hover:bg-red-50 hover:text-red-700 w-full text-left`}
                                 >
                                     Logout
                                 </button>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </nav>
+                    )}
                 </div>
+            </header>
 
-                {/* Mobile Menu */}
-                {isOpen && (
-                    <nav className="lg:hidden mt-2 space-y-2 pb-3 border-t border-gray-200" aria-label="Mobile Primary">
-                        <Link onClick={closeMobileMenu} href="/" className={getMobileLinkClasses("/")}>
-                            Home
-                        </Link>
-                        <Link onClick={closeMobileMenu} href="/about" className={getMobileLinkClasses("/about")}>
-                            About
-                        </Link>
-                        <Link onClick={closeMobileMenu} href="/blogs" className={getMobileLinkClasses("/blogs")}>
-                            Blogs
-                        </Link>
-                        {user && (
-                            <Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>
-                                Create
-                            </Link>
-                        )}
-                        {!loading && user?.role === "admin" && (
-                            <Link href="/admin" className={getMobileLinkClasses("/admin")}>
-                                Admin Dashboard
-                            </Link>
-                        )}
-
-                        {!user && (
-                            <Link
-                                onClick={closeMobileMenu}
-                                href="/auth/login"
-                                className={getMobileLinkClasses("/auth/login") + " text-white bg-black hover:bg-gray-900 w-full text-center"}
-                            >
-                                Login
-                            </Link>
-                        )}
-
-                        {user && (
-                            <button
-                                onClick={() => {
-                                    handleLogout();
-                                    closeMobileMenu();
-                                }}
-                                className={`${mobileBaseStyle} text-red-600 hover:bg-red-50 hover:text-red-700 w-full text-left`}
-                            >
-                                Logout
-                            </button>
-                        )}
-                    </nav>
-                )}
-            </div>
-        </header>
-
+            {/* 🎯 FULL-SCREEN SEARCH ASIDE (MD AND UP) - PLACED OUTSIDE <header> */}
+            <SearchModal
+                show={showSearch} // Pass the state to control visibility
+                onClose={() => setShowSearch(false)} // Pass the function to close the modal
+                initialQuery={query} // Pass the current query if you want to maintain state
+            />
+        </>
     );
 }

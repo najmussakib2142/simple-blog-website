@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowDown, ArrowRight, Feather, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Feather, Sparkles, SparklesIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
 const SparkSVG = () => (
@@ -40,14 +40,53 @@ const SparkSVG = () => (
   </motion.svg>
 );
 
+// const LatestBadge = () => {
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, x: -40, y: -20, rotate: -8 }}
+//       animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+//       transition={{
+//         type: "spring",
+//         stiffness: 120,
+//         damping: 14,
+//         delay: 0.6,
+//       }}
+//       className="absolute z-20 
+//                  top-10 md:top-20 
+//                  left-4 md:left-20"
+//     >
+//       <div className="relative flex items-center gap-2">
+//         <span className="text-3xl md:text-5xl font-extrabold tracking-wide text-black">
+//           Ideas
+//         </span>
+
+//         {/* Decorative animated lines */}
+//         <motion.span
+//           className="absolute -top-3 -left-3 w-3 h-3 border-t-2 border-l-2 border-amber-500 rounded-sm"
+//           animate={{ opacity: [0, 1, 0] }}
+//           transition={{ repeat: Infinity, duration: 1.6 }}
+//         />
+//         <motion.span
+//           className="absolute -bottom-3 -right-3 w-3 h-3 border-b-2 border-r-2 border-amber-500 rounded-sm"
+//           animate={{ opacity: [0, 1, 0] }}
+//           transition={{ repeat: Infinity, duration: 1.6, delay: 0.8 }}
+//         />
+//       </div>
+//     </motion.div>
+//   );
+// };
+
+
+
 export default function Hero() {
 
 
 
   return (
     <section className="relative md:py-20 pt-10 md:pt-8 h-[50dvh] md:min-h-screen 
-      bg-white bg-cover bg-center overflow-hidden flex items-center justify-center">
+        bg-white bg-cover bg-center overflow-hidden flex items-center justify-center">
 
+      {/* <LatestBadge /> */}
       {/* Dynamic background shapes */}
       <div className="absolute inset-0">
         <div className="absolute -top-40 -right-40 w-96 h-96 
@@ -85,7 +124,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-black leading-tight mb-6"
         >
-          <span className="text-3xl md:text-5xl font-extrabold">
+          <span className="text-3xl relative md:text-5xl font-extrabold">
             Ideas Worth Sharing.
           </span>
 
@@ -118,65 +157,7 @@ export default function Hero() {
     </section>
 
 
-    //     <section className="relative md:py-20 pt-10 md:pt-8 h-[50dvh] md:min-h-screen 
-    //     bg-gradient-to-b from-black via-[#0a0a0a] to-[#111] 
-    //     bg-cover bg-center overflow-hidden flex items-center justify-center">
 
-    //   {/* Modern soft blur shapes */}
-    //   <div className="absolute inset-0">
-    //     <div className="absolute -top-32 -right-32 w-96 h-96 
-    //       bg-white/5 rounded-full blur-3xl"></div>
-    //     <div className="absolute -bottom-24 -left-24 w-72 h-72 
-    //       bg-white/5 rounded-full blur-3xl"></div>
-    //   </div>
-
-    //   <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-
-    //     {/* Badge */}
-    //     <div className="relative inline-block">
-
-    //       <motion.p
-    //         initial={{ opacity: 0, y: -10 }}
-    //         animate={{ opacity: 1, y: 0 }}
-    //         transition={{ duration: 0.5 }}
-    //         className="inline-flex items-center text-xs sm:text-sm font-medium 
-    //                    text-gray-100 bg-white/10 backdrop-blur-md 
-    //                    border border-white/20 rounded-full px-4 py-1.5 shadow-sm"
-    //       >
-    //         <Feather className="w-4 h-4 mr-2 text-white" />
-    //         The Modern Blog
-    //       </motion.p>
-
-    //       <motion.h1
-    //         initial={{ opacity: 0, y: 20 }}
-    //         animate={{ opacity: 1, y: 0 }}
-    //         transition={{ duration: 0.7 }}
-    //         className="text-4xl sm:text-6xl md:text-7xl font-extrabold 
-    //                    text-white leading-tight mb-6"
-    //       >
-    //         <span className="text-3xl md:text-5xl font-extrabold
-    //                text-transparent bg-clip-text bg-gradient-to-r
-    //                from-white via-gray-300 to-white">
-    //           Ideas Worth Sharing.
-    //         </span>
-    //         <span className="block text-gray-300 mt-2">
-    //           Write. Read. Inspire.
-    //         </span>
-    //       </motion.h1>
-    //     </div>
-
-    //     {/* Description */}
-    //     <motion.p
-    //       initial={{ opacity: 0 }}
-    //       animate={{ opacity: 1 }}
-    //       transition={{ duration: 0.7, delay: 0.2 }}
-    //       className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
-    //     >
-    //       Discover thoughtful stories, insightful articles, and a clean reading experience—crafted for creators and thinkers.
-    //     </motion.p>
-
-    //   </div>
-    // </section>
 
   );
 }

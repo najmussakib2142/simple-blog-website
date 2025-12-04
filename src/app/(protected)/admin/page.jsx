@@ -1,40 +1,73 @@
-// This component assumes it is a Server Component, meaning fetch can be used directly.
+export const dynamic = "force-dynamic";
 
-// Helper function to fetch data from a specific endpoint
+// async function getCount(endpoint) {
+//     try {
+//         const response = await fetch(`http://localhost:3000${endpoint}`, {
+//             // Optional: Disable caching if you want fresh counts on every visit (use 'no-store')
+//             // or revalidate periodically (use 'revalidate: 60')
+//             cache: 'no-store',
+//         });
+
+//         if (!response.ok) {
+//             // Log the status but allow the app to continue with a default value
+//             console.error(`Failed to fetch data from ${endpoint}. Status: ${response.status}`);
+//             return 0;
+//         }
+
+//         const data = await response.json();
+
+//         // --- IMPORTANT LOGIC ---
+//         // Assuming your API returns an array or an object with a 'count' field.
+//         // We will default to returning the length if it's an array, or 0 otherwise.
+//         if (Array.isArray(data)) {
+//             return data.length;
+//         } else if (data && typeof data.count === 'number') {
+//             return data.count;
+//         }
+
+//         // Fallback for unexpected format
+//         console.warn(`Unexpected data format from ${endpoint}:`, data);
+//         return 0;
+
+//     } catch (error) {
+//         console.error(`Error fetching data from ${endpoint}:`, error);
+//         return 0; // Return 0 on network error
+//     }
+// }
+
 async function getCount(endpoint) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
     try {
-        const response = await fetch(`http://localhost:3000${endpoint}`, {
-            // Optional: Disable caching if you want fresh counts on every visit (use 'no-store')
-            // or revalidate periodically (use 'revalidate: 60')
-            cache: 'no-store',
+        const response = await fetch(`${baseUrl}${endpoint}`, {
+            cache: "no-store", // keeps data fresh (dynamic)
         });
 
         if (!response.ok) {
-            // Log the status but allow the app to continue with a default value
-            console.error(`Failed to fetch data from ${endpoint}. Status: ${response.status}`);
+            console.error(
+                `Failed to fetch data from ${endpoint}. Status: ${response.status}`
+            );
             return 0;
+            
         }
 
         const data = await response.json();
 
-        // --- IMPORTANT LOGIC ---
-        // Assuming your API returns an array or an object with a 'count' field.
-        // We will default to returning the length if it's an array, or 0 otherwise.
+        // ✅ SAFE COUNT LOGIC
         if (Array.isArray(data)) {
             return data.length;
-        } else if (data && typeof data.count === 'number') {
+        } else if (data && typeof data.count === "number") {
             return data.count;
         }
 
-        // Fallback for unexpected format
         console.warn(`Unexpected data format from ${endpoint}:`, data);
         return 0;
-
     } catch (error) {
         console.error(`Error fetching data from ${endpoint}:`, error);
-        return 0; // Return 0 on network error
+        return 0;
     }
 }
+
 
 export default async function AdminHome() {
     // Fetch all counts concurrently

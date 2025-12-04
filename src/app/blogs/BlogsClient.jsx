@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import BlogCard from "@/components/BlogCard";
 import { Archive, ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import DrawOutlineButton from "@/components/DrawOutlineButton";
 
 export default function BlogsClient() {
     const { user } = useAuth();
@@ -20,7 +21,7 @@ export default function BlogsClient() {
 
     const writePostHref = user ? "/create" : "/auth/login?redirect=/create";
     const searchParams = useSearchParams();
-   
+
 
     useEffect(() => {
         const pageFromUrl = Number(searchParams.get("page")) || 1;
@@ -102,14 +103,28 @@ export default function BlogsClient() {
                     </p>
                 </div>
 
-                <div className="mt-8">
+                {/* <div className="mt-8">
                     <Link
                         href={writePostHref}
                         className="inline-flex items-center px-6 py-3 text-lg font-medium border-gray-400 text-black hover:bg-gray-100 border-2 bg-gray-50 rounded-xl shadow-md transition duration-300"
                     >
                         Write a Post <ArrowRight className="w-5 h-5 ml-2" />
                     </Link>
-                </div>
+                </div> */}
+
+                <Link
+                    href={writePostHref}
+                    className="inline-flex mt-6 bg-gray-50 items-center text-lg font-medium border border-gray-300 text-black hover:border-gray-50  transition duration-300"
+                >
+                    {/* Remove the outer <div className="flex items-center"> */}
+                    <DrawOutlineButton>
+                        {/* ADD A FLEX CONTAINER AROUND THE CONTENT YOU ARE PASSING */}
+                        <span className="flex text-black items-center space-x-1">
+                            <span>Write a Post</span>
+                            <ArrowRight className="w-5 h-5" />
+                        </span>
+                    </DrawOutlineButton>
+                </Link>
 
                 {/* Filters */}
                 {/* <div className="flex justify-between items-center"> */}
@@ -120,12 +135,12 @@ export default function BlogsClient() {
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         // className="input input-bordered w-full"
-                        className="w-full py-3 col-span-8 px-4  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full py-3 col-span-8 px-4  border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900 placeholder-gray-500"
 
                     />
                     <select
                         // className="select select-bordered"
-                        className=" px-4 py-3 col-span-3  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900"
+                        className=" px-4 py-3 col-span-4  border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black/40 focus:border-transparent bg-white text-gray-900"
 
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
@@ -139,11 +154,11 @@ export default function BlogsClient() {
                         <option value="Travel">Travel</option>
                     </select>
 
-                    <button
+                    {/* <button
                         className="text-white rounded-lg text-md font-medium   bg-gray-950   col-span-1 "
                         onClick={handleFilter}>
                         Filter
-                    </button>
+                    </button> */}
 
                 </div>
 

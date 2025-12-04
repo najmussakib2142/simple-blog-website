@@ -12,7 +12,7 @@ export default function AboutPage() {
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
                         Share your ideas with the world
                     </h1>
-                    <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-base sm:textsm text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         SimpleBlog is a modern, clean blogging platform built with Next.js,
                         Tailwind CSS, and MongoDB. Write, publish, and share your thoughts
                         effortlessly.
@@ -117,16 +117,18 @@ export default function AboutPage() {
                     <div className="flex flex-wrap gap-4 justify-center">
                         <Link
                             href="/blogs"
-                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900   text-white font-medium rounded-lg  transition-colors shadow-md"
+                            className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900   text-white font-medium rounded-sm  transition-colors shadow-md"
                         >
                             Explore Blogs
                         </Link>
                         <Link
                             href="/blogs/create"
-                            className="inline-flex items-center px-6 sm:px-8 py-3 border-gray-400 text-black hover:bg-gray-100 border  font-medium rounded-lg transition-colors"
+                            className="inline-flex items-center px-6 sm:px-8 py-3 border-gray-400 text-black hover:bg-gray-100 border  font-medium rounded-sm transition-colors"
                         >
                             Write Your First Post
                         </Link>
+
+                        
                     </div>
                 </div>
             </section>

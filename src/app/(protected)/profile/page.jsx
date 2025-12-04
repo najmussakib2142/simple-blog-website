@@ -22,9 +22,14 @@ async function fetchUserPosts(authorUid, token) { // 👈 Added token parameter
     });
 
     if (!response.ok) {
-        // Handle 401/403 errors returned from the protected API route
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch posts. Check authentication.');
+        let message = "Failed to fetch posts";
+        try {
+            const errorData = await response.json();
+            message = errorData.message || message;
+        } catch (e) {
+            message = "Server returned invalid response";
+        }
+        throw new Error(message);
     }
 
     const result = await response.json();
@@ -49,7 +54,9 @@ export default function UserProfile() {
                 setError(null);
                 try {
                     const token = await user.token;
-                    const userPosts = await fetchUserPosts(user.uid, token); setPosts(userPosts);
+                    const userPosts = await fetchUserPosts(user.uid, token);
+                    setPosts(userPosts);
+
                 } catch (err) {
                     setError(err.message);
                 } finally {
@@ -88,10 +95,11 @@ export default function UserProfile() {
                     <h1 className="text-4xl font-semibold text-gray-900 mb-2">
                         {user.displayName || 'Guest Author'}
                     </h1>
-                    {!postsLoading && posts.length === 0 && (
-                        <p className="text-xl text-black/90">{user.role}</p>
+                    {!postsLoading && posts.length !== 0 && (
+                        <p className="text-xl text-black/90 pb-2">Author</p>
+                        // <p className="text-xl text-black/90">{user.role}</p>
                     )}
-                    <p className="text-xl text-black/90 pb-2">Author</p>
+                    {/* <p className="text-xl text-black/90 pb-2">Author</p> */}
                     {/* <p className="text-xl text-gray-500 pb-2">{user.email}</p> */}
                     <p className='text-md text-gray-900 inline-flex items-center'> <PenLine className="w-4 h-4 mr-2" /> <span className="text-black font-semibold mr-1"> {totalBlogs.toString().padStart(2, "0")}</span> Published posts   </p>
 
