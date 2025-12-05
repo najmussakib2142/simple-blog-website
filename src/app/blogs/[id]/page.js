@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BlogActions from "@/components/BlogActions";
 import { ArrowLeft } from "lucide-react";
+import BlogOperations from "@/components/BlogOperations";
 
 /* -------------------------
    Split Content Helper
@@ -96,7 +97,7 @@ export default async function BlogDetails({ params }) {
         </div>
 
         {/* Header */}
-        <header className="mb-12">
+        <header className="mb-8">
           <h1 className="text-4xl md:text-5xl font-extrabold text-black leading-tight">
             {blog.title}
           </h1>
@@ -129,6 +130,9 @@ export default async function BlogDetails({ params }) {
             )}
           </div>
         </header>
+          <div className="pb-8">
+            <BlogOperations blog={blog} id={id} />
+          </div>
 
         {/* Hero Image */}
         {blog.imageUrl && (
@@ -195,38 +199,38 @@ export default async function BlogDetails({ params }) {
             Author Box
         --------------------------- */}
         <div className="border p-6 rounded-2xl bg-white/60 backdrop-blur-sm mb-16 shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
-  <h3 className="font-semibold text-lg text-gray-900 mb-4 tracking-tight">
-    Author
-  </h3>
+          <h3 className="font-semibold text-lg text-gray-900 mb-4 tracking-tight">
+            Author
+          </h3>
 
-  <div className="flex items-center gap-4">
-    {/* Avatar */}
-    <div className="relative w-16 h-16 rounded-full overflow-hidden shadow-md ring-2 ring-gray-200">
-      <Image
-        alt={blog.author || "Author"}
-        src={
-          blog.authorImage ||
-          "https://i.ibb.co/Mkf1wBdJ/jack-finnigan-rri-AI0nhcbc-unsplash.jpg"
-        }
-        fill
-        className="object-cover"
-      />
-    </div>
+          <div className="flex items-center gap-4">
+            {/* Avatar */}
+            <div className="relative w-16 h-16 rounded-full overflow-hidden shadow-md ring-2 ring-gray-200">
+              <Image
+                alt={blog.author || "Author"}
+                src={
+                  blog.authorImage ||
+                  "https://i.ibb.co/Mkf1wBdJ/jack-finnigan-rri-AI0nhcbc-unsplash.jpg"
+                }
+                fill
+                className="object-cover"
+              />
+            </div>
 
-    {/* Author Details */}
-    <div className="flex flex-col">
-      <p className="text-gray-900 font-semibold text-base">
-        {blog.author || "Unknown Author"}
-      </p>
+            {/* Author Details */}
+            <div className="flex flex-col">
+              <p className="text-gray-900 font-semibold text-base">
+                {blog.author || "Unknown Author"}
+              </p>
 
-      {blog.authorEmail && (
-        <p className="text-gray-500 text-sm mt-0.5">
-          {blog.authorEmail}
-        </p>
-      )}
-    </div>
-  </div>
-</div>
+              {blog.authorEmail && (
+                <p className="text-gray-500 text-sm mt-0.5">
+                  {blog.authorEmail}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
 
 
         {/* Actions */}

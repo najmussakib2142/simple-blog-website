@@ -4,10 +4,11 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
-import { ArrowLeft, Search, X } from 'lucide-react'; // Removed unused PenTool and User
+import { ArrowLeft, ChevronDown, Search, X } from 'lucide-react'; // Removed unused PenTool and User
 import Image from "next/image";
 import DrawOutlineButton from "./DrawOutlineButton"; // Assuming this component exists
 import SearchModal from "./SearchModal";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
@@ -27,6 +28,18 @@ export default function Navbar() {
 
     const handleLinkClick = () => {
         setIsDropdownOpen(false);
+    };
+
+    const handleSelectAction = (e) => {
+        const value = e.target.value;
+
+        if (!value) return;
+
+        // if (value === "LOGOUT_ACTION") {
+        //     console.log("Logging out...");
+        //     return;
+        // }
+        router.push(value);
     };
 
     const handleLogout = async () => {
@@ -126,7 +139,57 @@ export default function Navbar() {
                             <Link href="/about" className={getDesktopLinkClasses("/about")}>About</Link>
                             <Link href="/blogs" className={getDesktopLinkClasses("/blogs")}>Blogs</Link>
                             {user && (<Link href="/create" className={getDesktopLinkClasses("/create")}>Create</Link>)}
-                            {!loading && user?.role === "admin" && (<Link href="/admin" className={getDesktopLinkClasses("/admin")}>Admin Dashboard</Link>)}
+                            {!loading && user?.role === "admin" && (<Link href="/admin" className={getDesktopLinkClasses("/admin")}>Dashboard</Link>)}
+
+                            {/* 🔽 Hover Dropdown on "Profile" */}
+                            {user && (
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setIsDropdownOpen(true)}
+                                    onMouseLeave={() => setIsDropdownOpen(false)}
+                                >
+                                    <button
+                                        className={`${getDesktopLinkClasses("/profile")} cursor-pointer`}
+                                    >
+                                        <span className="inline-flex items-center">Profile  <ChevronDown className="w-4 h-4 ml-1" /></span>
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {isDropdownOpen && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -10 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="absolute space-y-2 right-0 left-0 flex flex-col text-center p-1 mt-4 w-36 bg-white border border-gray-200 shadow-lg rounded-sm z-10"
+                                            >
+                                                <Link
+                                                    href="/profile"
+                                                    // className={getDesktopLinkClasses("/profile")}
+                                                    className="block text-sm font-medium transition-colors duration-200 px-4 py-1 hover:bg-gray-100"
+                                                >
+                                                    My Profile
+                                                </Link>
+                                                <Link
+                                                    href="/posts"
+                                                    // className={getDesktopLinkClasses("/posts")}
+                                                    className="block text-sm font-medium transition-colors duration-200  px-4 py-1 hover:bg-gray-100"
+                                                >
+                                                    My Posts
+                                                </Link>
+                                                <Link
+                                                    href="/bookmarks"
+                                                    // className={getDesktopLinkClasses("/bookmarks")}
+                                                    className="block text-sm font-medium transition-colors duration-200 px-4 py-1 hover:bg-gray-100"
+                                                >
+                                                    Bookmarks
+                                                </Link>
+
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            )}
                         </nav>
 
                         {/* Right: auth */}
@@ -216,7 +279,7 @@ export default function Navbar() {
                                             />
                                         </button>
 
-                                        {isDropdownOpen && (
+                                        {/* {isDropdownOpen && (
                                             <div
                                                 id="user-menu-dropdown"
                                                 className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-lg z-10"
@@ -252,7 +315,7 @@ export default function Navbar() {
                                                     Logout
                                                 </button>
                                             </div>
-                                        )}
+                                        )} */}
                                     </div>
 
                                     <button
@@ -271,39 +334,92 @@ export default function Navbar() {
                     </div>
 
                     {/* Mobile Menu */}
-                    {isOpen && (
-                        <nav className="lg:hidden mt-4 space-y-2 pb-3 border-t border-gray-200" aria-label="Mobile Primary">
-                            <Link onClick={closeMobileMenu} href="/" className={getMobileLinkClasses("/")}>Home</Link>
-                            <Link onClick={closeMobileMenu} href="/about" className={getMobileLinkClasses("/about")}>About</Link>
-                            <Link onClick={closeMobileMenu} href="/blogs" className={getMobileLinkClasses("/blogs")}>Blogs</Link>
-                            {user && (<Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>Create</Link>)}
-                            {!loading && user?.role === "admin" && (<Link href="/admin" className={getMobileLinkClasses("/admin")}>Admin Dashboard</Link>)}
+                    {/* Mobile Menu */}
 
-                            {!user && (
-                                <Link
-                                    onClick={closeMobileMenu}
-                                    href="/auth/login"
-                                    className={getMobileLinkClasses("/auth/login") + " text-white bg-black hover:bg-gray-900 w-full text-center"}
-                                >
-                                    Login
-                                </Link>
-                            )}
 
-                            {user && (
-                                <button
-                                    onClick={() => {
-                                        handleLogout();
-                                        closeMobileMenu();
-                                    }}
-                                    className={`${mobileBaseStyle} text-red-600 hover:bg-red-50 hover:text-red-700 w-full text-left`}
-                                >
-                                    Logout
-                                </button>
-                            )}
-                        </nav>
-                    )}
                 </div>
             </header>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Backdrop with blur */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+                            onClick={closeMobileMenu}
+                        />
+
+                        {/* Sliding Panel from left */}
+                        <motion.nav
+                            initial={{ x: "-100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "-100%" }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            className="fixed h-full top-0 space-y-1 left-0 h-full w-72 bg-white shadow-xl z-50 px-4 py-4 flex flex-col"
+                        >
+                            <div className="flex gap-3 pb-3 items-center border-b border-gray-300 mb-4">
+                                <button
+                                    onClick={closeMobileMenu}
+                                    className="rounded-md text-gray-800 hover:text-black"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                                <Link
+                                    href="/"
+                                    className="text-xl md:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-gray-800 to-black"
+                                >
+                                    SimpleBlog
+                                </Link>
+                            </div>
+
+                            {/* Menu Links */}
+                            <div className="flex-1 flex flex-col justify-between">
+                                <div className="flex flex-col space-y-2">
+                                    <Link onClick={closeMobileMenu} href="/" className={getMobileLinkClasses("/")}>Home</Link>
+                                    <Link onClick={closeMobileMenu} href="/about" className={getMobileLinkClasses("/about")}>About</Link>
+                                    <Link onClick={closeMobileMenu} href="/blogs" className={getMobileLinkClasses("/blogs")}>Blogs</Link>
+                                    {user && <Link onClick={closeMobileMenu} href="/create" className={getMobileLinkClasses("/create")}>Create</Link>}
+                                    {!loading && user?.role === "admin" && <Link onClick={closeMobileMenu} href="/admin" className={getMobileLinkClasses("/admin")}>Admin Dashboard</Link>}
+                                    {user && <Link onClick={closeMobileMenu} href="/profile" className={getMobileLinkClasses("/profile")}>My Profile</Link>}
+                                    {user && <Link onClick={closeMobileMenu} href="/posts" className={getMobileLinkClasses("/posts")}>My Posts</Link>}
+                                    {user && <Link onClick={closeMobileMenu} href="/bookmarks" className={getMobileLinkClasses("/bookmarks")}>Bookmarks</Link>}
+                                </div>
+
+                                {/* Bottom Login/Logout */}
+                                <div className="flex flex-col space-y-2">
+                                    {!user && (
+                                        <Link
+                                            onClick={closeMobileMenu}
+                                            href="/auth/login"
+                                            className={getMobileLinkClasses("/auth/login") + " text-white bg-black hover:bg-gray-900 w-full text-center"}
+                                        >
+                                            Login
+                                        </Link>
+                                    )}
+
+                                    {user && (
+                                        <button
+                                            onClick={() => {
+                                                handleLogout();
+                                                closeMobileMenu();
+                                            }}
+                                            className={`${mobileBaseStyle} bg-red-600 text-center text-white hover:bg-red-700 w-full `}
+                                        >
+                                            Logout
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                        </motion.nav>
+                    </>
+                )}
+            </AnimatePresence>
+
 
             {/* 🎯 FULL-SCREEN SEARCH ASIDE (MD AND UP) - PLACED OUTSIDE <header> */}
             <SearchModal

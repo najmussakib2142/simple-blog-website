@@ -6,8 +6,16 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   photoURL: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
-  role: { type: String, default: "user", enum: ["user", "admin"] }
-});
+  role: { type: String, default: "user", enum: ["user", "admin"] },
+  bookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
+
+
+}, { timestamps: true });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;

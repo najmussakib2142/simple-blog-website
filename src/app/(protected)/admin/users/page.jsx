@@ -4,16 +4,16 @@
 import { useState, useEffect } from 'react';
 import { PencilIcon, TrashIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Function to fetch data from your local API endpoint
 async function fetchUsers() {
-    const API_URL = 'http://localhost:3000/api/users';
-
+    const res = await fetch('/api/users', { cache: 'no-store' });
     try {
-        const res = await fetch(API_URL, {
-            // Ensures fresh data on every request
-            cache: 'no-store'
-        });
+        // const res = await fetch(API_URL, {
+        //     // Ensures fresh data on every request
+        //     cache: 'no-store'
+        // });
 
         if (!res.ok) {
             throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
@@ -121,13 +121,24 @@ export default function UsersPage() {
                     <tbody className="bg-white divide-y divide-gray-200">
                         {users.map((user, index) => (
                             <tr key={index} className="hover:bg-gray-50">
-                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
-                                    {index+1}
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
+                                    {index + 1}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0 h-10 w-10">
-                                            <UserCircleIcon className="h-10 w-10 text-gray-400" />
+                                        <div className="flex-shrink-0 h-8 w-8">
+                                            {user && user.photoURL ? (
+                                                <Image
+                                                    src={user.photoURL}
+                                                    alt="User Avatar"
+                                                    width={40}
+                                                    height={40}
+                                                    className="h-8 w-8 rounded-full object-cover border "
+                                                />
+                                            ) : (
+                                                <UserCircleIcon className="h-8 w-8 text-gray-400" />
+                                            )}
+
                                         </div>
                                         <div className="ml-4">
                                             <div className="text-sm font-medium text-gray-900">{user.name}</div>

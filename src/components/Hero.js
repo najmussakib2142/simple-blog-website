@@ -83,7 +83,7 @@ export default function Hero() {
 
 
   return (
-    <section className="relative md:py-20 pt-10 md:pt-8 h-[50dvh] md:min-h-screen 
+    <section className="relative md:py-20 pt-10 md:pt-8 h-[70dvh] md:min-h-screen 
         bg-white bg-cover bg-center overflow-hidden flex items-center justify-center">
 
       {/* <LatestBadge /> */}
@@ -114,7 +114,7 @@ export default function Hero() {
             border border-gray-200 rounded-full px-5 py-2 shadow-md mb-6"
         >
           <Feather className="w-4 h-4 mr-2 text-gray-800" />
-          The Modern Blog
+          The Simple Blog
         </motion.p>
 
         {/* Hero Heading */}
@@ -146,7 +146,7 @@ export default function Hero() {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute -bottom-6 left-1/2 -translate-x-1/2"
+          className="absolute -bottom-6  left-1/2 -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         >
