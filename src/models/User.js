@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+// import Blog from "./Blog";
 
 const UserSchema = new mongoose.Schema({
   uid: { type: String, required: true, unique: true },
@@ -13,8 +14,13 @@ const UserSchema = new mongoose.Schema({
       ref: "Blog",
     },
   ],
-
-
+  
+  likedBlogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
 }, { timestamps: true });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

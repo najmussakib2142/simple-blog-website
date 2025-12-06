@@ -17,6 +17,12 @@ const BlogSchema = new mongoose.Schema(
     featured: { type: Boolean, default: false },
     status: { type: String, enum: ["draft", "published"], default: "published" },
     readingTime: { type: String }, // e.g., "5 min read"
+    likes: {
+      type: Number,
+      default: 0,
+    },
+
+    // bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog" }],
   },
   { timestamps: true }
 );
