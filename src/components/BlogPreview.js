@@ -24,19 +24,28 @@ const BlogListSkeleton = () => (
 async function fetchLatestBlogs() {
   try {
     const res = await fetch(`/api/blogs`, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-    const blogs = await res.json();
 
-    // Sort by createdAt descending
-    const sorted = blogs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (!res.ok) {
+      console.error("API Error:", res.status);
+      return [];
+    }
 
-    // Take the first 3
+    const data = await res.json();
+
+    // ✅ Force array protection
+    const blogs = Array.isArray(data) ? data : Array.isArray(data?.blogs) ? data.blogs : [];
+
+    const sorted = blogs.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
     return sorted.slice(0, 3);
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return [];
   }
 }
+
 
 
 export default function BlogPreview() {
@@ -98,7 +107,7 @@ export default function BlogPreview() {
           <>
             {/* Blog List with Images */}
             <div className="space-y-8">
-              {blogs.map((blog, index) => (
+              {Array.isArray(blogs) && blogs.map((blog, index) => (
                 <Link href={`/blogs/${blog._id}`} key={blog._id} className="block">
                   <motion.div
                     key={blog._id}
@@ -135,11 +144,15 @@ export default function BlogPreview() {
 
                         <div className="flex justify-start gap-10 items-center mt-3">
                           <p className="text-sm  inline-flex  font-medium text-gray-500">
-                            <CalendarDays className="w-4 h-4 mr-2" /><span>{new Date(blog.createdAt).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric"
-                            })}</span>
+                            <CalendarDays className="w-4 h-4 mr-2" /><span>
+                              {blog.createdAt
+                                ? new Date(blog.createdAt).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })
+                                : "Unknown date"}
+                            </span>
                           </p>
                           <p className="text-sm  inline-flex  font-medium text-gray-500">
                             <Clock className="w-4 h-4 mr-2" /> {blog.readingTime || "02 min read"}

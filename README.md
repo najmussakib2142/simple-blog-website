@@ -17,12 +17,28 @@ The UI is fully responsive and styled using Tailwind CSS and DaisyUI, combined w
 
 ---
 
+## Tech Stack
+- **Frontend:** Next.js 16, React 19, Tailwind CSS, DaisyUI, Framer Motion, Lucide React  
+- **Backend:** Node.js, Next.js API Routes, MongoDB, Mongoose  
+- **Authentication:** Firebase Auth  
+- **Media Handling:** Cloudinary for image uploads  
+- **Deployment:** Vercel 
+
+---
+
 ## 📝 Key Features
 
-- ✍️ Write & publish articles
-- 📖 Read & explore blogs
-- ⚡ Fast & responsive design
-- 💾 MongoDB backend
+- ✍️ Write & publish articles with full CRUD operations  
+- 📖 Read & explore blogs with dynamic category and keyword search  
+- ⭐ Bookmark your favorite blogs for quick access  
+- 👤 User Profiles with Firebase authentication and secure API access  
+- 🛡 Admin Role-Based Access Control (RBAC) for managing blogs  
+- ⚡ Fast, responsive, and interactive UI with Tailwind CSS, DaisyUI & Framer Motion  
+- 💾 MongoDB backend with server-side APIs  
+- 🌐 Cloudinary image uploads for blog posts  
+- 🔗 Dynamic routing for individual blog pages  
+- 💻 Smooth animations and reusable components  
+- 🚀 Production-ready deployment on Vercel  
 
 Full CRUD Functionality – create, read, update, and delete blog posts via server-side APIs.
 
@@ -42,15 +58,23 @@ Production Deployment – hosted on Vercel with environment variables secured.
 
 ---
 
-## 🛠 Tech Stack
+## Challenges
 
-Frontend: Next.js 16, React 19, Tailwind CSS, DaisyUI, Framer Motion, Lucide React
-Backend: Node.js, Next.js API Routes, MongoDB, Mongoose
-Authentication: Firebase Auth
-Deployment: Vercel
+- Implementing secure RBAC for admin vs regular users  
+- Ensuring real-time sync and pagination in BlogsClient  
+- Handling modal-based editing with proper DB connection  
+- Integrating Firebase Auth with Cloudinary image uploads  
+- Creating a full-featured search and category filter system  
 
 ---
 
+## Future Improvements
+- Add messaging or commenting features for blog posts  
+- Enable post moderation, recommendations, and trending blogs  
+- Optimize performance for larger datasets and high traffic  
+- Add analytics and dashboards for blog engagement  
+
+---
 ## 📸 Screenshot
 
 ![Home Page](./screenshots/home.png)
