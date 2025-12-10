@@ -1,61 +1,64 @@
+
+// /app/api/users/posts/route.js
+// import { withAuth } from "@/middleware/withAuth";
+import Blog from "@/models/Blog";
 import connectDB from "@/lib/mongodb";
-import Blog from "@/models/Blog"; // Assuming you have a Blog model
-import { verifyUser } from "@/lib/verifyUser"; // Assuming this verifies a JWT/Session
+import { withAuth } from "@/middleware/withAuth";
+import { NextResponse } from "next/server";
 
-// GET request to fetch posts by authorUid
-export async function GET(req) {
-    try {
-        await connectDB();
+// export const GET = withAuth(async (req, { user }) => {
+//     await connectDB();
 
-        let decoded;
-        try {
-            decoded = await verifyUser(req);
-        } catch (err) {
-            return new Response(
-                JSON.stringify({ message: "Unauthorized: Invalid token" }),
-                { status: 401, headers: { "Content-Type": "application/json" } }
-            );
-        }
+//     const { searchParams } = new URL(req.url);
+//     const authorUid = searchParams.get("authorUid");
 
-        if (!decoded) {
-            return new Response(
-                JSON.stringify({ message: "Unauthorized" }),
-                { status: 401, headers: { "Content-Type": "application/json" } }
-            );
-        }
+//     // Ensure users can only fetch their own posts
+//     if (authorUid !== user.uid && user.role !== "admin") {
+//         return new Response(
+//             JSON.stringify({ error: "Unauthorized" }),
+//             { status: 403 }
+//         );
+//     }
 
-        const { searchParams } = new URL(req.url);
-        const authorUid = searchParams.get("authorUid");
+//     const blogs = await Blog.find({ authorUid }).lean();
 
-        if (!authorUid) {
-            return new Response(
-                JSON.stringify({ message: "Missing authorUid parameter." }),
-                { status: 400, headers: { "Content-Type": "application/json" } }
-            );
-        }
+//     return new Response(
+//         JSON.stringify({ data: blogs }),
+//         { status: 200 }
+//     );
+// });
 
-        if (authorUid !== decoded.uid) {
-            return new Response(
-                JSON.stringify({ message: "Forbidden: Cannot access other users' posts." }),
-                { status: 403, headers: { "Content-Type": "application/json" } }
-            );
-        }
+// Admin-only route example
 
-        const posts = await Blog.find({ authorUid })
-            .select("_id title slug status readingTime createdAt updatedAt author authorImage")
-            .sort({ createdAt: -1 })
-            .lean();
+export const GET = withAuth(async (req, { user }) => {
+    await connectDB();
 
-        return new Response(
-            JSON.stringify({ success: true, data: posts }),
-            { status: 200, headers: { "Content-Type": "application/json" } }
-        );
+    const { searchParams } = new URL(req.url);
+    const authorUid = searchParams.get("authorUid");
 
-    } catch (error) {
-        console.error("API error fetching user posts:", error);
-        return new Response(
-            JSON.stringify({ message: "Internal server error." }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
-        );
+    if (!authorUid) {
+        return NextResponse.json({ error: "authorUid is missing" }, { status: 400 });
     }
-}
+
+    // Allow only:
+    // 1️⃣ User fetching their own posts
+    // 2️⃣ Admin fetching any user's posts
+    if (authorUid !== user.uid && user.role !== "admin") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    const blogs = await Blog.find({ authorUid }).lean();
+
+    return NextResponse.json(
+        { data: blogs },
+        { status: 200 }
+    );
+});
+
+export const DELETE = withAuth(
+    async (req, { user }) => {
+        // Only admins can delete
+        // ... deletion logic
+    },
+    { allowedRoles: ["admin"] }
+);

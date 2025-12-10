@@ -1,39 +1,48 @@
 // /app/api/users/[uid]/route.js
-
 import connectDB from "@/lib/mongodb";
-// import User from "@/models/User";
-import { verifyUser } from "@/lib/verifyUser";
 import User from "@/models/User";
-import { Route } from "lucide-react";
+import { d } from "@/middleware/withAuth";
+import { withAuth } from "@/middleware/withAuth";
 
-// export async function GET(req, { params }) {
-//   await connectDB();
+/**
+ * GET /api/users/[uid]
+ * Fetch user data by UID
+ * Protected: User can only fetch their own data (unless admin)
+ */
+export const GET = withAuth(async (req, { params, user }) => {
+  try {
+    await connectDB();
 
-//   const { uid } = await params;   // ✅ params.uid comes from the URL
-//   const user = await User.findOne({ uid }).lean();
+    const { uid } = await params;
 
-//   if (!user) {
-//     return new Response("Not found", { status: 404 });
-//   }
+    // 🔒 Security: Users can only access their own data (unless admin)
+    if (user.uid !== uid && user.role !== "admin") {
+      return new Response(
+        JSON.stringify({ error: "Forbidden: You can only access your own data" }),
+        { status: 403, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-//   return new Response(JSON.stringify(user), { status: 200 });
-// }
+    // Fetch user from database
+    const dbUser = await User.findOne({ uid }).select("-_id uid name email photoURL role createdAt").lean();
 
-export async function GET(req, { params }) {
-  await connectDB();
+    if (!dbUser) {
+      return new Response(
+        JSON.stringify({ error: "User not found" }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-  // ✅ Require token
-  const decoded = await verifyUser(req);
-  if (!decoded) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response(
+      JSON.stringify(dbUser),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
+
+  } catch (error) {
+    console.error("GET /api/users/[uid] error:", error);
+    return new Response(
+      JSON.stringify({ error: "Internal server error" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
-
-  const { uid } = await params;
-  const user = await User.findOne({ uid }).lean();
-
-  if (!user) {
-    return new Response("Not found", { status: 404 });
-  }
-
-  return new Response(JSON.stringify(user), { status: 200 });
-}
+});

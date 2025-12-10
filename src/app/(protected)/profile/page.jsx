@@ -1,76 +1,116 @@
 // /app/(protected)/profile/page.jsx
 "use client"
 import { useState, useEffect } from 'react';
-import { useAuth } from "@/context/AuthContext"
+// import { useAuth } from "@/context/AuthContext"
 import Image from "next/image";
 import Link from 'next/link';
 import BlogCard from '@/components/BlogCard'; // Assumed component for displaying each blog post
 import { Facebook, Linkedin, PenLine, Twitter } from 'lucide-react';
-
-// --- Data Fetching API ---
-// This function calls your backend API route (e.g., /api/user/posts?authorUid=...)
-async function fetchUserPosts(authorUid, token) { // 👈 Added token parameter
-    if (!authorUid || !token) return [];
-
-    const response = await fetch(`/api/users/posts?authorUid=${authorUid}`, {
-        method: 'GET',
-        headers: {
-            // 👈 CRITICAL: Pass the ID token for server-side verification
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    });
-
-    if (!response.ok) {
-        let message = "Failed to fetch posts";
-        try {
-            const errorData = await response.json();
-            message = errorData.message || message;
-        } catch (e) {
-            message = "Server returned invalid response";
-        }
-        throw new Error(message);
-    }
-
-    const result = await response.json();
-    console.log(result);
-    return result.data;
-}
-// --------------------------
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { useAuth } from '@/context/AuthContext';
 
 
 export default function UserProfile() {
-    const { user, loading, logout } = useAuth();
+    // const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const [posts, setPosts] = useState([]);
     const [postsLoading, setPostsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Effect to fetch posts when the user is authenticated
+
+    // useEffect(() => {
+    //     if (!user) return;
+
+    //     async function fetchPosts() {
+    //         setPostsLoading(true);
+    //         setError(null);
+
+    //         try {
+    //             const token = await user.getToken(); // ✅ correct method
+
+    //             const res = await fetch(`/api/users/posts?authorUid=${user.uid}`, {
+    //                 method: "GET",
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             });
+
+    //             const result = await res.json();
+
+    //             if (!res.ok) {
+    //                 console.error("Failed:", result);
+    //                 return;
+    //             }
+
+    //             setPosts(result.data || []);
+    //         } catch (error) {
+    //             console.error("Fetch error:", error);
+    //             setError("Something went wrong while fetching posts.");
+    //         } finally {
+    //             setPostsLoading(false);  // 🔥 stop loading
+    //         }
+    //     }
+    //     // async function fetchPosts(authorId) {
+    //     //     let token = null;
+
+    //     //     if (user) {
+    //     //         token = await user.getToken();
+    //     //     }
+
+    //     //     const res = await fetch(`/api/user-posts/${authorId}`, {
+    //     //         headers: token ? { Authorization: `Bearer ${token}` } : {},
+    //     //     });
+
+    //     //     return res.json();
+    //     // }
+
+
+
+    //     // fetchPosts();
+
+
+
+    // }, [user]);
+
     useEffect(() => {
+        if (!user) return;
 
-        if (user && user.uid) {
-            const getPosts = async () => {
-                setPostsLoading(true);
-                setError(null);
-                try {
-                    const token = await user.token;
-                    const userPosts = await fetchUserPosts(user.uid, token);
-                    setPosts(userPosts);
+        async function fetchPosts() {
+            setPostsLoading(true);   // 🔥 start loading
+            setError(null);
 
-                } catch (err) {
-                    setError(err.message);
-                } finally {
-                    setPostsLoading(false);
+            try {
+                const token = await user.getToken();
+
+                const res = await fetch(`/api/users/posts?authorUid=${user.uid}`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const result = await res.json();
+
+                if (!res.ok) {
+                    setError(result.error || "Failed to load posts");
+                    return;
                 }
-            };
-            getPosts();
-        } else if (!user) {
-            setPosts([]);
-            setPostsLoading(false);
+
+                setPosts(result.data || []);
+            } catch (error) {
+                console.error("Fetch error:", error);
+                setError("Something went wrong while fetching posts.");
+            } finally {
+                setPostsLoading(false);  // 🔥 stop loading
+            }
         }
+
+        fetchPosts();
     }, [user]);
 
+
+
+
     // --- Loading and Auth Protection Guards ---
+    { postsLoading && <p className="text-gray-500">Fetching your blog posts...</p> }
     if (loading) return <div className="p-10 text-center text-lg text-indigo-500">Loading profile and authentication state...</div>;
     if (!user) return <div className="p-10 text-center text-2xl text-red-600 font-bold">Please log in to view your profile.</div>;
 
@@ -131,7 +171,7 @@ export default function UserProfile() {
                 </div> */}
 
                     {/* Status Messages */}
-                    {postsLoading && <p className="text-gray-500">Fetching your blog posts...</p>}
+                    {/* {postsLoading && <p className="text-gray-500">Fetching your blog posts...</p>} */}
                     {error && <p className="text-red-500 font-medium">Error loading posts: {error}</p>}
 
                     {/* Empty State */}

@@ -1,45 +1,38 @@
-import { connectDB } from "@/lib/mongodb";
+import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
+import { withAuth } from "@/middleware/withAuth";
 import { NextResponse } from "next/server";
 
+// ✅ Utility
 function calculateReadingTime(text) {
-  const wordsPerMinute = 200; // average reading speed
+  const wordsPerMinute = 200;
   const words = text.trim().split(/\s+/).length;
   const time = Math.ceil(words / wordsPerMinute);
   return `${time} min read`;
 }
 
+/* =========================
+   ✅✅✅ GET BLOGS (PUBLIC)
+========================= */
 export async function GET(req) {
   await connectDB();
 
   try {
     const search = req.nextUrl.searchParams.get("search") || "";
     const category = req.nextUrl.searchParams.get("category") || "";
-    const pageParam = req.nextUrl.searchParams.get("page");
-    const limitParam = req.nextUrl.searchParams.get("limit");
+    const page = Number(req.nextUrl.searchParams.get("page")) || 1;
+    const limit = Number(req.nextUrl.searchParams.get("limit")) || 6;
 
-    if (!pageParam && !limitParam) {
-      // No pagination → return all blogs
-      const blogs = await Blog.find({}).lean();
-      return new Response(JSON.stringify(blogs), { status: 200 });
-    }
-
-    // Pagination logic
-    const page = Number(pageParam) || 1;
-    const limit = Number(limitParam) || 6;
-
-    let filter = {};
+    let filter = { status: "published" };
 
     if (search) {
       filter.$or = [
         { title: { $regex: search, $options: "i" } },
-        { content: { $regex: search, $options: "i" } }
+        { content: { $regex: search, $options: "i" } },
       ];
     }
 
-    if (category) {
-      filter.category = category;
-    }
+    if (category) filter.category = category;
 
     const totalBlogs = await Blog.countDocuments(filter);
     const totalPages = Math.ceil(totalBlogs / limit);
@@ -47,82 +40,102 @@ export async function GET(req) {
     const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .lean();
 
-    return new Response(
-      JSON.stringify({ blogs, totalPages, currentPage: page }),
+    return NextResponse.json(
+      { blogs, totalPages, currentPage: page },
       { status: 200 }
     );
+
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500
-    });
+    console.error("GET BLOGS ERROR:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
 
-
-export async function POST(req) {
-  await connectDB();
-
+/* =========================
+   ✅✅✅ POST BLOG (PROTECTED)
+========================= */
+export const POST = withAuth(async (req, { user }) => {
   try {
+    await connectDB();
+
     const body = await req.json();
+
     const {
       title,
       description,
       content,
       imageUrl,
-      author,
-      authorUid,
-      authorEmail,
-      authorImage,
       category,
-      tags,
-      featured,
-      status,
-      slug,
+      tags = [],
+      featured = false,
+      status = "published",
     } = body;
 
-    console.log("POST body:", body);
-
-    // Validate required fields
-    if (!title || !content || !authorUid || !slug) {
+    // ✅ Strong Validation
+    if (!title || !description || !content || !imageUrl || !category) {
       return new Response(
-        JSON.stringify({ error: "Title, content, slug, and authorUid are required" }),
+        JSON.stringify({ error: "All required fields must be filled" }),
         { status: 400 }
       );
     }
 
-    // Check if slug already exists
-    const existing = await Blog.findOne({ slug });
-    if (existing) {
+    // ✅ Secure Slug
+    const slug = title
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "");
+
+    const slugExists = await Blog.findOne({ slug });
+    if (slugExists) {
       return new Response(
-        JSON.stringify({ error: "Slug already exists. Please use a different title." }),
+        JSON.stringify({ error: "Blog with this title already exists" }),
         { status: 400 }
       );
     }
+
+    // ✅ Admin-only Feature Blogs
+    if (featured === true && user.role !== "admin") {
+      return new Response(
+        JSON.stringify({ error: "Only admin can feature blogs" }),
+        { status: 403 }
+      );
+    }
+
+    // ✅ Clean Tags
+    const cleanTags = tags.filter(tag => tag.trim().length > 0);
 
     const readingTime = calculateReadingTime(content);
 
     const blog = await Blog.create({
       title,
       slug,
-      description: description || "",
+      description,
       content,
-      imageUrl: imageUrl || null,
-      author: author || "Unknown Author",
-      authorImage: authorImage || null,
-      authorUid,
-      authorEmail: authorEmail || "",
-      category: category || "General",
-      tags: tags || [],
-      featured: featured || false,
-      status: status || "published",
+      imageUrl,
+      author: user.name,
+      authorUid: user.uid,
+      authorEmail: user.email,
+      authorImage: user.photoURL,
+      category,
+      tags: cleanTags,
+      featured,
+      status,
       readingTime,
     });
 
     return new Response(JSON.stringify(blog), { status: 201 });
+
   } catch (error) {
-    console.error("POST error:", error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error("BLOG POST ERROR:", error);
+    return new Response(
+      JSON.stringify({ error: "Internal Server Error" }),
+      { status: 500 }
+    );
   }
-}
+});

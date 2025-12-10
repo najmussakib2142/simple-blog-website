@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { registerUser } from "@/lib/auth/authHelpers";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -17,10 +16,10 @@ export default function RegisterForm() {
     name: "",
     email: "",
     password: "",
-    imageUrl: "", // Added here for preview
+    imageUrl: "",
   });
 
-  const [image, setImage] = useState(null); // raw File object
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +50,7 @@ export default function RegisterForm() {
     if (!file) return;
 
     setImageUploading(true);
-    setImage(file); // save raw file for submit
+    setImage(file);
 
     try {
       const url = await uploadToCloudinary(file);
@@ -74,33 +73,13 @@ export default function RegisterForm() {
         throw new Error("Password must be at least 6 characters long.");
       }
 
-      let photoURL = formData.imageUrl || "";
-
-      // Register user in Firebase
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      // ✅ Register using your auth helper
+      const user = await registerUser(
+        formData.name,
         formData.email,
-        formData.password
+        formData.password,
+        formData.imageUrl
       );
-
-      // Update Firebase profile
-      await updateProfile(userCredential.user, {
-        displayName: formData.name,
-        photoURL: photoURL || null,
-      });
-
-      // Save user to MongoDB
-      await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          uid: userCredential.user.uid,
-          name: formData.name,
-          email: formData.email,
-          photoURL: photoURL || "",
-          role: "user",
-        }),
-      });
 
       setFormData({ name: "", email: "", password: "", imageUrl: "" });
       setImage(null);
@@ -165,13 +144,13 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center pr-3"
+              className="absolute text-black inset-y-0 right-0 flex items-center pr-3"
             >
               {showPassword ? <EyeOff /> : <Eye />}
             </button>
           </div>
 
-          {/* Image Upload */}
+          {/* ✅ Image Upload (unchanged) */}
           <div className="w-full">
             <label className="block text-sm font-semibold text-gray-900 mb-2">
               Upload Image (optional)

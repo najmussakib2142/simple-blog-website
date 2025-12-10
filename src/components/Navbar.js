@@ -2,13 +2,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
 import { ArrowLeft, ChevronDown, Search, X } from 'lucide-react'; // Removed unused PenTool and User
 import Image from "next/image";
 import DrawOutlineButton from "./DrawOutlineButton"; // Assuming this component exists
 import SearchModal from "./SearchModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
@@ -184,6 +184,13 @@ export default function Navbar() {
                                                 >
                                                     Bookmarks
                                                 </Link>
+                                                <Link
+                                                    href="/likes"
+                                                    // className={getDesktopLinkClasses("/bookmarks")}
+                                                    className="block text-sm font-medium transition-colors duration-200 px-4 py-1 hover:bg-gray-100"
+                                                >
+                                                    Activity Log
+                                                </Link>
 
                                             </motion.div>
                                         )}
@@ -279,55 +286,18 @@ export default function Navbar() {
                                             />
                                         </button>
 
-                                        {/* {isDropdownOpen && (
-                                            <div
-                                                id="user-menu-dropdown"
-                                                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-lg z-10"
-                                            >
-                                                <Link
-                                                    href={`/profile`}
-                                                    className="block px-4 py-2 hover:bg-gray-100"
-                                                    onClick={handleLinkClick}
-                                                >
-                                                    My Profile
-                                                </Link>
-                                                <Link
-                                                    href="/my-posts"
-                                                    className="block px-4 py-2 hover:bg-gray-100"
-                                                    onClick={handleLinkClick}
-                                                >
-                                                    My Posts
-                                                </Link>
-                                                <Link
-                                                    href="/bookmarks"
-                                                    className="block px-4 py-2 hover:bg-gray-100"
-                                                    onClick={handleLinkClick}
-                                                >
-                                                    Bookmarks
-                                                </Link>
-                                                <button
-                                                    onClick={() => {
-                                                        handleLogout();
-                                                        handleLinkClick();
-                                                    }}
-                                                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                                                >
-                                                    Logout
-                                                </button>
-                                            </div>
-                                        )} */}
+
                                     </div>
 
-                                    <button
-                                        onClick={handleLogout}
+                                    <div
                                         className="text-md font-medium shadow-md transition transform hover:scale-[1.03] active:scale-[0.97] bg-white text-black border border-gray-300 hover:bg-gray-50 hidden sm:block"
                                     >
-                                        <DrawOutlineButton>
+                                        <DrawOutlineButton onClick={handleLogout}>
                                             <span className="flex items-center space-x-1">
                                                 <span>Logout</span>
                                             </span>
                                         </DrawOutlineButton>
-                                    </button>
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -387,6 +357,7 @@ export default function Navbar() {
                                     {user && <Link onClick={closeMobileMenu} href="/profile" className={getMobileLinkClasses("/profile")}>My Profile</Link>}
                                     {user && <Link onClick={closeMobileMenu} href="/posts" className={getMobileLinkClasses("/posts")}>My Posts</Link>}
                                     {user && <Link onClick={closeMobileMenu} href="/bookmarks" className={getMobileLinkClasses("/bookmarks")}>Bookmarks</Link>}
+                                    {user && <Link onClick={closeMobileMenu} href="/likes" className={getMobileLinkClasses("/likes")}>Activity Log</Link>}
                                 </div>
 
                                 {/* Bottom Login/Logout */}

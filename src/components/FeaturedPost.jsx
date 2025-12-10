@@ -41,10 +41,10 @@ export default function FeaturedPost() {
     fetchFeatured();
   }, []);
 
-  // Split the posts for custom layout
-  const leftCard = featuredPosts[0];
-  const middleCards = featuredPosts.slice(1, 3); // two cards in middle
-  const rightCard = featuredPosts[3];
+  // Ensure safe indexing
+  const leftCard = featuredPosts[0] || null;
+  const middleCards = featuredPosts.slice(1, 3).filter(Boolean);
+  const rightCard = featuredPosts[3] || null;
 
   return (
     <section className="py-20 bg-[#FAFAFA]">
@@ -85,7 +85,10 @@ export default function FeaturedPost() {
             {middleCards.length > 0 && (
               <div className="flex flex-col gap-5 md:gap-3">
                 {middleCards.map((blog) => (
-                  <BlogCard key={blog._id} blog={{ ...blog, imageUrl: null }} />
+                  <BlogCard
+                    key={blog._id}
+                    blog={{ ...blog, imageUrl: null }}
+                  />
                 ))}
               </div>
             )}

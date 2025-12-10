@@ -9,7 +9,6 @@ export async function POST(req) {
 
     const { uid, blogId } = await req.json();
 
-    console.log("📥 Received toggle request:", { uid, blogId });
 
     if (!uid || !blogId) {
       return NextResponse.json(
@@ -36,7 +35,18 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Initialize fields if missing (safety check)
+    if (
+      !blog.title ||
+      !blog.description ||
+      !blog.content ||
+      !blog.category ||
+      !blog.imageUrl
+    ) {
+      return NextResponse.json({
+        error: "Incomplete blog cannot be liked"
+      }, { status: 400 });
+    }
+
     if (!user.likedBlogs) {
       user.likedBlogs = [];
     }
@@ -49,10 +59,10 @@ export async function POST(req) {
       (id) => id.toString() === blogId
     );
 
-    console.log("📊 Current state:", { 
-      alreadyLiked, 
+    console.log("📊 Current state:", {
+      alreadyLiked,
       currentLikes: blog.likes,
-      userLikedBlogs: user.likedBlogs.length 
+      userLikedBlogs: user.likedBlogs.length
     });
 
     if (alreadyLiked) {
@@ -61,21 +71,21 @@ export async function POST(req) {
         (id) => id.toString() !== blogId
       );
       blog.likes = Math.max(0, blog.likes - 1);
-      console.log("👎 Unliked");
+      // console.log("👎 Unliked");
     } else {
       // LIKE
       user.likedBlogs.push(blogId);
       blog.likes += 1;
-      console.log("👍 Liked");
+      // console.log("👍 Liked");
     }
 
     await user.save();
     await blog.save();
 
-    console.log("✅ Successfully saved:", { 
-      liked: !alreadyLiked, 
-      newLikes: blog.likes 
-    });
+    // console.log("✅ Successfully saved:", { 
+    //   liked: !alreadyLiked, 
+    //   newLikes: blog.likes 
+    // });
 
     return NextResponse.json({
       success: true,

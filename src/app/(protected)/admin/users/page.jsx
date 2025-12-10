@@ -10,10 +10,6 @@ import Image from 'next/image';
 async function fetchUsers() {
     const res = await fetch('/api/users', { cache: 'no-store' });
     try {
-        // const res = await fetch(API_URL, {
-        //     // Ensures fresh data on every request
-        //     cache: 'no-store'
-        // });
 
         if (!res.ok) {
             throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
@@ -21,9 +17,6 @@ async function fetchUsers() {
 
         const data = await res.json();
 
-        // This line depends on your API's response structure.
-        // It handles if the API wraps the array in an object (e.g., {users: [...]}) 
-        // or returns the array directly.
         return data.users || data;
 
     } catch (error) {

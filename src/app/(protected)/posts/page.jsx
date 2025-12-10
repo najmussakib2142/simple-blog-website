@@ -47,27 +47,37 @@ export default function UserProfile() {
 
     // Effect to fetch posts when the user is authenticated
     useEffect(() => {
+        if (!user) return;
 
-        if (user && user.uid) {
-            const getPosts = async () => {
-                setPostsLoading(true);
-                setError(null);
-                try {
-                    const token = await user.token;
-                    const userPosts = await fetchUserPosts(user.uid, token);
-                    setPosts(userPosts);
+        async function fetchPosts() {
+            setPostsLoading(true);   // 🔥 start loading
+            setError(null);
 
-                } catch (err) {
-                    setError(err.message);
-                } finally {
-                    setPostsLoading(false);
+            try {
+                const token = await user.getToken();
+
+                const res = await fetch(`/api/users/posts?authorUid=${user.uid}`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const result = await res.json();
+
+                if (!res.ok) {
+                    setError(result.error || "Failed to load posts");
+                    return;
                 }
-            };
-            getPosts();
-        } else if (!user) {
-            setPosts([]);
-            setPostsLoading(false);
+
+                setPosts(result.data || []);
+            } catch (error) {
+                console.error("Fetch error:", error);
+                setError("Something went wrong while fetching posts.");
+            } finally {
+                setPostsLoading(false);  // 🔥 stop loading
+            }
         }
+
+        fetchPosts();
     }, [user]);
 
     // --- Loading and Auth Protection Guards ---
@@ -128,8 +138,11 @@ export default function UserProfile() {
                 </div> */}
 
                     {/* Status Messages */}
-                    {postsLoading && <p className="text-gray-500">Fetching your blog posts...</p>}
-                    {error && <p className="text-red-500 font-medium">Error loading posts: {error}</p>}
+                    <div className='text-center py-5 pb-10'>
+                        {postsLoading && <p className="text-gray-500">Fetching your blog posts...</p>}
+                        {error && <p className="text-red-500 font-medium">Error loading posts: {error}</p>}
+
+                    </div>
 
                     {/* Empty State */}
                     {!postsLoading && posts.length === 0 && (

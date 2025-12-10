@@ -83,7 +83,7 @@ export default async function BlogDetails({ params }) {
 
   return (
     <article className="bg-[#F2F3E8]">
-      <div className="max-w-5xl mx-auto px-4 md:px-8 py-12">
+      <div className="max-w-5xl min-h-screen mx-auto px-4 md:px-8 py-12">
 
         {/* Back link */}
         <div className="mb-6">

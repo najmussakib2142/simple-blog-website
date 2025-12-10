@@ -4,8 +4,9 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
-import { loginUser } from "@/lib/auth"; // Your login logic
+// import { loginUser } from "@/lib/auth"; // Your login logic
 import Link from "next/link";
+import { loginUser } from "@/lib/auth/authHelpers";
 
 export default function LoginForm() {
   const router = useRouter();

@@ -57,8 +57,8 @@ export default function BlogOperations({ id, blog }) {
       return;
     }
 
-    console.log("🔵 Attempting to toggle like for blog:", id);
-    console.log("🔵 User UID:", user.uid);
+    // console.log("🔵 Attempting to toggle like for blog:", id);
+    // console.log("🔵 User UID:", user.uid);
 
     setLikeLoading(true);
 
@@ -123,7 +123,7 @@ export default function BlogOperations({ id, blog }) {
       {/* ✅ LIKE */}
       <button
         onClick={(e) => {
-          console.log("🖱️ Button clicked!");
+          // console.log("🖱️ Button clicked!");
           e.preventDefault();
           e.stopPropagation();
           toggleLike();

@@ -1,58 +1,96 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// Import the correct icon from lucide-react (assuming this is used for the close button)
-import { X } from 'lucide-react';
+import Image from "next/image";
+import { X } from "lucide-react";
+import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
-// Import SweetAlert2
-import Swal from 'sweetalert2';
+import { getAuthToken } from "@/lib/auth/authHelpers";
+import DrawOutlineButton from "./DrawOutlineButton";
 
-// Assuming you have an icon for the edit button, using the lucide X and a placeholder for the edit icon
-const EditIcon = (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 18.07a4.99 4.99 0 0 1-1.636 1.487l-2.484.83a.75.75 0 0 1-.951-.951l.83-2.484a4.99 4.99 0 0 1 1.487-1.636L16.862 4.487Zm0 0L19.5 7.125" />
-    </svg>
-);
-
-
-export default function EditBlogModal({ blog, id, context = 'detail' }) {
+export default function EditBlogModal({ blog, id, context = "detail" }) {
     const { user } = useAuth();
-    const [open, setOpen] = useState(false);
-    const [formData, setFormData] = useState(blog);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
     const router = useRouter();
 
-    // 1. Logic: Handle ESC key press to close the modal
+    const [mounted, setMounted] = useState(false); // hydration-safe
+    const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [imageUploading, setImageUploading] = useState(false);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState(blog);
+
+    useEffect(() => setMounted(true), []);
+
+    // ESC key to close modal
     useEffect(() => {
-        const handleKeydown = (event) => {
-            if (event.key === 'Escape' && !isLoading) { // Prevent closing if loading
-                setOpen(false);
-            }
+        const handleKey = (e) => {
+            if (e.key === "Escape" && !isLoading) setOpen(false);
         };
-        if (open) {
-            document.addEventListener('keydown', handleKeydown);
-            // document.getElementById('modal-close-button')?.focus();
-        }
-        return () => {
-            document.removeEventListener('keydown', handleKeydown);
-        };
+        if (open) document.addEventListener("keydown", handleKey);
+        return () => document.removeEventListener("keydown", handleKey);
     }, [open, isLoading]);
 
-
     const handleChange = (e) => {
-        // Clear any previous error when the user starts typing
-        if (error) setError(null);
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value, type, checked } = e.target;
+
+        if (name === "tags") {
+            setFormData((prev) => ({
+                ...prev,
+                tags: value.split(",").map((tag) => tag.trim()).filter(Boolean),
+            }));
+        } else if (type === "checkbox") {
+            setFormData((prev) => ({ ...prev, [name]: checked }));
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
+
+        if (name === "title") {
+            const slug = value
+                .toLowerCase()
+                .replace(/\s+/g, "-")
+                .replace(/[^\w-]+/g, "");
+            setFormData((prev) => ({ ...prev, slug }));
+        }
     };
 
+    // Cloudinary Image Upload
+    const handleImageUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setImageUploading(true);
+        try {
+            const form = new FormData();
+            form.append("file", file);
+            form.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET);
+
+            const res = await fetch(
+                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD}/image/upload`,
+                { method: "POST", body: form }
+            );
+            const data = await res.json();
+
+            if (!data?.secure_url) throw new Error("Upload failed");
+
+            setFormData((prev) => ({ ...prev, imageUrl: data.secure_url }));
+        } catch (err) {
+            Swal.fire("Error", "Image upload failed", "error");
+        } finally {
+            setImageUploading(false);
+        }
+    };
+
+    // Submit update
     const handleUpdate = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
 
         try {
-            const token = await user.token;
+            if (!user) throw new Error("You must be logged in");
+
+            const token = await getAuthToken();
 
             const res = await fetch(`/api/blogs/${id}`, {
                 method: "PATCH",
@@ -63,212 +101,166 @@ export default function EditBlogModal({ blog, id, context = 'detail' }) {
                 body: JSON.stringify(formData),
             });
 
-            if (res.ok) {
-                // Success path
-                setOpen(false);
-                router.refresh();
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Update failed");
 
-                // 🛑 REPLACED alert() with SweetAlert2 
-                Swal.fire({
-                    title: "Updated!",
-                    text: "Blog updated successfully!",
-                    icon: "success",
-                    confirmButtonColor: "#000000",
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-
-            } else {
-                // Error path
-                const data = await res.json();
-                const apiError = data.message || "Failed to update blog. Please try again.";
-                setError(apiError);
-
-                // 🛑 SweetAlert2 for API Error
-                Swal.fire({
-                    title: "Update Failed",
-                    text: apiError,
-                    icon: "error",
-                    confirmButtonColor: "#000000"
-                });
-            }
+            setOpen(false);
+            router.refresh();
+            Swal.fire({ title: "Updated!", text: "Blog updated successfully!", icon: "success", timer: 2000, showConfirmButton: false });
         } catch (err) {
-            const networkError = "A network error occurred. Check your connection.";
-            setError(networkError);
-
-            // 🛑 SweetAlert2 for Network Error
-            Swal.fire({
-                title: "Error",
-                text: networkError,
-                icon: "error",
-                confirmButtonColor: "#000000"
-            });
+            setError(err.message);
+            Swal.fire("Error", err.message, "error");
         } finally {
             setIsLoading(false);
         }
     };
 
+    if (!mounted) return null;
+
     return (
         <>
-            {/* 2. Button: Non-traditional button based on context (Black/White/Grayscale Theme) */}
-            {context === 'table' ? (
-                // Table Button: Icon-only, subtle, border-based for a cleaner row action
-                <button
-                    onClick={() => setOpen(true)}
-                    className="p-1.5 text-black border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-150 transform hover:shadow-sm"
-                    aria-label="Edit Blog"
-                    disabled={isLoading}
-                >
-                    <EditIcon className="w-4 h-4" />
-                </button>
-            ) : (
-                // Detail/Author Button: Prominent, floating style action
-                <button
-                    onClick={() => setOpen(true)}
-                    // Monochrome Button Style
-                    className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-black text-black text-sm font-medium shadow-md transition duration-150 transform hover:shadow-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isLoading}
-                >
-                    <EditIcon className="w-5 h-5" />
-                    <span>Edit Blog Details</span>
-                </button>
-            )}
+            {/* Trigger Button */}
+            <button
+                onClick={() => setOpen(true)}
+                className={context === "table"
+                    ? "p-1.5 text-black border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-150"
+                    : "flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-600 hover:border-black text-black text-sm font-medium shadow-md hover:shadow-lg hover:bg-gray-50"}
+            >
+                <X className="w-5 h-5" />
+                {context !== "table" && <span>Edit Blog</span>}
+            </button>
 
-            {/* 3. Conditional Render: Only render the modal structure if 'open' is true */}
+            {/* <DrawOutlineButton>
+                <span className="flex text-black items-center space-x-1">
+                    <span>Edit Blog</span>
+                </span>
+            </DrawOutlineButton> */}
+
+            {/* Modal */}
             {open && (
                 <div
-                    // Monochrome Backdrop: Dark and blurred
-                    className="fixed inset-0 pt-10 pb-20 overflow-y-auto z-50 bg-black/90 backdrop-blur-sm transition-opacity duration-300 ease-out"
-                    aria-modal="true"
-                    role="dialog"
-                    onClick={(e) => {
-                        // Prevent closing if loading or if click is on the modal content
-                        if (e.target === e.currentTarget && !isLoading) {
-                            setOpen(false);
-                        }
-                    }}
+                    className="fixed inset-0 z-50 flex items-center justify-center px-4 py-4 md:py-10 bg-black/80 backdrop-blur-sm overflow-y-auto"
+                    onClick={(e) => e.target === e.currentTarget && !isLoading && setOpen(false)}
                 >
-                    {/* Modal Content Container: Black and White Theme */}
                     <div
-                        className="bg-white p-8 rounded-xl shadow-2xl max-w-3xl w-full mx-auto my-0 relative border border-gray-200"
+                        className="relative w-full max-w-3xl bg-white rounded-sm shadow-2xl max-h-[90vh] overflow-y-auto overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* Close button inside modal for better UX */}
+                        {/* Close */}
                         <button
-                            id="modal-close-button"
-                            onClick={() => !isLoading && setOpen(false)}
-                            disabled={isLoading}
-                            // Monochrome Close Button
-                            className="absolute top-4 right-4 p-1 rounded-full text-black hover:bg-gray-100 transition disabled:opacity-50"
-                            aria-label="Close modal"
+                            className="absolute top-4 right-4 p-2 bg-gray-300 rounded-full hover:bg-gray-500"
+                            onClick={() => setOpen(false)}
                         >
-                            <X className="w-6 h-6" />
+                            <X size={22} />
                         </button>
 
-                        <h2 className="text-2xl font-extrabold text-black mb-6 border-b border-gray-300 pb-2">
-                            📝 Edit Blog Post
-                        </h2>
+                        <div className="px-4 md:px-6  py-8 md:py-8 space-y-6">
+                            <h2 className="text-2xl text-black font-bold">📝 Edit Blog</h2>
 
-                        {/* 4. Error Display (Kept the alert box style as a local visual indicator alongside Swal) */}
-                        {error && (
-                            <div className="p-3 mb-4 text-sm text-red-700 rounded-lg bg-red-50 border border-red-200" role="alert">
-                                ❌ {error}
-                            </div>
-                        )}
+                            {error && <div className="p-3 bg-red-50 text-red-700 rounded-lg">{error}</div>}
 
-                        <form onSubmit={handleUpdate} className="space-y-5">
-                            {/* Input Fields: Monochrome focus style */}
-                            <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-black mb-1">Title</label>
-                                <input
-                                    id="title"
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    // Monochrome Input Style
-                                    className="w-full text-gray-800 border border-gray-400 bg-white p-3 rounded-none focus:ring-0 focus:border-black transition duration-150"
-                                    placeholder="The exciting title of your blog post"
-                                    required
-                                />
-                            </div>
+                            <form className="space-y-5" onSubmit={handleUpdate}>
+                                {/* Title */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-black mb-1">Title</label>
+                                    <input type="text" name="title" value={formData.title} onChange={handleChange} required
+                                        className="w-full text-gray-900 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white" />
+                                </div>
 
-                            <div>
-                                <label htmlFor="description" className="block text-sm font-medium text-black mb-1">Short Description</label>
-                                <input
-                                    id="description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    // Monochrome Input Style
-                                    className="w-full text-gray-800 border border-gray-400 bg-white p-3 rounded-none focus:ring-0 focus:border-black transition duration-150"
-                                    placeholder="A brief summary for previews"
-                                    required
-                                />
-                            </div>
+                                {/* Description */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-black mb-1">Description</label>
+                                    <input type="text" name="description" value={formData.description} onChange={handleChange}
+                                        className="w-full px-4 text-gray-900 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white" />
+                                </div>
 
-                            <div>
-                                <label htmlFor="content" className="block text-sm font-medium text-black mb-1">Content</label>
-                                <textarea
-                                    id="content"
-                                    name="content"
-                                    value={formData.content}
-                                    onChange={handleChange}
-                                    rows={6}
-                                    // Monochrome Input Style
-                                    className="w-full text-gray-800 border border-gray-400 bg-white p-3 rounded-none focus:ring-0 focus:border-black transition duration-150 resize-y"
-                                    placeholder="Write the full content of your blog post here..."
-                                    required
-                                />
-                            </div>
+                                {/* Content */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-black mb-1">Content</label>
+                                    <textarea name="content" value={formData.content} onChange={handleChange} rows={8}
+                                        className="w-full text-gray-900 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white" />
+                                </div>
 
-                            <div>
-                                <label htmlFor="imageUrl" className="block text-sm font-medium text-black mb-1">Image URL</label>
-                                <input
-                                    id="imageUrl"
-                                    name="imageUrl"
-                                    value={formData.imageUrl}
-                                    onChange={handleChange}
-                                    // Monochrome Input Style
-                                    className="w-full text-gray-800 border border-gray-400 bg-white p-3 rounded-none focus:ring-0 focus:border-black transition duration-150"
-                                    placeholder="https://example.com/image.jpg"
-                                />
-                            </div>
+                                {/* Category + Status */}
+                                <div className="flex flex-col md:flex-row gap-4">
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-semibold text-black mb-1">Category</label>
+                                        <select name="category" value={formData.category} onChange={handleChange} required
+                                            className="w-full px-4 py-3 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white">
+                                            <option value="">Select category</option>
+                                            <option value="Tech">Tech</option>
+                                            <option value="Lifestyle">Lifestyle</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Health">Health</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Travel">Travel</option>
+                                        </select>
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-semibold text-black mb-1">Status</label>
+                                        <select name="status" value={formData.status} onChange={handleChange}
+                                            className="w-full px-4 text-gray-900 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white">
+                                            <option value="published">Published</option>
+                                            <option value="draft">Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                            {/* Action Buttons: Non-traditional/minimalist look */}
-                            <div className="flex justify-end gap-4 pt-4">
-                                {/* Cancel Button: Ghost/text button style */}
-                                <button
-                                    type="button"
-                                    onClick={() => setOpen(false)}
-                                    disabled={isLoading}
-                                    // Monochrome Ghost Button Style
-                                    className="px-6 py-2 text-sm font-medium text-black hover:text-black border border-transparent hover:border-gray-400 transition duration-150 disabled:opacity-50"
-                                >
-                                    Cancel
-                                </button>
+                                {/* Tags */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-black mb-1">Tags (comma separated)</label>
+                                    <input type="text" name="tags" value={formData.tags.join(", ")} onChange={handleChange}
+                                        className="w-full text-gray-900 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/40 bg-white"
+                                        placeholder="React, Next.js, Cloudinary" />
+                                </div>
 
-                                {/* Save Button: Solid Black block style */}
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    // Monochrome Solid Button Style
-                                    className="px-6 py-2 text-sm font-medium text-white bg-black rounded-none shadow-lg hover:bg-gray-800 transition duration-150 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                                >
-                                    {/* Display Loading Text */}
-                                    {isLoading ? (
-                                        <div className="flex items-center">
-                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Updating...
+                                {/* Featured */}
+                                {user?.role === "admin" && (
+                                    <div className="flex items-center gap-2">
+                                        <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} />
+                                        <label className="text-black font-medium">Mark as Featured</label>
+                                    </div>
+                                )}
+
+                                {/* Image */}
+                                <div className="w-full">
+                                    <label className="block text-sm font-semibold text-black mb-1">Image</label>
+                                    <label className="flex items-center justify-center w-full h-16 px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-black/40 hover:bg-gray-50 transition-colors duration-200 text-gray-600">
+                                        <span className="mr-2">📁</span>
+                                        <span className="text-sm">Click or drag to upload</span>
+                                        <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                                    </label>
+
+                                    {imageUploading && (
+                                        <div className="mt-4 p-4 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
+                                            <div className="border-4 border-gray-300 border-t-black/40 rounded-full w-8 h-8 animate-spin"></div>
+                                            <p className="text-sm text-gray-600">Uploading image…</p>
                                         </div>
-                                    ) : (
-                                        'Save Changes'
                                     )}
-                                </button>
-                            </div>
-                        </form>
+
+                                    {!imageUploading && formData.imageUrl && (
+                                        <div className="mt-4">
+                                            <div className="relative w-full h-56 rounded-lg overflow-hidden bg-gray-100">
+                                                <Image src={formData.imageUrl} alt="Preview" fill className="object-cover transition-transform duration-300 hover:scale-105" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="flex gap-3 pt-4">
+                                    <button type="submit" disabled={isLoading || imageUploading}
+                                        className={`flex-1 py-3  font-medium transition-colors ${isLoading ? "bg-gray-400 text-white cursor-not-allowed" : "bg-black text-white hover:bg-gray-900"}`}>
+                                        {isLoading ? "Updating..." : "Save Changes"}
+                                    </button>
+
+                                    <button type="button" onClick={() => setOpen(false)}
+                                        className="flex-1 py-3  text-red-600 border border-red-600 font-medium bg-gray-100 hover:font-semibold">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

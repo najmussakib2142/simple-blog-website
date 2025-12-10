@@ -7,16 +7,21 @@ import Image from "next/image";
 import TrendingTopics from "./TrendingTopics";
 import { AnimatePresence, motion } from "framer-motion";
 
-/* ----------------------------------------
-✅ API FUNCTION (UNCHANGED LOGIC)
------------------------------------------ */
 async function fetchLatestBlogs() {
     try {
         const res = await fetch(`/api/blogs`, { cache: "no-store" });
         if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-        const blogs = await res.json();
 
-        const sorted = blogs.sort(
+        const result = await res.json();
+        const blogs = result.blogs || []; // <-- use blogs, not data
+
+        // Convert createdAt to ISO string
+        const formattedBlogs = blogs.map(blog => ({
+            ...blog,
+            createdAt: blog.createdAt ? new Date(blog.createdAt).toISOString() : null
+        }));
+
+        const sorted = formattedBlogs.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 
@@ -27,9 +32,12 @@ async function fetchLatestBlogs() {
     }
 }
 
-/* ----------------------------------------
-✅ SKELETON LOADER
------------------------------------------ */
+
+
+
+
+// SKELETON LOADER
+
 function BlogSkeleton() {
     return (
         <div className="flex gap-4 p-3 animate-pulse">
@@ -150,55 +158,57 @@ export default function SearchModal({ show, onClose, initialQuery }) {
                             </div>
 
                             {/* ✅ CONTENT */}
-                            <div className="grid gap-10 md:grid-cols-2">
+                            <div className="grid gap-10 md:grid-cols-2 ">
 
                                 {/* LEFT */}
-                                <div>
+                                <div className=" flex flex-col h-[80vh] overflow-y-auto pb-10">
                                     <h3 className="text-lg sm:text-xl font-semibold mb-6 text-gray-800 border-b border-gray-200 pb-2">
                                         Recent Posts
                                     </h3>
 
-                                    {isLoading ? (
-                                        <div className="space-y-4">
-                                            {[1, 2, 3, 4].map((i) => (
-                                                <BlogSkeleton key={i} />
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-4">
-                                            {searchResults.map((blog) => (
-                                                <Link
-                                                    href={`/blogs/${blog._id}`}
-                                                    key={blog._id}
-                                                    onClick={onClose}
-                                                    className="flex gap-4 p-3 rounded-xl hover:bg-black/5 transition group"
-                                                >
-                                                    <div className="w-16 h-16 sm:w-20 sm:h-20 relative rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
-                                                        <Image
-                                                            src={blog.imageUrl || "/placeholder.jpg"}
-                                                            alt={blog.title}
-                                                            fill
-                                                            className="object-cover"
-                                                        />
-                                                    </div>
+                                    <div className="">
+                                        {isLoading ? (
+                                            <div className="space-y-4">
+                                                {[1, 2, 3, 4].map((i) => (
+                                                    <BlogSkeleton key={i} />
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-4 ">
+                                                {searchResults.map((blog) => (
+                                                    <Link
+                                                        href={`/blogs/${blog._id}`}
+                                                        key={blog._id}
+                                                        onClick={onClose}
+                                                        className="flex gap-4 p-3 rounded-xl hover:bg-black/5 transition group"
+                                                    >
+                                                        <div className="w-16 h-16 sm:w-20 sm:h-20 relative rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                                                            <Image
+                                                                src={blog.imageUrl || "/placeholder.jpg"}
+                                                                alt={blog.title}
+                                                                fill
+                                                                className="object-cover"
+                                                            />
+                                                        </div>
 
-                                                    <div className="flex flex-col justify-center">
-                                                        <span className="text-xs uppercase tracking-wide text-gray-600">
-                                                            {blog.category || "Uncategorized"}
-                                                        </span>
+                                                        <div className="flex flex-col justify-center">
+                                                            <span className="text-xs uppercase tracking-wide text-gray-600">
+                                                                {blog.category || "Uncategorized"}
+                                                            </span>
 
-                                                        <h4 className="text-sm sm:text-base font-semibold text-gray-900 group-hover:underline leading-snug mt-1">
-                                                            {blog.title}
-                                                        </h4>
-                                                    </div>
-                                                </Link>
-                                            ))}
+                                                            <h4 className="text-sm sm:text-base font-semibold text-gray-900 group-hover:underline leading-snug mt-1">
+                                                                {blog.title}
+                                                            </h4>
+                                                        </div>
+                                                    </Link>
+                                                ))}
 
-                                            {!isLoading && searchResults.length === 0 && (
-                                                <p className="text-gray-500">No recent posts found.</p>
-                                            )}
-                                        </div>
-                                    )}
+                                                {!isLoading && searchResults.length === 0 && (
+                                                    <p className="text-gray-500">No recent posts found.</p>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* RIGHT */}

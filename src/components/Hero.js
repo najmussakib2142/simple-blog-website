@@ -85,7 +85,6 @@ export default function Hero() {
   return (
     <section className="relative md:py-20 pt-10 md:pt-8 h-[70dvh] md:min-h-screen 
         bg-white bg-cover bg-center overflow-hidden flex items-center justify-center">
-
       {/* <LatestBadge /> */}
       {/* Dynamic background shapes */}
       <div className="absolute inset-0">
