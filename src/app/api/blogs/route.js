@@ -11,9 +11,7 @@ function calculateReadingTime(text) {
   return `${time} min read`;
 }
 
-/* =========================
-   ✅✅✅ GET BLOGS (PUBLIC)
-========================= */
+
 export async function GET(req) {
   await connectDB();
 
@@ -57,9 +55,7 @@ export async function GET(req) {
   }
 }
 
-/* =========================
-   ✅✅✅ POST BLOG (PROTECTED)
-========================= */
+
 export const POST = withAuth(async (req, { user }) => {
   try {
     await connectDB();

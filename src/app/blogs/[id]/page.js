@@ -108,35 +108,68 @@ export default async function BlogDetails({ params }) {
             </p>
           )}
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mt-5">
-            <p>
-              {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
+          <div className="flex flex-wrap items-center gap-4 text-gray-600 mt-6 text-sm">
 
-            {blog.readingTime && (
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
-                {blog.readingTime}
-              </span>
-            )}
+            {/* Author */}
+            <div className="flex items-center gap-3">
+              {/* Avatar */}
+              <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                <Image
+                  alt={blog.author || "Author"}
+                  src={
+                    blog.authorImage ||
+                    "https://i.ibb.co/Mkf1wBdJ/jack-finnigan-rri-AI0nhcbc-unsplash.jpg"
+                  }
+                  fill
+                  className="object-cover"
+                />
+              </div>
 
-            {blog.category && (
-              <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
-                {blog.category}
+              {/* Author Name */}
+              <p className="font-medium text-gray-700 text-sm">
+                {blog.author || "Unknown Author"}
+              </p>
+            </div>
+
+            {/* Meta Info */}
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+
+              {/* Date */}
+              <span>
+                {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
               </span>
-            )}
+
+              {/* Dot */}
+              {(blog.readingTime || blog.category) && <span>&middot;</span>}
+
+              {/* Reading Time */}
+              {blog.readingTime && (
+                <>
+                  <span>{blog.readingTime}</span>
+                  {blog.category && <span>&middot;</span>}
+                </>
+              )}
+
+              {/* Category */}
+              {blog.category && <span>{blog.category}</span>}
+            </div>
           </div>
+
+
+
+
         </header>
-          <div className="pb-8">
-            <BlogOperations blog={blog} id={id} />
-          </div>
+        <div className=" py-4 border-y border-y-gray-200">
+          <BlogOperations blog={blog} id={id} />
+        </div>
 
         {/* Hero Image */}
         {blog.imageUrl && (
-          <div className="mb-12 rounded-xl overflow-hidden shadow-sm relative h-96 w-full">
+          <div className="mb-12 mt-10 rounded-xl overflow-hidden shadow-sm relative h-96 w-full">
             <Image
               src={blog.imageUrl}
               alt={blog.title}
@@ -198,14 +231,13 @@ export default async function BlogDetails({ params }) {
         {/* --------------------------
             Author Box
         --------------------------- */}
-        <div className="border p-6 rounded-2xl bg-white/60 backdrop-blur-sm mb-16 shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
+        {/* <div className="border p-6 rounded-2xl bg-white/60 backdrop-blur-sm mb-16 shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
           <h3 className="font-semibold text-lg text-gray-900 mb-4 tracking-tight">
             Author
           </h3>
 
           <div className="flex items-center gap-4">
-            {/* Avatar */}
-            <div className="relative w-16 h-16 rounded-full overflow-hidden shadow-md ring-2 ring-gray-200">
+=            <div className="relative w-16 h-16 rounded-full overflow-hidden shadow-md ring-2 ring-gray-200">
               <Image
                 alt={blog.author || "Author"}
                 src={
@@ -217,7 +249,6 @@ export default async function BlogDetails({ params }) {
               />
             </div>
 
-            {/* Author Details */}
             <div className="flex flex-col">
               <p className="text-gray-900 font-semibold text-base">
                 {blog.author || "Unknown Author"}
@@ -230,11 +261,11 @@ export default async function BlogDetails({ params }) {
               )}
             </div>
           </div>
-        </div>
+        </div> */}
 
 
         {/* Actions */}
-        <footer className="pt-6 border-t">
+        <footer className="pt-6 ">
           <div className="flex items-center justify-end">
             <BlogActions blog={blog} id={id} />
           </div>

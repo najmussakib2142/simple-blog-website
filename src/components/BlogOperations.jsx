@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bookmark, Share2 } from "lucide-react";
-// import { useAuth } from "@/context/AuthContext";
+import { Bookmark, Share2, Copy, Facebook, Twitter, Linkedin, MessageCircle } from "lucide-react";
+import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { FaHandsClapping } from "react-icons/fa6";
 import { useAuth } from "@/context/AuthContext";
+import Swal from "sweetalert2";
+
 
 export default function BlogOperations({ id, blog }) {
   const { user } = useAuth();
@@ -13,6 +15,8 @@ export default function BlogOperations({ id, blog }) {
   const [likes, setLikes] = useState(0);
   const [loading, setLoading] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
+  // const [open, setOpen] = useState(false);
+  // const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   useEffect(() => {
     if (!id) return;
@@ -118,6 +122,23 @@ export default function BlogOperations({ id, blog }) {
     }
   };
 
+  // const handleShare = () => {
+  //   if (navigator.share) {
+  //     navigator.share({
+  //       title: blog.title,
+  //       text: blog.description,
+  //       url: shareUrl,
+  //     });
+  //   } else {
+  //     setOpen(!open);
+  //   }
+  // };
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setOpen(false);
+  };
+
   return (
     <div className="flex items-center gap-6 text-gray-600">
       {/* ✅ LIKE */}
@@ -147,10 +168,32 @@ export default function BlogOperations({ id, blog }) {
         <Bookmark size={20} fill={bookmarked ? "black" : "none"} />
       </button>
 
+      {/* <MdOutlineBookmarkAdd size={20} fill={bookmarked ? "black" : "black"}/> */}
+
       {/* ✅ SHARE */}
-      <button className="hover:text-black">
+      {/* <button className="hover:text-black">
+        <Share2 size={20} />
+      </button> */}
+
+      <button
+        className="hover:text-black"
+        onClick={() => {
+          if (navigator.share) {
+            navigator.share({
+              title: blog.title,
+              text: blog.description,
+              url: window.location.href
+            });
+          } else {
+            navigator.clipboard.writeText(window.location.href);
+            Swal.fire("Link Copied!", "URL copied to clipboard.", "success");
+          }
+        }}
+      >
         <Share2 size={20} />
       </button>
+
+
     </div>
   );
 }
