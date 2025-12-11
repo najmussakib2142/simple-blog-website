@@ -3,6 +3,7 @@ import Link from "next/link";
 import BlogActions from "@/components/BlogActions";
 import { ArrowLeft } from "lucide-react";
 import BlogOperations from "@/components/BlogOperations";
+import CommentSection from "@/components/comments/CommentSection";
 
 /* -------------------------
    Split Content Helper
@@ -228,9 +229,7 @@ export default async function BlogDetails({ params }) {
           </section>
         )}
 
-        {/* --------------------------
-            Author Box
-        --------------------------- */}
+        {/* // Author Box */}
         {/* <div className="border p-6 rounded-2xl bg-white/60 backdrop-blur-sm mb-16 shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
           <h3 className="font-semibold text-lg text-gray-900 mb-4 tracking-tight">
             Author
@@ -262,6 +261,12 @@ export default async function BlogDetails({ params }) {
             </div>
           </div>
         </div> */}
+
+        {/* Comment section */}
+        <div className="max-w-3xl mx-auto ">
+          <CommentSection blogId={blog._id} />
+
+        </div>
 
 
         {/* Actions */}

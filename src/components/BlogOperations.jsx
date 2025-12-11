@@ -171,10 +171,6 @@ export default function BlogOperations({ id, blog }) {
       {/* <MdOutlineBookmarkAdd size={20} fill={bookmarked ? "black" : "black"}/> */}
 
       {/* ✅ SHARE */}
-      {/* <button className="hover:text-black">
-        <Share2 size={20} />
-      </button> */}
-
       <button
         className="hover:text-black"
         onClick={() => {
