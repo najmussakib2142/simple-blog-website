@@ -29,24 +29,31 @@ export default function CommentSection({ blogId }) {
 
 
   return (
-    <div className="mt-12 max-w-2xl">
-      <h2 className="text-lg font-semibold mb-4">Comments</h2>
 
-      {/* Add Comment */}
-      <CommentForm blogId={blogId} reload={() => setLoading(true)} />
 
-      {/* Comment List */}
+    <div className="mt-12 max-w-3xl mx-auto">
+      {/* Section heading */}
+      <h2 className="text-2xl font-semibold text-gray-900 mb-6">Comments</h2>
+
+      {/* Add Comment form */}
+      <div className="mb-8">
+        <CommentForm blogId={blogId} reload={() => setLoading(true)} />
+      </div>
+
+      {/* Comment list */}
       {loading ? (
-        <p className="text-gray-600">Loading comments...</p>
+        <p className="text-gray-500 italic">Loading comments...</p>
       ) : comments.length === 0 ? (
-        <p className="text-gray-500">No comments yet. Be the first!</p>
+        <p className="text-gray-400 italic">No comments yet. Be the first to comment!</p>
       ) : (
-        <div className="space-y-4 mt-4">
+        <div className="space-y-6">
           {comments.map((comment) => (
             <CommentItem key={comment._id} comment={comment} />
           ))}
         </div>
       )}
     </div>
+
+
   );
 }

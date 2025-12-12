@@ -40,7 +40,7 @@ export default function CommentForm({ blogId, reload }) {
     };
 
     return (
-        <div className="max-w-2xl mx-auto flex gap-3 mb-6">
+        <div className="max-w-3xl mx-auto flex gap-3 mb-6">
             <input
                 className="flex-1 border text-black border-gray-500 p-2 rounded"
                 placeholder="Write a comment..."
