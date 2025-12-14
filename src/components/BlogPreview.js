@@ -174,19 +174,33 @@ export default function BlogPreview() {
                         </div>
                       </div>
 
-                      <Link
+                      {/* <Link
                         href={`/blogs/${blog._id}`}
                         className="group inline-flex items-center mt-2 text-gray-800 font-semibold relative w-fit"
                       >
                         Read More
 
-                        {/* Underline */}
                         <span
                           className="  absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-800  scale-x-0 group-hover:scale-x-100   origin-left transition-transform duration-300 "
                         ></span>
 
                         <ArrowRight className="w-4 h-4 ml-1" />
-                      </Link>
+                      </Link> */}
+
+                      <div className="group/readmore w-fit pointer-events-auto mt-2">
+                        <span className="relative inline-flex items-center font-semibold text-gray-800">
+                          Read More
+                          <span
+                            className="
+        absolute left-0 -bottom-0.5 h-0.5 w-full bg-gray-800
+        scale-x-0 origin-left
+        group-hover/readmore:scale-x-100
+        transition-transform duration-300
+      "
+                          />
+                          <ArrowRight className="w-4 h-4 ml-1" />
+                        </span>
+                      </div>
 
                     </div>
                   </motion.div>
