@@ -13,11 +13,14 @@ export async function GET() {
                 },
             },
             { $sort: { totalBlogs: -1 } },
-            { $limit: 5 }, // top 5 authors
+            { $limit: 5 },
         ]);
 
-        return Response.json(topAuthors);
+        return new Response(JSON.stringify(topAuthors), { status: 200 });
     } catch (error) {
-        return Response.json({ error: error.message }, { status: 500 });
+        return new Response(
+            JSON.stringify({ error: error.message }),
+            { status: 500 }
+        );
     }
 }
