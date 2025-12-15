@@ -22,15 +22,26 @@ export default async function AuthorBlogsPage({ params }) {
     }
 
     return (
-        <section className="py-10 min-h-screen max-w-6xl mx-auto px-4">
-            <h1 className="text-4xl text-gray-600 font-semibold mb-12  ">
-                Blogs Created by <span className="text-black">{blogs[0].author || "Unknown Author"}</span>
+        <section className="min-h-screen max-w-6xl mx-auto px-4 md:px-8 py-12">
+            {/* Page Heading */}
+            <header className="mb-10 ">
+                <h1 className="text-3xl md:text-4xl font-semibold text-gray-700">
+                    Blogs by <span className="text-gray-900">{blogs[0].author || "Unknown Author"}</span>
+                </h1>
+                <p className="mt-2 text-gray-500 text-sm md:text-base">
+                    {blogs.length} {blogs.length === 1 ? "post" : "posts"} published
+                </p>
+            </header>
 
-            </h1>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Blog Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {blogs.map((blog) => (
-                    <BlogCard key={blog._id} blog={blog} />
+                    <div
+                        key={blog._id}
+                        className="transition-transform duration-200 hover:scale-105"
+                    >
+                        <BlogCard blog={blog} />
+                    </div>
                 ))}
             </div>
         </section>
